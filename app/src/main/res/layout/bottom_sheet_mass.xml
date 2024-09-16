@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- RadioGroup for unit selection -->
+    <RadioGroup
+        android:id="@+id/radio_group_units"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_kilogram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kg"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_gram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="G"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_milligram"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mg"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_pound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lb"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_ounce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Oz"
+            android:padding="8dp"
+            android:textSize="16sp" />
+    </RadioGroup>
+</LinearLayout>

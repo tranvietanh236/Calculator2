@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- RadioGroup for unit selection -->
+    <RadioGroup
+        android:id="@+id/radio_group_units"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_celsius"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="°C"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_fahrenheit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="°F"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_kelvin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="K"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+    </RadioGroup>
+</LinearLayout>

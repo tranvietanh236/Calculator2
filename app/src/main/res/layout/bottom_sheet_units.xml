@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <RadioGroup
+        android:id="@+id/radio_group_units"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radio_metre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="M"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_kilometre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Km"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_centimetre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cm"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_millimetre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mm"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_mile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mile"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_yard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Yard"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_foot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Foot"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_inch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Inch"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+    </RadioGroup>
+</LinearLayout>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- RadioGroup for density unit selection -->
+    <RadioGroup
+        android:id="@+id/radio_group_units"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_kg_per_m3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="kg/m³"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_g_per_cm3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="g/cm³"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_lb_per_ft3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="lb/ft³"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_lb_per_in3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="lb/in³"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_oz_per_in3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="oz/in³"
+            android:padding="8dp"
+            android:textSize="16sp" />
+    </RadioGroup>
+</LinearLayout>

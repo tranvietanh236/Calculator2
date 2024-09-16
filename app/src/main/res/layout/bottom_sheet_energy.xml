@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- RadioGroup for energy unit selection -->
+    <RadioGroup
+        android:id="@+id/radio_group_units"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radio_joule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="J"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_kilojoule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="KJ"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_calorie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cal"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_kilocalorie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kcal"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_btu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="BTU"
+            android:padding="8dp"
+            android:textSize="16sp" />
+    </RadioGroup>
+</LinearLayout>

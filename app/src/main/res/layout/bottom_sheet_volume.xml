@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <RadioGroup
+        android:id="@+id/radio_group_units"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radio_cubic_meter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="M³"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_liter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="L"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_milliliter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ML"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_cubic_centimeter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cm³"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_cubic_decimeter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dm³"
+            android:padding="8dp"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/radio_hectoliter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HL"
+            android:padding="8dp"
+            android:textSize="16sp" />
+    </RadioGroup>
+</LinearLayout>
