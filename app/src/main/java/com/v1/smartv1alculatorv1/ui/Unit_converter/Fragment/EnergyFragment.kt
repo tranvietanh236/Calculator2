@@ -18,6 +18,7 @@ import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.DensityFromBotto
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.DensityToBottomSheetFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.EnergyFromBottomSheetFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.EnergyToBottomSheetFragment
+import com.v1.smartv1alculatorv1.untils.UnitPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,6 +34,10 @@ class EnergyFragment : BaseFragment<FragmentEnergyBinding>(), OnClickFromLengthB
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        val from = UnitPreferences.getFromEnergyUnit(requireContext())
+        val to = UnitPreferences.getToEnergyUnit(requireContext())
+        viewBinding.spinnerFrom.text = from
+        viewBinding.spinnerTo.text = to
         viewBinding.editTextValue.setOnTouchListener { v, event ->
             v.performClick() // Đảm bảo rằng EditText vẫn nhận được sự kiện click
             v.requestFocus() // Yêu cầu EditText được focus
@@ -87,26 +92,24 @@ class EnergyFragment : BaseFragment<FragmentEnergyBinding>(), OnClickFromLengthB
 
         // Chuyển đổi giá trị sang Joules (đơn vị chuẩn cho năng lượng)
         val valueInJoules = when (fromUnit) {
-            "KJ" -> value * 1_000           // 1 kJ = 1,000 J
-            "Cal" -> value * 4.184            // 1 cal = 4.184 J
-            "Kcal" -> value * 4_184        // 1 kcal = 4,184 J
-            "BTU" -> value * 1_055.06 // 1 BTU = 1,055.06 J
-            "J" -> value                        // Đã là Joules, không cần chuyển đổi
-            else -> value // Default là Joules
+            "kWh" -> value * 3_600_000             // 1 kWh = 3,600,000 J
+            "KJ" -> value * 1_000                 // 1 kJ = 1,000 J
+            "J" -> value                          // Đã là Joules, không cần chuyển đổi
+            else -> value                         // Default là Joules
         }
 
         // Chuyển đổi từ Joules sang đơn vị đích
         val result = when (toUnit) {
-            "kJ" -> valueInJoules / 1_000
-            "Cal" -> valueInJoules / 4.184
-            "Kcal" -> valueInJoules / 4_184
-            "BTU" -> valueInJoules / 1_055.06
-            "J" -> valueInJoules // Đã là Joules, không cần chuyển đổi
-            else -> valueInJoules // Default là Joules
+            "kWh" -> valueInJoules / 3_600_000     // 1 kWh = 3,600,000 J
+            "KJ" -> valueInJoules / 1_000
+            "J" -> valueInJoules                   // Đã là Joules, không cần chuyển đổi
+            else -> valueInJoules                  // Default là Joules
         }
 
-        viewBinding.textViewResult.text = result.toString() // Hiển thị kết quả với 4 chữ số thập phân
+        // Hiển thị kết quả với 4 chữ số thập phân
+        viewBinding.textViewResult.text = result.toString()
     }
+
 
 
     private fun swapUnits() {

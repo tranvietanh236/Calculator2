@@ -1,7 +1,9 @@
 package com.v1.smartv1alculatorv1.ui.Unit_converter
 
 
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.v1.smartv1alculatorv1.Model.ConverterModel
 import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.base.BaseActivity
@@ -23,6 +25,10 @@ class ConverterActivity : BaseActivity<ActivityConverterBinding, ConverterViewMo
     override fun initView() {
         super.initView()
 
+        val indexUnit = intent.getIntExtra("unit", 0)
+        Log.d("TAG123", "index: $indexUnit")
+        imageAdapter?.upgradeIndex(indexUnit)
+
         binding.icBackConverter.setOnClickListener {
             finish()
         }
@@ -33,15 +39,15 @@ class ConverterActivity : BaseActivity<ActivityConverterBinding, ConverterViewMo
 
 
         val imageUrls = ArrayList<ConverterModel>()
-        imageUrls.add(ConverterModel(R.drawable.ic_test_length))
-        imageUrls.add(ConverterModel(R.drawable.ic_test_volume))
-        imageUrls.add(ConverterModel(R.drawable.ic_test_area))
-        imageUrls.add(ConverterModel(R.drawable.ic_test_mass))
-        imageUrls.add(ConverterModel(R.drawable.ic_test_time))
-        imageUrls.add(ConverterModel(R.drawable.ic_test_speed))
-        imageUrls.add(ConverterModel(R.drawable.ic_test_temp))
-        imageUrls.add(ConverterModel(R.drawable.ic_test_density))
-        imageUrls.add(ConverterModel(R.drawable.ic_test_energy))
+        imageUrls.add(ConverterModel(R.drawable.ic_unit_length))
+        imageUrls.add(ConverterModel(R.drawable.ic_unit_volume))
+        imageUrls.add(ConverterModel(R.drawable.ic_unit_area))
+        imageUrls.add(ConverterModel(R.drawable.ic_unit_mass))
+        imageUrls.add(ConverterModel(R.drawable.ic_unit_time))
+        imageUrls.add(ConverterModel(R.drawable.ic_unit_speed))
+        imageUrls.add(ConverterModel(R.drawable.ic_unit_temp))
+        imageUrls.add(ConverterModel(R.drawable.ic_unit_density))
+        imageUrls.add(ConverterModel(R.drawable.ic_unit_energy))
 
         imageAdapter = ConverterAdapter(imageUrls, supportFragmentManager)
 
@@ -49,6 +55,10 @@ class ConverterActivity : BaseActivity<ActivityConverterBinding, ConverterViewMo
         binding.recycleview.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-
+        if (indexUnit != -1) {
+            imageAdapter?.upgradeIndex(indexUnit)
+            binding.recycleview.scrollToPosition(indexUnit)
+            imageAdapter?.switchFragment(indexUnit)
+        }
     }
 }

@@ -2,60 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp">
-
-    <RadioGroup
-        android:id="@+id/radio_group_units"
+    android:paddingHorizontal="16dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RadioButton
-            android:id="@+id/radio_cubic_meter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="M³"
-            android:padding="8dp"
-            android:textSize="16sp" />
+        <ImageView
+            android:id="@+id/line"
+            android:layout_marginVertical="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-        <RadioButton
-            android:id="@+id/radio_liter"
-            android:layout_width="match_parent"
+        <TextView
+            app:layout_constraintTop_toBottomOf="@id/line"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/manrope_bold"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="L"
-            android:padding="8dp"
-            android:textSize="16sp" />
+            android:text="Choose unit Volume"/>
 
-        <RadioButton
-            android:id="@+id/radio_milliliter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ML"
-            android:padding="8dp"
-            android:textSize="16sp" />
-
-        <RadioButton
-            android:id="@+id/radio_cubic_centimeter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cm³"
-            android:padding="8dp"
-            android:textSize="16sp" />
-
-        <RadioButton
-            android:id="@+id/radio_cubic_decimeter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Dm³"
-            android:padding="8dp"
-            android:textSize="16sp" />
-
-        <RadioButton
-            android:id="@+id/radio_hectoliter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="HL"
-            android:padding="8dp"
-            android:textSize="16sp" />
-    </RadioGroup>
+        <ImageView
+            android:id="@+id/ic_close_volume"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_close"
+            android:layout_marginTop="22dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

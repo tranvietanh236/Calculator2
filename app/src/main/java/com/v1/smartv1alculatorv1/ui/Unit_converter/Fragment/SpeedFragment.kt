@@ -18,6 +18,7 @@ import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.MassFromBottomSh
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.MassToBottomSheetFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.SpeedFromBottomSheetFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.SpeedToBottomSheetFragment
+import com.v1.smartv1alculatorv1.untils.UnitPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,6 +33,10 @@ class SpeedFragment : BaseFragment<FragmentSpeedBinding>(), OnClickFromLengthBot
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        val from = UnitPreferences.getFromSpeedUnit(requireContext())
+        val to = UnitPreferences.getToSpeedUnit(requireContext())
+        viewBinding.spinnerFrom.text = from
+        viewBinding.spinnerTo.text = to
         viewBinding.editTextValue.setOnTouchListener { v, event ->
             v.performClick() // Đảm bảo rằng EditText vẫn nhận được sự kiện click
             v.requestFocus() // Yêu cầu EditText được focus
@@ -86,24 +91,26 @@ class SpeedFragment : BaseFragment<FragmentSpeedBinding>(), OnClickFromLengthBot
 
         // Chuyển đổi giá trị đầu vào sang Meter per Second (m/s)
         val valueInMetersPerSecond = when (fromUnit) {
-            "Km/h" -> value / 3.6                   // 1 km/h = 0.27778 m/s
-            "Mph" -> value * 0.44704                      // 1 mph = 0.44704 m/s
-            "Kn" -> value * 0.514444                              // 1 kn = 0.514444 m/s
-            "Ft/s" -> value * 0.3048                    // 1 ft/s = 0.3048 m/s
-            else -> value                                                  // Giả sử mặc định là Meter per Second
+            "km/h" -> value / 3.6                 // 1 km/h = 0.27778 m/s
+            "mph" -> value * 0.44704              // 1 mph = 0.44704 m/s
+            "kn" -> value * 0.514444              // 1 knot (kn) = 0.514444 m/s
+            "ft/s" -> value * 0.3048              // 1 foot/second (ft/s) = 0.3048 m/s
+            else -> value                         // Giả sử mặc định là Meter per Second (m/s)
         }
 
         // Chuyển đổi giá trị từ Meter per Second (m/s) sang đơn vị mục tiêu
         val result = when (toUnit) {
-            "Km/h" -> valueInMetersPerSecond * 3.6   // 1 m/s = 3.6 km/h
-            "Mph" -> valueInMetersPerSecond / 0.44704      // 1 m/s = 2.23694 mph
-            "Kn" -> valueInMetersPerSecond / 0.514444                // 1 m/s = 1.94384 kn
-            "Ft/s" -> valueInMetersPerSecond / 0.3048    // 1 m/s = 3.28084 ft/s
-            else -> valueInMetersPerSecond                                  // Giả sử mặc định là Meter per Second
+            "km/h" -> valueInMetersPerSecond * 3.6            // 1 m/s = 3.6 km/h
+            "mph" -> valueInMetersPerSecond / 0.44704         // 1 m/s = 2.23694 mph
+            "kn" -> valueInMetersPerSecond / 0.514444         // 1 m/s = 1.94384 knots
+            "ft/s" -> valueInMetersPerSecond / 0.3048         // 1 m/s = 3.28084 ft/s
+            else -> valueInMetersPerSecond                    // Giả sử mặc định là Meter per Second (m/s)
         }
 
+        // Hiển thị kết quả
         viewBinding.textViewResult.text = result.toString()
-        //"%.4f".format(result)  // Định dạng kết quả nếu cần
+        // Nếu muốn định dạng kết quả với 4 chữ số thập phân
+        // viewBinding.textViewResult.text = "%.4f".format(result)
     }
 
 

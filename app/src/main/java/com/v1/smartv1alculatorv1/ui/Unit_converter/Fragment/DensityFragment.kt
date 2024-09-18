@@ -15,6 +15,7 @@ import com.v1.smartv1alculatorv1.inteface.OnClickFromLengthBottomSheet
 import com.v1.smartv1alculatorv1.inteface.OnClickToLengthBottomSheet
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.DensityFromBottomSheetFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.DensityToBottomSheetFragment
+import com.v1.smartv1alculatorv1.untils.UnitPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,6 +31,10 @@ class DensityFragment : BaseFragment<FragmentDensityBinding>() , OnClickFromLeng
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        val from = UnitPreferences.getFromDensityUnit(requireContext())
+        val to = UnitPreferences.getToDensityUnit(requireContext())
+        viewBinding.spinnerFrom.text = from
+        viewBinding.spinnerTo.text = to
         viewBinding.editTextValue.setOnTouchListener { v, event ->
             v.performClick() // Đảm bảo rằng EditText vẫn nhận được sự kiện click
             v.requestFocus() // Yêu cầu EditText được focus
@@ -84,25 +89,22 @@ class DensityFragment : BaseFragment<FragmentDensityBinding>() , OnClickFromLeng
 
         // Chuyển đổi giá trị sang kg/m³ (đơn vị chuẩn cho mật độ)
         val valueInKgPerM3 = when (fromUnit) {
-            "g/cm³" -> value * 1000           // 1 g/cm³ = 1000 kg/m³
-            "lb/ft³" -> value * 16.018463          // 1 lb/ft³ = 16.018463 kg/m³
-            "lb/in³" -> value * 27679.9047         // 1 lb/in³ = 27679.9047 kg/m³
-            "oz/in³" -> value * 1729.99404         // 1 oz/in³ = 1729.99404 kg/m³
-            else -> value // Default là kg/m³
+            "g/cm³" -> value * 1000              // 1 g/cm³ = 1000 kg/m³
+            else -> value                         // Giả sử mặc định là kg/m³
         }
 
         // Chuyển đổi từ kg/m³ sang đơn vị đích
         val result = when (toUnit) {
             "g/cm³" -> valueInKgPerM3 / 1000
-            "lb/ft³" -> valueInKgPerM3 / 16.018463
-            "lb/in³" -> valueInKgPerM3 / 27679.9047
-            "oz/in³" -> valueInKgPerM3 / 1729.99404
-            else -> valueInKgPerM3 // Default là kg/m³
+            else -> valueInKgPerM3               // Giả sử mặc định là kg/m³
         }
 
+        // Hiển thị kết quả
         viewBinding.textViewResult.text = result.toString()
-        //"%.4f".format(result)
+        // Nếu cần định dạng kết quả với 4 chữ số thập phân
+        // viewBinding.textViewResult.text = "%.4f".format(result)
     }
+
 
     private fun swapUnits() {
         val fromPosition = viewBinding.spinnerFrom.text

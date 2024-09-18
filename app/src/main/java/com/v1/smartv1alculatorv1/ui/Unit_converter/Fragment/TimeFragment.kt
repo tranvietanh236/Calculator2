@@ -18,6 +18,7 @@ import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.MassFromBottomSh
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.MassToBottomSheetFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.TimeFromBottomSheetFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.TimeToBottomSheetFragment
+import com.v1.smartv1alculatorv1.untils.UnitPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,6 +34,10 @@ class TimeFragment : BaseFragment<FragmentTimeBinding>() , OnClickFromLengthBott
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        val from = UnitPreferences.getFromTimeUnit(requireContext())
+        val to = UnitPreferences.getToTimeUnit(requireContext())
+        viewBinding.spinnerFrom.text = from
+        viewBinding.spinnerTo.text = to
         viewBinding.editTextValue.setOnTouchListener { v, event ->
             v.performClick() // Đảm bảo rằng EditText vẫn nhận được sự kiện click
             v.requestFocus() // Yêu cầu EditText được focus
@@ -85,25 +90,38 @@ class TimeFragment : BaseFragment<FragmentTimeBinding>() , OnClickFromLengthBott
         val fromUnit = viewBinding.spinnerFrom.text.toString()
         val toUnit = viewBinding.spinnerTo.text.toString()
 
+        // Chuyển đổi giá trị đầu vào thành giây (s)
         val valueInSeconds = when (fromUnit) {
-            "Min" -> value * 60            // 1 min = 60 s
-            "H" -> value * 3600              // 1 h = 3600 s
-            "Day" -> value * 86400                 // 1 day = 86400 s
-            "Week" -> value * 604800               // 1 week = 604800 s
+            "year" -> value * 31_536_000       // 1 năm = 365 ngày = 31,536,000 s
+            "month" -> value * 2_592_000       // 1 tháng trung bình = 30 ngày = 2,592,000 s
+            "week" -> value * 604_800          // 1 tuần = 604,800 s
+            "day" -> value * 86_400            // 1 ngày = 86,400 s
+            "h" -> value * 3_600               // 1 giờ = 3,600 s
+            "min" -> value * 60                // 1 phút = 60 s
+            "s" -> value                      // 1 giây = 1 s
+            "ms" -> value / 1_000              // 1 ms = 0.001 s
             else -> value
         }
 
+        // Chuyển đổi từ giây (s) sang đơn vị đích
         val result = when (toUnit) {
-            "Min" -> valueInSeconds / 60
-            "H" -> valueInSeconds / 3600
-            "Day" -> valueInSeconds / 86400
-            "Week" -> valueInSeconds / 604800
+            "year" -> valueInSeconds / 31_536_000
+            "month" -> valueInSeconds / 2_592_000
+            "week" -> valueInSeconds / 604_800
+            "day" -> valueInSeconds / 86_400
+            "h" -> valueInSeconds / 3_600
+            "min" -> valueInSeconds / 60
+            "s" -> valueInSeconds
+            "ms" -> valueInSeconds * 1_000
             else -> valueInSeconds
         }
 
+        // Hiển thị kết quả
         viewBinding.textViewResult.text = result.toString()
-        //"%.4f".format(result)
+        // Nếu cần định dạng kết quả với 4 chữ số thập phân
+        // viewBinding.textViewResult.text = "%.4f".format(result)
     }
+
 
 
     private fun swapUnits() {

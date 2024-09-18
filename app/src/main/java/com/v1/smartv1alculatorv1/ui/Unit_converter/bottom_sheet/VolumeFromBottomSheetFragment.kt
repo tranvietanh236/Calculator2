@@ -1,17 +1,22 @@
 package com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet
 
+import UnitsAdapter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.inteface.OnClickFromLengthBottomSheet
+import com.v1.smartv1alculatorv1.ui.Unit_converter.model.ConverterModel
 import com.v1.smartv1alculatorv1.untils.UnitPreferences
 
 class VolumeFromBottomSheetFragment : BottomSheetDialogFragment() {
-    private var radioGroupUnits: RadioGroup? = null
+    var selectedPosition: Int? = null
     private var listener: OnClickFromLengthBottomSheet? = null
 
     fun setOnUnitSelectedListener(listener: OnClickFromLengthBottomSheet) {
@@ -27,32 +32,33 @@ class VolumeFromBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        selectedPosition = UnitPreferences.loadSavedPositionFromVolume(requireContext())
+        val recyclerViewUnits: RecyclerView = view.findViewById(R.id.recyclerView)
+        val unitList = listOf(
+            ConverterModel("Cubic Kilometer", "km³"),
+            ConverterModel("Cubic Meter", "m³"),
+            ConverterModel("Cubic Decimeter", "dm³"),
+            ConverterModel("Cubic Centimeter", "cm³"),
+            ConverterModel("Cubic Millimeter", "mm³"),
+            ConverterModel("Liter", "l"),
+            ConverterModel("Milliliter", "ml"),
+            ConverterModel("Microgram", "μα"),
+            ConverterModel("Cubic Inch", "in"),
+            ConverterModel("Imperial Gallon", "imp gal"),
+            ConverterModel("US Liquid Gallon", "US gal"),
+            ConverterModel("Imperial fl oz", "imp fl oz"),
+            ConverterModel("US fl oz", "US fl oz")
+        )
 
-        radioGroupUnits = view.findViewById(R.id.radio_group_units)
-        val savedUnit = UnitPreferences.getFromVolumeUnit(requireContext())
-        when (savedUnit) {
-            "M³" -> radioGroupUnits?.check(R.id.radio_cubic_meter)
-            "L" -> radioGroupUnits?.check(R.id.radio_liter)
-            "ML" -> radioGroupUnits?.check(R.id.radio_milliliter)
-            "Cm³" -> radioGroupUnits?.check(R.id.radio_cubic_centimeter)
-            "Dm³" -> radioGroupUnits?.check(R.id.radio_cubic_decimeter)
-            "HL" -> radioGroupUnits?.check(R.id.radio_hectoliter)
-            else -> radioGroupUnits?.check(R.id.radio_meter_per_second)
-        }
-        // Thiết lập sự kiện khi chọn RadioButton
-        radioGroupUnits?.setOnCheckedChangeListener { _, checkedId ->
-            val selectedUnit = when (checkedId) {
-                R.id.radio_cubic_meter -> "M³"
-                R.id.radio_liter -> "L"
-                R.id.radio_milliliter -> "ML"
-                R.id.radio_cubic_centimeter -> "Cm³"
-                R.id.radio_cubic_decimeter -> "Dm³"
-                R.id.radio_hectoliter -> "HL"
-                else -> ""
-            }
+        recyclerViewUnits.layoutManager = LinearLayoutManager(context)
+        val adapter = UnitsAdapter(requireContext(), unitList) { selectedUnit, index->
             UnitPreferences.saveFromVolumeUnit(requireContext(), selectedUnit)
-            listener?.onUnitSelected(selectedUnit) // Gọi callback để truyền dữ liệu
-            dismiss() // Đóng Bottom Sheet sau khi chọn
+            UnitPreferences.saveSelectedPositionFromVolume(requireContext(), index)
+            listener?.onUnitSelected(selectedUnit)
+            Log.d("TAG123", "onViewCreated: $selectedUnit")
+            //dismiss()
         }
+        adapter.updatePosition(selectedPosition!!)
+        recyclerViewUnits.adapter = adapter
     }
 }

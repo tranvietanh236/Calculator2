@@ -18,9 +18,13 @@ import com.v1.smartv1alculatorv1.ui.Unit_converter.Fragment.TempFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.Fragment.TimeFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.Fragment.VolumeFragment
 
-class ConverterAdapter (private val list: ArrayList<ConverterModel>, private val fragmentManager: FragmentManager) : RecyclerView.Adapter<ConverterAdapter.ViewHolder>(){
+class ConverterAdapter(
+    private val list: ArrayList<ConverterModel>,
+    private val fragmentManager: FragmentManager
+) : RecyclerView.Adapter<ConverterAdapter.ViewHolder>() {
     private var selectedPosition: Int = 0
-        //RecyclerView.NO_POSITION
+
+    //RecyclerView.NO_POSITION
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.image_converter)
 
@@ -53,7 +57,8 @@ class ConverterAdapter (private val list: ArrayList<ConverterModel>, private val
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_converter, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_converter, parent, false)
         return ViewHolder(view)
     }
 
@@ -65,10 +70,40 @@ class ConverterAdapter (private val list: ArrayList<ConverterModel>, private val
         holder.apply {
             imageView.setImageResource(list[position].image)
             if (position == selectedPosition) {
+                imageView.setColorFilter(itemView.context.getColor(R.color.ic_converter_color))
                 itemView.setBackgroundResource(R.drawable.bg_border_8_item_converter_on)
             } else {
                 itemView.setBackgroundResource(R.drawable.bg_border_8_item_converter_off)
+                imageView.setColorFilter(itemView.context.getColor(R.color.white))
             }
         }
     }
+
+    fun upgradeIndex(index: Int) {
+        notifyItemChanged(selectedPosition) // Cập nhật item trước đó
+        selectedPosition = index
+        notifyItemChanged(selectedPosition) // Cập nhật item mới
+    }
+
+    fun switchFragment(position: Int) {
+        val fragment = when (position) {
+            0 -> LengthFragment()
+            1 -> VolumeFragment()
+            2 -> AreaFragment()
+            3 -> MassFragment()
+            4 -> TimeFragment()
+            5 -> SpeedFragment()
+            6 -> TempFragment()
+            7 -> DensityFragment()
+            8 -> EnergyFragment()
+            else -> LengthFragment()
+        }
+
+        // Replace fragment tương ứng với index
+        fragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
 }

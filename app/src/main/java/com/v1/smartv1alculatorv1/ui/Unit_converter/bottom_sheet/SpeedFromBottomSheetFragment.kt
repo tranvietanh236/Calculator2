@@ -1,17 +1,22 @@
 package com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet
 
+import UnitsAdapter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.inteface.OnClickFromLengthBottomSheet
+import com.v1.smartv1alculatorv1.ui.Unit_converter.model.ConverterModel
 import com.v1.smartv1alculatorv1.untils.UnitPreferences
 
 class SpeedFromBottomSheetFragment : BottomSheetDialogFragment() {
-    private var radioGroupUnits: RadioGroup? = null
+    var selectedPosition: Int? = null
     private var listener: OnClickFromLengthBottomSheet? = null
 
     fun setOnUnitSelectedListener(listener: OnClickFromLengthBottomSheet) {
@@ -28,29 +33,24 @@ class SpeedFromBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        radioGroupUnits = view.findViewById(R.id.radio_group_units)
-        val savedUnit = UnitPreferences.getFromSpeedUnit(requireContext())
-        when (savedUnit) {
-            "M/s" -> radioGroupUnits?.check(R.id.radio_meter_per_second)
-            "Km/h" -> radioGroupUnits?.check(R.id.radio_kilometer_per_hour)
-            "Mph" -> radioGroupUnits?.check(R.id.radio_mile_per_hour)
-            "Kn" -> radioGroupUnits?.check(R.id.radio_knot)
-            "Ft/s" -> radioGroupUnits?.check(R.id.radio_feet_per_second)
-            else -> radioGroupUnits?.check(R.id.radio_meter_per_second)
-        }
-        // Thiết lập sự kiện khi chọn RadioButton
-        radioGroupUnits?.setOnCheckedChangeListener { _, checkedId ->
-            val selectedUnit = when (checkedId) {
-                R.id.radio_meter_per_second -> "M/s"
-                R.id.radio_kilometer_per_hour -> "Km/h"
-                R.id.radio_mile_per_hour -> "Mph"
-                R.id.radio_knot -> "Kn"
-                R.id.radio_feet_per_second -> "Ft/s"
-                else -> ""
-            }
+        selectedPosition = UnitPreferences.loadSavedPositionFromSpeed(requireContext())
+        val recyclerViewUnits: RecyclerView = view.findViewById(R.id.recyclerView)
+        val unitList = listOf(
+            ConverterModel("Kilometer per hour", "km/h"),
+            ConverterModel("Meter per second", "m/s"),
+            ConverterModel("Mile per hour", "mph"),
+            ConverterModel("Foot per second", "ft/s")
+        )
+
+        recyclerViewUnits.layoutManager = LinearLayoutManager(context)
+        val adapter = UnitsAdapter(requireContext(), unitList) { selectedUnit, index->
             UnitPreferences.saveFromSpeedUnit(requireContext(), selectedUnit)
-            listener?.onUnitSelected(selectedUnit) // Gọi callback để truyền dữ liệu
-            dismiss() // Đóng Bottom Sheet sau khi chọn
+            UnitPreferences.saveSelectedPositionFromSpeed(requireContext(), index)
+            listener?.onUnitSelected(selectedUnit)
+            Log.d("TAG123", "onViewCreated: $selectedUnit")
+            //dismiss()
         }
+        adapter.updatePosition(selectedPosition!!)
+        recyclerViewUnits.adapter = adapter
     }
 }

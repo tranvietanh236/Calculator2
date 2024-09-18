@@ -1,55 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp">
-
-    <!-- RadioGroup for density unit selection -->
-    <RadioGroup
-        android:id="@+id/radio_group_units"
+    android:paddingHorizontal="16dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <RadioButton
-            android:id="@+id/radio_kg_per_m3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="kg/m³"
-            android:padding="8dp"
-            android:textSize="16sp" />
+        <ImageView
+            android:id="@+id/line"
+            android:layout_marginVertical="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-        <RadioButton
-            android:id="@+id/radio_g_per_cm3"
-            android:layout_width="match_parent"
+        <TextView
+            app:layout_constraintTop_toBottomOf="@id/line"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/manrope_bold"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="g/cm³"
-            android:padding="8dp"
-            android:textSize="16sp" />
+            android:text="Choose unit Density"/>
 
-        <RadioButton
-            android:id="@+id/radio_lb_per_ft3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="lb/ft³"
-            android:padding="8dp"
-            android:textSize="16sp" />
+        <ImageView
+            android:id="@+id/ic_close_density"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_close"
+            android:layout_marginTop="22dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <RadioButton
-            android:id="@+id/radio_lb_per_in3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="lb/in³"
-            android:padding="8dp"
-            android:textSize="16sp" />
-
-        <RadioButton
-            android:id="@+id/radio_oz_per_in3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="oz/in³"
-            android:padding="8dp"
-            android:textSize="16sp" />
-    </RadioGroup>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="24dp"
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

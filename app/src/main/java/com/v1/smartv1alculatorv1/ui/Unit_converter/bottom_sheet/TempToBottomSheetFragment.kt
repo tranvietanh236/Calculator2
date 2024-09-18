@@ -1,17 +1,22 @@
 package com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet
 
+import UnitsAdapter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.inteface.OnClickToLengthBottomSheet
+import com.v1.smartv1alculatorv1.ui.Unit_converter.model.ConverterModel
 import com.v1.smartv1alculatorv1.untils.UnitPreferences
 
 class TempToBottomSheetFragment : BottomSheetDialogFragment() {
-    private var radioGroupUnits: RadioGroup? = null
+    var selectedPosition: Int? = null
     private var listener: OnClickToLengthBottomSheet? = null
 
     fun setOnUnitSelectedListener(listener: OnClickToLengthBottomSheet) {
@@ -28,25 +33,24 @@ class TempToBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        radioGroupUnits = view.findViewById(R.id.radio_group_units)
-        val savedUnit = UnitPreferences.getToTempUnit(requireContext())
-        when (savedUnit) {
-            "°C" -> radioGroupUnits?.check(R.id.radio_celsius)
-            "°F" -> radioGroupUnits?.check(R.id.radio_fahrenheit)
-            "K" -> radioGroupUnits?.check(R.id.radio_kelvin)
-            else -> radioGroupUnits?.check(R.id.radio_celsius)
-        }
-        // Thiết lập sự kiện khi chọn RadioButton
-        radioGroupUnits?.setOnCheckedChangeListener { _, checkedId ->
-            val selectedUnit = when (checkedId) {
-                R.id.radio_celsius -> "°C"
-                R.id.radio_fahrenheit -> "°F"
-                R.id.radio_kelvin -> "K"
-                else -> ""
-            }
+        selectedPosition = UnitPreferences.loadSavedPositionToTemp(requireContext())
+        val recyclerViewUnits: RecyclerView = view.findViewById(R.id.recyclerView)
+        val unitList = listOf(
+            ConverterModel("Degree Celsius", "°C"),
+            ConverterModel("Fahrenheit", "°F"),
+            ConverterModel("Kelvin", "K"),
+
+        )
+
+        recyclerViewUnits.layoutManager = LinearLayoutManager(context)
+        val adapter = UnitsAdapter(requireContext(), unitList) { selectedUnit, index ->
             UnitPreferences.saveToTempUnit(requireContext(), selectedUnit)
-            listener?.onUnitToSelected(selectedUnit) // Gọi callback để truyền dữ liệu
-            dismiss() // Đóng Bottom Sheet sau khi chọn
+            UnitPreferences.saveSelectedPositionToTemp(requireContext(), index)
+            listener?.onUnitToSelected(selectedUnit)
+            Log.d("TAG123", "onViewCreated: $selectedUnit")
+            //dismiss()
         }
+        adapter.updatePosition(selectedPosition!!)
+        recyclerViewUnits.adapter = adapter
     }
 }

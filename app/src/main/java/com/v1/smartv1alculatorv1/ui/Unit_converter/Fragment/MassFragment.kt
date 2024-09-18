@@ -15,6 +15,7 @@ import com.v1.smartv1alculatorv1.inteface.OnClickFromLengthBottomSheet
 import com.v1.smartv1alculatorv1.inteface.OnClickToLengthBottomSheet
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.MassFromBottomSheetFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.MassToBottomSheetFragment
+import com.v1.smartv1alculatorv1.untils.UnitPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,6 +31,10 @@ class MassFragment : BaseFragment<FragmentMassBinding>() , OnClickFromLengthBott
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        val from = UnitPreferences.getFromMassUnit(requireContext())
+        val to = UnitPreferences.getMassToUnit(requireContext())
+        viewBinding.spinnerFrom.text = from
+        viewBinding.spinnerTo.text = to
         viewBinding.editTextValue.setOnTouchListener { v, event ->
             v.performClick() // Đảm bảo rằng EditText vẫn nhận được sự kiện click
             v.requestFocus() // Yêu cầu EditText được focus
@@ -82,24 +87,34 @@ class MassFragment : BaseFragment<FragmentMassBinding>() , OnClickFromLengthBott
         val fromUnit = viewBinding.spinnerFrom.text.toString()
         val toUnit = viewBinding.spinnerTo.text.toString()
 
+        // Chuyển đổi giá trị đầu vào thành gam (g)
         val valueInGrams = when (fromUnit) {
-            "Kg" -> value * 1000           // 1 kg = 1000 g
-            "Mg" -> value / 1000          // 1 mg = 0.001 g
-            "Lb" -> value * 453.59237          // 1 lb = 453.59237 g
-            "Oz" -> value * 28.3495            // 1 oz = 28.3495 g
+            "kg" -> value * 1000                 // 1 kg = 1000 g
+            "g" -> value                         // 1 g = 1 g
+            "mg" -> value / 1000                 // 1 mg = 0.001 g
+            "µg" -> value / 1_000_000            // 1 µg = 0.000001 g
+            "t" -> value * 1_000_000             // 1 t = 1,000,000 g
+            "lb" -> value * 453.59237            // 1 lb = 453.59237 g
+            "oz" -> value * 28.3495              // 1 oz = 28.3495 g
             else -> value
         }
 
+        // Chuyển đổi từ gam (g) sang đơn vị đích
         val result = when (toUnit) {
-            "Kg" -> valueInGrams / 1000
-            "Mg" -> valueInGrams * 1000
-            "Lb" -> valueInGrams / 453.59237
-            "Oz" -> valueInGrams / 28.3495
+            "kg" -> valueInGrams / 1000
+            "g" -> valueInGrams
+            "mg" -> valueInGrams * 1000
+            "µg" -> valueInGrams * 1_000_000
+            "t" -> valueInGrams / 1_000_000
+            "lb" -> valueInGrams / 453.59237
+            "oz" -> valueInGrams / 28.3495
             else -> valueInGrams
         }
 
+        // Hiển thị kết quả
         viewBinding.textViewResult.text = result.toString()
-        //"%.4f".format(result)
+        // Nếu cần định dạng kết quả với 4 chữ số thập phân
+        // viewBinding.textViewResult.text = "%.4f".format(result)
     }
 
     private fun swapUnits() {

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
@@ -17,6 +18,7 @@ import com.v1.smartv1alculatorv1.inteface.OnClickFromLengthBottomSheet
 import com.v1.smartv1alculatorv1.inteface.OnClickToLengthBottomSheet
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.LengthFromBottomSheetFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.LengthToBottomSheetFragment
+import com.v1.smartv1alculatorv1.untils.UnitPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,6 +34,11 @@ class LengthFragment : BaseFragment<FragmentLengthBinding>() , OnClickFromLength
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        val from = UnitPreferences.getFromLengthUnit(requireContext())
+        val to = UnitPreferences.getToLengthUnit(requireContext())
+        viewBinding.spinnerFrom.text = from
+        viewBinding.spinnerTo.text = to
+        viewBinding.editTextValue.setText("1")
         viewBinding.editTextValue.setOnTouchListener { v, event ->
             v.performClick() // Đảm bảo rằng EditText vẫn nhận được sự kiện click
             v.requestFocus() // Yêu cầu EditText được focus
@@ -84,31 +91,46 @@ class LengthFragment : BaseFragment<FragmentLengthBinding>() , OnClickFromLength
         val fromUnit = viewBinding.spinnerFrom.text.toString()
         val toUnit = viewBinding.spinnerTo.text.toString()
 
+        // Chuyển đổi từ đơn vị nguồn sang mét
         val valueInMetres = when (fromUnit) {
-            "Km" -> value * 1000
-            "Cm" -> value / 100
-            "Mm" -> value / 1000
-            "Mile" -> value * 1609.344
-            "Yard" -> value * 0.9144
-            "Foot" -> value * 0.3048
-            "Inch" -> value * 0.0254
-            else -> value
+            "km" -> value * 1000
+            "hm" -> value * 100
+            "dam" -> value * 10
+            "m" -> value
+            "dm" -> value / 10
+            "cm" -> value / 100
+            "mm" -> value / 1000
+            "μm" -> value / 1_000_000
+            "nm" -> value / 1_000_000_000
+            "mile" -> value * 1609.344
+            "yard" -> value * 0.9144
+            "foot" -> value * 0.3048
+            "inch" -> value * 0.0254
+            else -> value // Nếu đơn vị không khớp thì giữ nguyên giá trị
         }
 
+        // Chuyển đổi từ mét sang đơn vị đích
         val result = when (toUnit) {
-            "Km" -> valueInMetres / 1000
-            "Cm" -> valueInMetres * 100
-            "Mm" -> valueInMetres * 1000
-            "Mile" -> valueInMetres / 1609.344
-            "Yard" -> valueInMetres / 0.9144
-            "Foot" -> valueInMetres / 0.3048
-            "Inch" -> valueInMetres / 0.0254
-            else -> valueInMetres
+            "km" -> valueInMetres / 1000
+            "hm" -> valueInMetres / 100
+            "dam" -> valueInMetres / 10
+            "m" -> valueInMetres
+            "dm" -> valueInMetres * 10
+            "cm" -> valueInMetres * 100
+            "mm" -> valueInMetres * 1000
+            "μm" -> valueInMetres * 1_000_000
+            "nm" -> valueInMetres * 1_000_000_000
+            "mile" -> valueInMetres / 1609.344
+            "yard" -> valueInMetres / 0.9144
+            "foot" -> valueInMetres / 0.3048
+            "inch" -> valueInMetres / 0.0254
+            else -> valueInMetres // Nếu đơn vị không khớp thì giữ nguyên giá trị
         }
 
+        // Hiển thị kết quả
         viewBinding.textViewResult.text = result.toString()
-        //"%.4f".format(result)
     }
+
 
     private fun swapUnits() {
         val fromPosition = viewBinding.spinnerFrom.text
@@ -153,7 +175,6 @@ class LengthFragment : BaseFragment<FragmentLengthBinding>() , OnClickFromLength
             // Cập nhật văn bản
             withContext(Dispatchers.Main) {
                 viewBinding.editTextValue.setText(newValue)
-                // Đặt con trỏ vào đầu văn bản (bên phải)
                 viewBinding.editTextValue.setSelection(viewBinding.editTextValue.text.length)
             }
         }

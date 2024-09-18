@@ -17,6 +17,7 @@ import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.LengthFromBottom
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.LengthToBottomSheetFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.VolumeFromBottomSheetFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.VolumeToBottomSheetFragment
+import com.v1.smartv1alculatorv1.untils.UnitPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -32,6 +33,10 @@ class VolumeFragment : BaseFragment<FragmentVolumeBinding>(),OnClickFromLengthBo
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        val from = UnitPreferences.getFromVolumeUnit(requireContext())
+        val to = UnitPreferences.getToVolumeUnit(requireContext())
+        viewBinding.spinnerFrom.text = from
+        viewBinding.spinnerTo.text = to
         viewBinding.editTextValue.setOnTouchListener { v, event ->
             v.performClick() // Đảm bảo rằng EditText vẫn nhận được sự kiện click
             v.requestFocus() // Yêu cầu EditText được focus
@@ -84,25 +89,37 @@ class VolumeFragment : BaseFragment<FragmentVolumeBinding>(),OnClickFromLengthBo
         val fromUnit = viewBinding.spinnerFrom.text.toString()
         val toUnit = viewBinding.spinnerTo.text.toString()
 
-        // Chuyển đổi giá trị đầu vào thành mét khối
+        // Chuyển đổi giá trị đầu vào thành mét khối (m³)
         val valueInCubicMeters = when (fromUnit) {
-            "M³" -> value
-            "L" -> value / 1000
-            "ML" -> value / 1_000_000
-            "Cm³" -> value / 1_000_000
-            "Dm³" -> value / 1000
-            "HL" -> value / 10
+            "km³" -> value * 1_000_000_000   // 1 km³ = 1e9 m³
+            "m³" -> value
+            "dm³" -> value / 1000             // 1 dm³ = 0.001 m³
+            "cm³" -> value / 1_000_000        // 1 cm³ = 1e-6 m³
+            "mm³" -> value / 1_000_000_000    // 1 mm³ = 1e-9 m³
+            "ml" -> value / 1_000_000         // 1 ml = 1e-6 m³
+            "μl" -> value / 1_000_000_000     // 1 μl = 1e-9 m³
+            "in³" -> value * 0.0000163871     // 1 in³ = 0.0000163871 m³
+            "imp gal" -> value * 0.00454609   // 1 imperial gallon = 0.00454609 m³
+            "US gal" -> value * 0.00378541    // 1 US gallon = 0.00378541 m³
+            "imp fl oz" -> value * 0.0000284131 // 1 imperial fl oz = 0.0000284131 m³
+            "US fl oz" -> value * 0.0000295735 // 1 US fl oz = 0.0000295735 m³
             else -> value
         }
 
         // Chuyển đổi từ mét khối sang đơn vị đích
         val result = when (toUnit) {
-            "M³" -> valueInCubicMeters
-            "L" -> valueInCubicMeters * 1000
-            "ML" -> valueInCubicMeters * 1_000_000
-            "Cm³" -> valueInCubicMeters * 1_000_000
-            "Dm³" -> valueInCubicMeters * 1000
-            "HL" -> valueInCubicMeters * 10
+            "km³" -> valueInCubicMeters / 1_000_000_000  // 1 km³ = 1e9 m³
+            "m³" -> valueInCubicMeters
+            "dm³" -> valueInCubicMeters * 1000            // 1 dm³ = 0.001 m³
+            "cm³" -> valueInCubicMeters * 1_000_000       // 1 cm³ = 1e-6 m³
+            "mm³" -> valueInCubicMeters * 1_000_000_000   // 1 mm³ = 1e-9 m³
+            "ml" -> valueInCubicMeters * 1_000_000        // 1 ml = 1e-6 m³
+            "μl" -> valueInCubicMeters * 1_000_000_000    // 1 μl = 1e-9 m³
+            "in³" -> valueInCubicMeters / 0.0000163871    // 1 in³ = 0.0000163871 m³
+            "imp gal" -> valueInCubicMeters / 0.00454609  // 1 imperial gallon = 0.00454609 m³
+            "US gal" -> valueInCubicMeters / 0.00378541   // 1 US gallon = 0.00378541 m³
+            "imp fl oz" -> valueInCubicMeters / 0.0000284131 // 1 imperial fl oz = 0.0000284131 m³
+            "US fl oz" -> valueInCubicMeters / 0.0000295735  // 1 US fl oz = 0.0000295735 m³
             else -> valueInCubicMeters
         }
 
@@ -111,6 +128,7 @@ class VolumeFragment : BaseFragment<FragmentVolumeBinding>(),OnClickFromLengthBo
         // Nếu cần định dạng kết quả với 4 chữ số thập phân
         // viewBinding.textViewResult.text = "%.4f".format(result)
     }
+
 
 
     private fun swapUnits() {

@@ -1,23 +1,29 @@
 package com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet
 
+import UnitsAdapter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.inteface.OnClickFromLengthBottomSheet
+import com.v1.smartv1alculatorv1.ui.Unit_converter.model.ConverterModel
 import com.v1.smartv1alculatorv1.untils.UnitPreferences
 
 class LengthFromBottomSheetFragment : BottomSheetDialogFragment() {
-    private var radioGroupUnits: RadioGroup? = null
+    var selectedPosition: Int? = null
     private var listener: OnClickFromLengthBottomSheet? = null
-
+    private var ic_close : ImageView? = null
 
     fun setOnUnitSelectedListener(listener: OnClickFromLengthBottomSheet) {
         this.listener = listener
     }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -27,36 +33,39 @@ class LengthFromBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        selectedPosition = UnitPreferences.loadSavedPositionFromLength(requireContext())
+        ic_close = view.findViewById(R.id.ic_close_length)
+        ic_close?.setOnClickListener {
+            dismiss()
+        }
+        val recyclerViewUnits: RecyclerView = view.findViewById(R.id.recyclerView)
+        val unitList = listOf(
+            ConverterModel("Kilometer", "km"),
+            ConverterModel("Hectometer", "hm"),
+            ConverterModel("Decameter", "dam"),
+            ConverterModel("Meter", "m"),
+            ConverterModel("Decimeter", "dm"),
+            ConverterModel("Centimeter", "cm"),
+            ConverterModel("Millimeter", "mm"),
+            ConverterModel("Micrometer", "μm"),
+            ConverterModel("Nanometer", "nm"),
+            ConverterModel("Mile", "mi"),
+            ConverterModel("Yard", "yd"),
+            ConverterModel("Foot", "ft"),
+            ConverterModel("Inch", "in")
 
-        radioGroupUnits = view.findViewById(R.id.radio_group_units)
-        val savedUnit = UnitPreferences.getFromLengthUnit(requireContext())
-        when (savedUnit) {
-            "M" -> radioGroupUnits?.check(R.id.radio_metre)
-            "Km" -> radioGroupUnits?.check(R.id.radio_kilometre)
-            "Cm" -> radioGroupUnits?.check(R.id.radio_centimetre)
-            "Mm" -> radioGroupUnits?.check(R.id.radio_millimetre)
-            "Mile" -> radioGroupUnits?.check(R.id.radio_mile)
-            "Yard" -> radioGroupUnits?.check(R.id.radio_yard)
-            "Foot" -> radioGroupUnits?.check(R.id.radio_foot)
-            "Inch" -> radioGroupUnits?.check(R.id.radio_inch)
-            else -> radioGroupUnits?.check(R.id.radio_metre)
-        }
-        // Thiết lập sự kiện khi chọn RadioButton
-        radioGroupUnits?.setOnCheckedChangeListener { _, checkedId ->
-            val selectedUnit = when (checkedId) {
-                R.id.radio_metre -> "M"
-                R.id.radio_kilometre -> "Km"
-                R.id.radio_centimetre -> "Cm"
-                R.id.radio_millimetre -> "Mm"
-                R.id.radio_mile -> "Mile"
-                R.id.radio_yard -> "Yard"
-                R.id.radio_foot -> "Foot"
-                R.id.radio_inch -> "Inch"
-                else -> ""
-            }
+
+        )
+
+        recyclerViewUnits.layoutManager = LinearLayoutManager(context)
+        val adapter = UnitsAdapter(requireContext(), unitList) { selectedUnit, index->
             UnitPreferences.saveFromLengthUnit(requireContext(), selectedUnit)
-            listener?.onUnitSelected(selectedUnit) // Gọi callback để truyền dữ liệu
-            dismiss() // Đóng Bottom Sheet sau khi chọn
+            UnitPreferences.saveSelectedPositionFromLength(requireContext(), index)
+            listener?.onUnitSelected(selectedUnit)
+            Log.d("TAG123", "onViewCreated: $selectedUnit")
+            //dismiss()
         }
+        adapter.updatePosition(selectedPosition!!)
+        recyclerViewUnits.adapter = adapter
     }
 }

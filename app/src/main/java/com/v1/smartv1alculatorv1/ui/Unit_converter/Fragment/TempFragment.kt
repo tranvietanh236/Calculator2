@@ -18,6 +18,7 @@ import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.SpeedFromBottomS
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.SpeedToBottomSheetFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.TempFromBottomSheetFragment
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.TempToBottomSheetFragment
+import com.v1.smartv1alculatorv1.untils.UnitPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -33,6 +34,10 @@ class TempFragment : BaseFragment<FragmentTempBinding>() , OnClickFromLengthBott
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        val from = UnitPreferences.getFromTempUnit(requireContext())
+        val to = UnitPreferences.getToTempUnit(requireContext())
+        viewBinding.spinnerFrom.text = from
+        viewBinding.spinnerTo.text = to
         viewBinding.editTextValue.setOnTouchListener { v, event ->
             v.performClick() // Đảm bảo rằng EditText vẫn nhận được sự kiện click
             v.requestFocus() // Yêu cầu EditText được focus

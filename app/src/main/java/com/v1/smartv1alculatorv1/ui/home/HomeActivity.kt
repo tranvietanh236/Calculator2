@@ -10,6 +10,7 @@ import com.v1.smartv1alculatorv1.MainActivity
 import com.v1.smartv1alculatorv1.base.BaseActivity
 import com.v1.smartv1alculatorv1.databinding.ActivityHomeBinding
 import com.v1.smartv1alculatorv1.ui.Unit_converter.ConverterActivity
+import com.v1.smartv1alculatorv1.ui.Unit_converter.HomeUnitConverterActivity
 import com.v1.smartv1alculatorv1.ui.chat_ai.Activity.ChatActivity
 import com.v1.smartv1alculatorv1.ui.history.HistoryActivity
 import com.v1.smartv1alculatorv1.ui.scan_to_slove.ScanToSoloveActivity
@@ -27,42 +28,35 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>() {
 
     override fun initView() {
         super.initView()
-//        binding.clBasicCalculator.setOnClickListener {
-//            GlobalFunction.startActivity(this@HomeActivity, ScanToSoloveActivity::class.java)
-//        }
-//        binding.clHistory.setOnClickListener {
-//            GlobalFunction.startActivity(this@HomeActivity, ConverterActivity::class.java)
-//        }
-//        binding.clCustomizeFormula.setOnClickListener {
-//            GlobalFunction.startActivity(this@HomeActivity, ChatActivity::class.java)
-//        }
-//        binding.clBasicMaths.setOnClickListener {
-//            GlobalFunction.startActivity(this@HomeActivity, SmartCalculatorActivity::class.java)
-//        }
-//        binding.clHistory2.setOnClickListener {
-//            GlobalFunction.startActivity(this@HomeActivity, HistoryActivity::class.java)
-//        }
+        binding.ConverterUnit.setOnClickListener {
+            GlobalFunction.startActivity(this@HomeActivity, HomeUnitConverterActivity::class.java)
+        }
 
-        checkCameraPermission()
+        //checkCameraPermission()
     }
 
 
-        private fun checkCameraPermission() {
+    private fun checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-            == PackageManager.PERMISSION_GRANTED) {
+            == PackageManager.PERMISSION_GRANTED
+        ) {
             // Quyền đã được cấp, tiếp tục sử dụng camera
             Toast.makeText(this, "Camera is now accessible", Toast.LENGTH_SHORT).show()
         } else {
             // Xin quyền nếu chưa được cấp
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE
+            )
         }
     }
 
     // Xử lý kết quả khi người dùng cho phép hoặc từ chối quyền
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<out String>,
-                                            grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         if (requestCode == CAMERA_PERMISSION_CODE) {

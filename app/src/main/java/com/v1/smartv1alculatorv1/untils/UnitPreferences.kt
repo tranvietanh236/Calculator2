@@ -2,6 +2,7 @@ package com.v1.smartv1alculatorv1.untils
 
 import android.content.Context
 import android.content.SharedPreferences
+import okhttp3.internal.cache2.Relay.Companion.edit
 
 object UnitPreferences {
 
@@ -239,6 +240,245 @@ object UnitPreferences {
         return sharedPreferences.getString("selected_energyTo_unit", DEFAULT_ENERGY_UNIT) ?: DEFAULT_ENERGY_UNIT
     }
 
+    //possition
+    fun saveSelectedPositionFromLength(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position", position).apply()
+        editor.apply()
+    }
+
+    // Function to load saved position from SharedPreferences
+    fun loadSavedPositionFromLength(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position", 0)
+
+    }
+    fun saveSelectedPositionToLength(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position_To", position).apply()
+        editor.apply()
+    }
+
+    // Function to load saved position from SharedPreferences
+    fun loadSavedPositionToLength(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position_To", 0)
+    }
+
+    //possitionVolume
+    fun saveSelectedPositionFromVolume(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position1", position).apply()
+        editor.apply()
+    }
+
+    // Function to load saved position from SharedPreferences
+    fun loadSavedPositionFromVolume(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position1", 0)
+
+    }
+    fun saveSelectedPositionToVolume(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position_To1", position).apply()
+        editor.apply()
+    }
+
+    fun loadSavedPositionToVolume(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position_To1", 0)
+    }
+
+    //possitionArea
+    fun saveSelectedPositionFromArea(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position2", position).apply()
+        editor.apply()
+    }
+
+    // Function to load saved position from SharedPreferences
+    fun loadSavedPositionFromArea(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position2", 0)
+
+    }
+    fun saveSelectedPositionToArea(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position_To2", position).apply()
+        editor.apply()
+    }
+
+    fun loadSavedPositionToArea(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position_To2", 0)
+    }
+
+    //possitionMass
+    fun saveSelectedPositionFromMass(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position3", position).apply()
+        editor.apply()
+    }
+
+    // Function to load saved position from SharedPreferences
+    fun loadSavedPositionFromMass(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position3", 0)
+
+    }
+    fun saveSelectedPositionToMass(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position_To3", position).apply()
+        editor.apply()
+    }
+
+    fun loadSavedPositionToMass(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position_To3", 0)
+    }
+
+    //possitionTime
+    fun saveSelectedPositionFromTime(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position3", position).apply()
+        editor.apply()
+    }
+
+    // Function to load saved position from SharedPreferences
+    fun loadSavedPositionFromTime(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position3", 0)
+
+    }
+    fun saveSelectedPositionToTime(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position_To3", position).apply()
+        editor.apply()
+    }
+
+    fun loadSavedPositionToTime(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position_To3", 0)
+    }
+
+
+
+
+    //possitionSpeed
+    fun saveSelectedPositionFromSpeed(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position3", position).apply()
+        editor.apply()
+    }
+
+    // Function to load saved position from SharedPreferences
+    fun loadSavedPositionFromSpeed(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position3", 0)
+
+    }
+    fun saveSelectedPositionToSpeed(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position_To3", position).apply()
+        editor.apply()
+    }
+
+    fun loadSavedPositionToSpeed(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position_To3", 0)
+    }
+
+    //possitionTemp
+    fun saveSelectedPositionFromTemp(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position3", position).apply()
+        editor.apply()
+    }
+
+    // Function to load saved position from SharedPreferences
+    fun loadSavedPositionFromTemp(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position3", 0)
+
+    }
+    fun saveSelectedPositionToTemp(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position_To3", position).apply()
+        editor.apply()
+    }
+
+    fun loadSavedPositionToTemp(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position_To3", 0)
+    }
+
+    //possitionDensity
+    fun saveSelectedPositionFromDensity(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position3", position).apply()
+        editor.apply()
+    }
+
+    // Function to load saved position from SharedPreferences
+    fun loadSavedPositionFromDensity(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position3", 0)
+
+    }
+    fun saveSelectedPositionToDensity(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position_To3", position).apply()
+        editor.apply()
+    }
+
+    fun loadSavedPositionToDensity(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position_To3", 0)
+    }
+
+    //possitionEnergy
+    fun saveSelectedPositionFromEnergy(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position3", position).apply()
+        editor.apply()
+    }
+
+    // Function to load saved position from SharedPreferences
+    fun loadSavedPositionFromEnergy(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position3", 0)
+
+    }
+    fun saveSelectedPositionToEnergy(context: Context, position: Int) {
+        val sharedPreferences = getSharedPreferences(context)
+        val editor = sharedPreferences.edit()
+        editor.putInt("selected_position_To3", position).apply()
+        editor.apply()
+    }
+
+    fun loadSavedPositionToEnergy(context: Context): Int {
+        val sharedPreferences = getSharedPreferences(context)
+        return sharedPreferences.getInt("selected_position_To3", 0)
+    }
+
+
 
     // Reset tất cả các giá trị
     fun resetPreferences(context: Context) {
@@ -247,4 +487,8 @@ object UnitPreferences {
         editor.clear() // Xóa tất cả dữ liệu trong SharedPreferences
         editor.apply()
     }
+
+
+
+
 }

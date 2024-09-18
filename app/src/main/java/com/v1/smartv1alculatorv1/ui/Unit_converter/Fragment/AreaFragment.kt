@@ -15,6 +15,7 @@ import com.v1.smartv1alculatorv1.databinding.FragmentAreaBinding
 import com.v1.smartv1alculatorv1.inteface.OnClickFromLengthBottomSheet
 import com.v1.smartv1alculatorv1.inteface.OnClickToLengthBottomSheet
 import com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet.AreaToBottomSheetFragment
+import com.v1.smartv1alculatorv1.untils.UnitPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,6 +31,10 @@ class AreaFragment : BaseFragment<FragmentAreaBinding>(), OnClickFromLengthBotto
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        val from = UnitPreferences.getFromAreaUnit(requireContext())
+        val to = UnitPreferences.getToAreaUnit(requireContext())
+        viewBinding.spinnerFrom.text = from
+        viewBinding.spinnerTo.text = to
         viewBinding.editTextValue.setOnTouchListener { v, event ->
             v.performClick() // Đảm bảo rằng EditText vẫn nhận được sự kiện click
             v.requestFocus() // Yêu cầu EditText được focus
@@ -82,30 +87,44 @@ class AreaFragment : BaseFragment<FragmentAreaBinding>(), OnClickFromLengthBotto
         val fromUnit = viewBinding.spinnerFrom.text.toString()
         val toUnit = viewBinding.spinnerTo.text.toString()
 
+        // Chuyển đổi giá trị đầu vào thành mét vuông (m²)
         val valueInSquareMetres = when (fromUnit) {
-            "Km²" -> value * 1_000_000          // 1 km² = 1,000,000 m²
-            "Cm²" -> value / 10_000            // 1 cm² = 0.0001 m²
-            "Mm²" -> value / 1_000_000          // 1 mm² = 0.000001 m²
-            "Mile²" -> value * 2_589_988.110336        // 1 mi² = 2,589,988.11 m²
-            "Yard²" -> value * 0.836127                // 1 yd² = 0.836127 m²
-            "Foot²" -> value * 0.092903                // 1 ft² = 0.092903 m²
-            "Inch²" -> value * 0.00064516             // 1 in² = 0.00064516 m²
+            "km²" -> value * 1_000_000                 // 1 km² = 1,000,000 m²
+            "ha" -> value * 10_000                     // 1 ha = 10,000 m²
+            "dam²" -> value * 100                      // 1 dam² = 100 m²
+            "m²" -> value                              // 1 m² = 1 m²
+            "dm²" -> value / 100                       // 1 dm² = 0.01 m²
+            "cm²" -> value / 10_000                    // 1 cm² = 0.0001 m²
+            "mm²" -> value / 1_000_000                 // 1 mm² = 0.000001 m²
+            "acre" -> value * 4_046.85642              // 1 acre = 4046.85642 m²
+            "mi²" -> value * 2_589_988.110336          // 1 mi² = 2,589,988.11 m²
+            "yd²" -> value * 0.836127                  // 1 yd² = 0.836127 m²
+            "ft²" -> value * 0.092903                  // 1 ft² = 0.092903 m²
+            "in²" -> value * 0.00064516                // 1 in² = 0.00064516 m²
             else -> value
         }
 
+        // Chuyển đổi từ mét vuông sang đơn vị đích
         val result = when (toUnit) {
-            "Km²" -> valueInSquareMetres / 1_000_000
-            "Cm²" -> valueInSquareMetres * 10_000
-            "Mm²" -> valueInSquareMetres * 1_000_000
-            "Mile²" -> valueInSquareMetres / 2_589_988.110336
-            "Yard²" -> valueInSquareMetres / 0.836127
-            "Foot²" -> valueInSquareMetres / 0.092903
-            "Inch²" -> valueInSquareMetres / 0.00064516
+            "km²" -> valueInSquareMetres / 1_000_000
+            "ha" -> valueInSquareMetres / 10_000
+            "dam²" -> valueInSquareMetres / 100
+            "m²" -> valueInSquareMetres
+            "dm²" -> valueInSquareMetres * 100
+            "cm²" -> valueInSquareMetres * 10_000
+            "mm²" -> valueInSquareMetres * 1_000_000
+            "acre" -> valueInSquareMetres / 4_046.85642
+            "mi²" -> valueInSquareMetres / 2_589_988.110336
+            "yd²" -> valueInSquareMetres / 0.836127
+            "ft²" -> valueInSquareMetres / 0.092903
+            "in²" -> valueInSquareMetres / 0.00064516
             else -> valueInSquareMetres
         }
 
+        // Hiển thị kết quả
         viewBinding.textViewResult.text = result.toString()
-            //"%.4f".format(result)
+        // Nếu cần định dạng kết quả với 4 chữ số thập phân
+        // viewBinding.textViewResult.text = "%.4f".format(result)
     }
 
     private fun swapUnits() {

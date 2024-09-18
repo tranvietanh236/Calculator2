@@ -1,79 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingHorizontal="16dp">
 
-    <!-- RadioGroup for unit selection -->
-    <RadioGroup
-        android:id="@+id/radio_group_units"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <RadioButton
-            android:id="@+id/radio_metre_squared"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="M²"
-            android:padding="8dp"
-            android:textSize="16sp" />
+        <ImageView
+            android:id="@+id/line"
+            android:layout_marginVertical="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
-        <RadioButton
-            android:id="@+id/radio_kilometre_squared"
-            android:layout_width="match_parent"
+        <TextView
+            app:layout_constraintTop_toBottomOf="@id/line"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/manrope_bold"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Km²"
-            android:padding="8dp"
-            android:textSize="16sp" />
+            android:text="Choose unit Area"/>
 
-        <RadioButton
-            android:id="@+id/radio_centimetre_squared"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Cm²"
-            android:padding="8dp"
-            android:textSize="16sp" />
+        <ImageView
+            android:id="@+id/ic_close_area"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_close"
+            android:layout_marginTop="22dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <RadioButton
-            android:id="@+id/radio_millimetre_squared"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mm²"
-            android:padding="8dp"
-            android:textSize="16sp" />
-
-        <RadioButton
-            android:id="@+id/radio_mile_squared"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mile²"
-            android:padding="8dp"
-            android:textSize="16sp" />
-
-        <RadioButton
-            android:id="@+id/radio_yard_squared"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Yard²"
-            android:padding="8dp"
-            android:textSize="16sp" />
-
-        <RadioButton
-            android:id="@+id/radio_foot_squared"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Foot²"
-            android:padding="8dp"
-            android:textSize="16sp" />
-
-        <RadioButton
-            android:id="@+id/radio_inch_squared"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Inch²"
-            android:padding="8dp"
-            android:textSize="16sp" />
-    </RadioGroup>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>
