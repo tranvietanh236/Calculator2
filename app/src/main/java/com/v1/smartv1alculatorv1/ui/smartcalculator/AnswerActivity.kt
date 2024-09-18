@@ -23,9 +23,7 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
 
     private lateinit var chatViewModel: SmartCalculatorViewModel
     private lateinit var chatRepository: ChatRepository
-    private val conversationResetDelay: Long = 30 * 60 * 1000L
     private val handler = Handler(Looper.getMainLooper())
-
     private val resetConversationIdRunnable = Runnable {
         chatViewModel.currentConversationId = null
     }
@@ -65,7 +63,7 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
             val userMessage = ChatAnswer(
                 createdAt = (System.currentTimeMillis() / 1000L).toString(),
                 answer = userMessageText,
-                conversationId = chatViewModel.currentConversationId.orEmpty(),
+                conversationId = "",
                 isBot = false
             )
 
@@ -82,7 +80,7 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
                 inputs = HashMap(),
                 query = userMessageText,
                 responseMode = "streaming",
-                conversationId = chatViewModel.currentConversationId.orEmpty(),
+                conversationId = "",
                 user = deviceId
             )
 
@@ -135,7 +133,7 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
                 })
 
             updateLastMessageTime()
-            startConversationTimeoutHandler()
+
         }
     }
 
@@ -184,8 +182,4 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
         }
     }
 
-    private fun startConversationTimeoutHandler() {
-        handler.removeCallbacks(resetConversationIdRunnable)
-        handler.postDelayed(resetConversationIdRunnable, conversationResetDelay)
-    }
 }

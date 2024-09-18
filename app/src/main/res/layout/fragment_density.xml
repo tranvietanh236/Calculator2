@@ -215,6 +215,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/choose_2"
         android:background="@drawable/bg_boder_12_e5e5e5e"
         android:layout_width="90dp"
         android:layout_height="40dp"
@@ -259,6 +260,7 @@
 
 
     <EditText
+        app:layout_constraintEnd_toStartOf="@id/choose_1"
         android:id="@+id/editTextValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -266,19 +268,21 @@
         android:layout_marginStart="30dp"
         android:background="@android:color/transparent"
         android:clickable="false"
-        android:maxLength="60"
+        android:maxLength="40"
         android:text="1"
         android:gravity="start"
         android:textDirection="ltr"
         android:inputType="none"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        app:layout_constraintEnd_toStartOf="@id/choose_2"
         android:id="@+id/textViewResult"
         android:layout_width="0dp"
+        android:maxLength="40"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="12dp"

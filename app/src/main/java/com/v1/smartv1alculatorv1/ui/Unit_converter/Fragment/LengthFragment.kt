@@ -2,6 +2,8 @@ package com.v1.smartv1alculatorv1.ui.Unit_converter.Fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.icu.text.DecimalFormat
+import android.icu.text.DecimalFormatSymbols
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -24,9 +26,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
+
 class LengthFragment : BaseFragment<FragmentLengthBinding>() , OnClickFromLengthBottomSheet,
     OnClickToLengthBottomSheet {
-
+    var checkLength = false
     override fun inflateViewBinding(): FragmentLengthBinding {
         return FragmentLengthBinding.inflate(layoutInflater)
     }
@@ -34,6 +37,7 @@ class LengthFragment : BaseFragment<FragmentLengthBinding>() , OnClickFromLength
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        convert()
         val from = UnitPreferences.getFromLengthUnit(requireContext())
         val to = UnitPreferences.getToLengthUnit(requireContext())
         viewBinding.spinnerFrom.text = from
@@ -60,10 +64,19 @@ class LengthFragment : BaseFragment<FragmentLengthBinding>() , OnClickFromLength
         })
 
         viewBinding.imageFrom.setOnClickListener {
-            openBottomSheetFrom()
+            if (!checkLength){
+                checkLength = true
+                Log.d("TAG123", "check: $checkLength")
+                openBottomSheetFrom()
+            }
+
         }
         viewBinding.imageTo.setOnClickListener {
-            openBottomSheetTo()
+            if (!checkLength){
+                checkLength = true
+                openBottomSheetTo()
+                Log.d("TAG123", "check: $checkLength")
+            }
         }
 
         // Đặt listener cho nút đảo ngược đơn vị
@@ -127,8 +140,11 @@ class LengthFragment : BaseFragment<FragmentLengthBinding>() , OnClickFromLength
             else -> valueInMetres // Nếu đơn vị không khớp thì giữ nguyên giá trị
         }
 
-        // Hiển thị kết quả
-        viewBinding.textViewResult.text = result.toString()
+        val symbols = DecimalFormatSymbols().apply {
+            decimalSeparator = '.'
+        }
+        val decimalFormat = DecimalFormat("0.##################################", symbols)
+        viewBinding.textViewResult.text = decimalFormat.format(result)
     }
 
 
@@ -147,11 +163,13 @@ class LengthFragment : BaseFragment<FragmentLengthBinding>() , OnClickFromLength
         unitsBottomSheet.setOnUnitSelectedListener(this)
         unitsBottomSheet.show(parentFragmentManager, unitsBottomSheet.tag)
 
+
     }
     fun openBottomSheetTo(){
         val unitsBottomSheet = LengthToBottomSheetFragment()
         unitsBottomSheet.setOnUnitSelectedListener(this)
         unitsBottomSheet.show(parentFragmentManager, unitsBottomSheet.tag)
+
 
     }
 
@@ -249,9 +267,22 @@ class LengthFragment : BaseFragment<FragmentLengthBinding>() , OnClickFromLength
         convert()
     }
 
+    override fun onDismissListener() {
+        checkLength = false
+        Log.d("TAG123", "onDismissListener: $checkLength")
+    }
+
     override fun onUnitToSelected(unit: String) {
         viewBinding.spinnerTo.text = unit
         convert()
     }
 
+    override fun onDismissToListener() {
+        checkLength = false
+    }
+
+    override fun onResume() {
+        super.onResume()
+       checkLength = false
+    }
 }

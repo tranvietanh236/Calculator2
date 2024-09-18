@@ -3,7 +3,6 @@ package com.v1.smartv1alculatorv1.ui.Unit_converter
 
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.v1.smartv1alculatorv1.Model.ConverterModel
 import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.base.BaseActivity
@@ -24,6 +23,7 @@ class ConverterActivity : BaseActivity<ActivityConverterBinding, ConverterViewMo
 
     override fun initView() {
         super.initView()
+
 
         val indexUnit = intent.getIntExtra("unit", 0)
         Log.d("TAG123", "index: $indexUnit")

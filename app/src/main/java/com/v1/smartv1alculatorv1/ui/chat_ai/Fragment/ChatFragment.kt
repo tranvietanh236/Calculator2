@@ -1,5 +1,6 @@
 package com.v1.smartv1alculatorv1.ui.chat_ai.Fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
@@ -35,7 +36,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
     private lateinit var chatViewModel: ChatViewModel
     private lateinit var chatRepository: ChatRepository
 
-    private val conversationResetDelay: Long = 30 * 60 * 1000L
+
     private val handler = Handler(Looper.getMainLooper())
     private val resetConversationIdRunnable = Runnable {
         chatViewModel.currentConversationId = null
@@ -48,16 +49,12 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         chatRepository = ChatRepository(requireContext())
         chatViewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
-
-        chatViewModel.currentConversationId = getStoredConversationId()
-
-        chatViewModel.chatList.value =
-            chatRepository.getChatsByConversationId(chatViewModel.currentConversationId.toString())
 
         // Khởi tạo chatAdapter sau khi gán giá trị cho chatViewModel.chatList
         chatAdapter = ChatAdapter(chatViewModel.chatList.value!!, viewBinding.textViewEmpty)
@@ -92,7 +89,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         }
         val userBmi = ChatActivity.bmiValue
         if (userBmi.toString().isNotEmpty() && userBmi > 0) {
-            clearChatList1()
             sendMessage("My BMI is $userBmi, what does that mean?")
 
         }
@@ -102,7 +98,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
             }
             true
         }
-        startConversationTimeoutHandler()
+
     }
 
 
@@ -111,9 +107,6 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         val lastMessageTime = sharedPref.getLong("last_message_time", 0L)
         val currentTime = System.currentTimeMillis()
 
-        if (currentTime - lastMessageTime > conversationResetDelay) {
-            clearChatList()
-        }
     }
 
     private fun updateLastMessageTime() {
@@ -159,7 +152,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                 inputs = HashMap(),
                 query = userMessageText,
                 responseMode = "streaming",
-                conversationId = chatViewModel.currentConversationId.orEmpty(),
+                conversationId = "",
                 user = deviceId
             )
 
@@ -215,7 +208,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
             viewBinding.editTextUserInput.setText("")
             updateLastMessageTime()
-            startConversationTimeoutHandler()
+
         }
     }
 
@@ -226,6 +219,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
 
         try {
             val dataLines = responseString.split("data: ")
+            Log.d("dataLines", "$dataLines")
             for (line in dataLines) {
                 if (line.trim().startsWith("{")) {
                     val jsonObject = JSONObject(line.trim())
@@ -244,20 +238,11 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         return Pair(answer, conversationId)
     }
 
-    private fun startConversationTimeoutHandler() {
-        handler.removeCallbacks(resetConversationIdRunnable)
-        handler.postDelayed(resetConversationIdRunnable, conversationResetDelay)
-    }
-
     fun clearChatList() {
         chatViewModel.chatList.value!!.clear()
         chatAdapter.notifyDataSetChanged()
     }
 
-    fun clearChatList1() {
-        chatViewModel.chatList.value!!.clear()
-        chatViewModel.currentConversationId = null
-    }
 
     private fun getStoredConversationId(): String? {
         val sharedPref = requireContext().getSharedPreferences("ChatPrefs", Context.MODE_PRIVATE)

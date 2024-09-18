@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingHorizontal="16dp">
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,10 +28,10 @@
             android:fontFamily="@font/manrope_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose unit Energy"/>
+            android:text="Choose unit Mass"/>
 
         <ImageView
-            android:id="@+id/ic_close_energy"
+            android:id="@+id/ic_close_mass"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,6 +43,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

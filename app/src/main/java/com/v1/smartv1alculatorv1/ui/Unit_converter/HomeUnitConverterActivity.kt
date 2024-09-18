@@ -16,6 +16,9 @@ class HomeUnitConverterActivity : BaseActivity<ActivityHomeUnitConverterBinding,
 
     override fun initView() {
         super.initView()
+        binding.icBack.setOnClickListener {
+            finish()
+        }
         binding.itemUnitVolume.setOnClickListener {
             val intent = Intent(this, ConverterActivity::class.java)
             intent.putExtra("unit", 1)

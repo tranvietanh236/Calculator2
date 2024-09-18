@@ -3,6 +3,8 @@ package com.v1.smartv1alculatorv1.ui.Unit_converter.Fragment
 import AreaFromBottomSheetFragment
 import android.annotation.SuppressLint
 import android.content.Context
+import android.icu.text.DecimalFormat
+import android.icu.text.DecimalFormatSymbols
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -24,6 +26,7 @@ import kotlinx.coroutines.withContext
 class AreaFragment : BaseFragment<FragmentAreaBinding>(), OnClickFromLengthBottomSheet,
     OnClickToLengthBottomSheet {
 
+    private var check = false
     override fun inflateViewBinding(): FragmentAreaBinding {
         return FragmentAreaBinding.inflate(layoutInflater)
     }
@@ -31,6 +34,7 @@ class AreaFragment : BaseFragment<FragmentAreaBinding>(), OnClickFromLengthBotto
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        convert()
         val from = UnitPreferences.getFromAreaUnit(requireContext())
         val to = UnitPreferences.getToAreaUnit(requireContext())
         viewBinding.spinnerFrom.text = from
@@ -38,7 +42,8 @@ class AreaFragment : BaseFragment<FragmentAreaBinding>(), OnClickFromLengthBotto
         viewBinding.editTextValue.setOnTouchListener { v, event ->
             v.performClick() // Đảm bảo rằng EditText vẫn nhận được sự kiện click
             v.requestFocus() // Yêu cầu EditText được focus
-            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm =
+                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(v.windowToken, 0) // Ẩn bàn phím khi EditText được nhấn
             true
         }
@@ -56,10 +61,17 @@ class AreaFragment : BaseFragment<FragmentAreaBinding>(), OnClickFromLengthBotto
         })
 
         viewBinding.imageFrom.setOnClickListener {
-            openBottomSheetFrom()
+            if (!check) {
+                check = true
+                openBottomSheetFrom()
+            }
+
         }
         viewBinding.imageTo.setOnClickListener {
-            openBottomSheetTo()
+            if (!check) {
+                check = true
+                openBottomSheetTo()
+            }
         }
 
         // Đặt listener cho nút đảo ngược đơn vị
@@ -121,10 +133,11 @@ class AreaFragment : BaseFragment<FragmentAreaBinding>(), OnClickFromLengthBotto
             else -> valueInSquareMetres
         }
 
-        // Hiển thị kết quả
-        viewBinding.textViewResult.text = result.toString()
-        // Nếu cần định dạng kết quả với 4 chữ số thập phân
-        // viewBinding.textViewResult.text = "%.4f".format(result)
+        val symbols = DecimalFormatSymbols().apply {
+            decimalSeparator = '.'
+        }
+        val decimalFormat = DecimalFormat("0.##################################", symbols)
+        viewBinding.textViewResult.text = decimalFormat.format(result)
     }
 
     private fun swapUnits() {
@@ -136,17 +149,23 @@ class AreaFragment : BaseFragment<FragmentAreaBinding>(), OnClickFromLengthBotto
     }
 
 
-
-    fun openBottomSheetFrom(){
+    fun openBottomSheetFrom() {
         val unitsBottomSheet = AreaFromBottomSheetFragment()
         unitsBottomSheet.setOnUnitSelectedListener(this)
         unitsBottomSheet.show(parentFragmentManager, unitsBottomSheet.tag)
+        unitsBottomSheet.dialog?.setOnDismissListener {
+            check = false
+        }
 
     }
-    fun openBottomSheetTo(){
+
+    fun openBottomSheetTo() {
         val unitsBottomSheet = AreaToBottomSheetFragment()
         unitsBottomSheet.setOnUnitSelectedListener(this)
         unitsBottomSheet.show(parentFragmentManager, unitsBottomSheet.tag)
+        unitsBottomSheet.dialog?.setOnDismissListener {
+            check = false
+        }
 
     }
 
@@ -175,8 +194,6 @@ class AreaFragment : BaseFragment<FragmentAreaBinding>(), OnClickFromLengthBotto
             }
         }
     }
-
-
 
 
     private fun handleButtonClick(view: View) {
@@ -245,9 +262,22 @@ class AreaFragment : BaseFragment<FragmentAreaBinding>(), OnClickFromLengthBotto
         convert()
     }
 
+
     override fun onUnitToSelected(unit: String) {
         viewBinding.spinnerTo.text = unit
         convert()
     }
 
+    override fun onDismissToListener() {
+        check = false
+    }
+
+    override fun onDismissListener() {
+        check = false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        check = false
+    }
 }

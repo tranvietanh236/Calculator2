@@ -2,6 +2,8 @@ package com.v1.smartv1alculatorv1.ui.Unit_converter.Fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.icu.text.DecimalFormat
+import android.icu.text.DecimalFormatSymbols
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -23,7 +25,7 @@ import kotlinx.coroutines.withContext
 
 class MassFragment : BaseFragment<FragmentMassBinding>() , OnClickFromLengthBottomSheet,
     OnClickToLengthBottomSheet {
-
+    private var check = false
     override fun inflateViewBinding(): FragmentMassBinding {
         return FragmentMassBinding.inflate(layoutInflater)
     }
@@ -31,6 +33,7 @@ class MassFragment : BaseFragment<FragmentMassBinding>() , OnClickFromLengthBott
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        convert()
         val from = UnitPreferences.getFromMassUnit(requireContext())
         val to = UnitPreferences.getMassToUnit(requireContext())
         viewBinding.spinnerFrom.text = from
@@ -56,10 +59,17 @@ class MassFragment : BaseFragment<FragmentMassBinding>() , OnClickFromLengthBott
         })
 
         viewBinding.imageFrom.setOnClickListener {
-            openBottomSheetFrom()
+            if (!check){
+                check = true
+                openBottomSheetFrom()
+            }
+
         }
         viewBinding.imageTo.setOnClickListener {
-            openBottomSheetTo()
+            if (!check){
+                check = true
+                openBottomSheetTo()
+            }
         }
 
         // Đặt listener cho nút đảo ngược đơn vị
@@ -111,10 +121,11 @@ class MassFragment : BaseFragment<FragmentMassBinding>() , OnClickFromLengthBott
             else -> valueInGrams
         }
 
-        // Hiển thị kết quả
-        viewBinding.textViewResult.text = result.toString()
-        // Nếu cần định dạng kết quả với 4 chữ số thập phân
-        // viewBinding.textViewResult.text = "%.4f".format(result)
+        val symbols = DecimalFormatSymbols().apply {
+            decimalSeparator = '.'
+        }
+        val decimalFormat = DecimalFormat("0.##################################", symbols)
+        viewBinding.textViewResult.text = decimalFormat.format(result)
     }
 
     private fun swapUnits() {
@@ -131,13 +142,17 @@ class MassFragment : BaseFragment<FragmentMassBinding>() , OnClickFromLengthBott
         val unitsBottomSheet = MassFromBottomSheetFragment()
         unitsBottomSheet.setOnUnitSelectedListener(this)
         unitsBottomSheet.show(parentFragmentManager, unitsBottomSheet.tag)
-
+        unitsBottomSheet.dialog?.setOnDismissListener {
+            check = false
+        }
     }
     fun openBottomSheetTo(){
         val unitsBottomSheet = MassToBottomSheetFragment()
         unitsBottomSheet.setOnUnitSelectedListener(this)
         unitsBottomSheet.show(parentFragmentManager, unitsBottomSheet.tag)
-
+        unitsBottomSheet.dialog?.setOnDismissListener {
+            check = false
+        }
     }
 
     private fun updateDisplay(view: View, value: String) {
@@ -235,10 +250,22 @@ class MassFragment : BaseFragment<FragmentMassBinding>() , OnClickFromLengthBott
         convert()
     }
 
+    override fun onDismissListener() {
+        check = false
+    }
+
     override fun onUnitToSelected(unit: String) {
         viewBinding.spinnerTo.text = unit
         convert()
     }
 
+    override fun onDismissToListener() {
+        check = false
+    }
+
+    override fun onResume() {
+        super.onResume()
+        check = false
+    }
 
 }

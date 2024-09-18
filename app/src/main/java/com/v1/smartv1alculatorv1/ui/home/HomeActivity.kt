@@ -32,7 +32,13 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>() {
             GlobalFunction.startActivity(this@HomeActivity, HomeUnitConverterActivity::class.java)
         }
 
-        //checkCameraPermission()
+        binding.ScanToSolve.setOnClickListener {
+            GlobalFunction.startActivity(this@HomeActivity, ScanToSoloveActivity::class.java)
+        }
+        binding.AiTutor.setOnClickListener {
+            GlobalFunction.startActivity(this@HomeActivity, ChatActivity::class.java)
+        }
+        checkCameraPermission()
     }
 
 

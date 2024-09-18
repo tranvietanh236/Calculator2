@@ -2,6 +2,8 @@ package com.v1.smartv1alculatorv1.ui.Unit_converter.Fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.icu.text.DecimalFormat
+import android.icu.text.DecimalFormatSymbols
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -26,7 +28,7 @@ import kotlinx.coroutines.withContext
 
 class EnergyFragment : BaseFragment<FragmentEnergyBinding>(), OnClickFromLengthBottomSheet,
     OnClickToLengthBottomSheet {
-
+    private var check = false
     override fun inflateViewBinding(): FragmentEnergyBinding {
         return FragmentEnergyBinding.inflate(layoutInflater)
     }
@@ -34,6 +36,7 @@ class EnergyFragment : BaseFragment<FragmentEnergyBinding>(), OnClickFromLengthB
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        convert()
         val from = UnitPreferences.getFromEnergyUnit(requireContext())
         val to = UnitPreferences.getToEnergyUnit(requireContext())
         viewBinding.spinnerFrom.text = from
@@ -59,10 +62,18 @@ class EnergyFragment : BaseFragment<FragmentEnergyBinding>(), OnClickFromLengthB
         })
 
         viewBinding.imageFrom.setOnClickListener {
-            openBottomSheetFrom()
+            if (!check){
+                check = true
+                openBottomSheetFrom()
+            }
+
         }
         viewBinding.imageTo.setOnClickListener {
-            openBottomSheetTo()
+            if (!check){
+                check = true
+                openBottomSheetTo()
+            }
+
         }
 
         // Đặt listener cho nút đảo ngược đơn vị
@@ -106,8 +117,11 @@ class EnergyFragment : BaseFragment<FragmentEnergyBinding>(), OnClickFromLengthB
             else -> valueInJoules                  // Default là Joules
         }
 
-        // Hiển thị kết quả với 4 chữ số thập phân
-        viewBinding.textViewResult.text = result.toString()
+        val symbols = DecimalFormatSymbols().apply {
+            decimalSeparator = '.'
+        }
+        val decimalFormat = DecimalFormat("0.##################################", symbols)
+        viewBinding.textViewResult.text = decimalFormat.format(result)
     }
 
 
@@ -126,13 +140,17 @@ class EnergyFragment : BaseFragment<FragmentEnergyBinding>(), OnClickFromLengthB
         val unitsBottomSheet = EnergyFromBottomSheetFragment()
         unitsBottomSheet.setOnUnitSelectedListener(this)
         unitsBottomSheet.show(parentFragmentManager, unitsBottomSheet.tag)
-
+        unitsBottomSheet.dialog?.setOnDismissListener {
+            check = false
+        }
     }
     fun openBottomSheetTo(){
         val unitsBottomSheet = EnergyToBottomSheetFragment()
         unitsBottomSheet.setOnUnitSelectedListener(this)
         unitsBottomSheet.show(parentFragmentManager, unitsBottomSheet.tag)
-
+        unitsBottomSheet.dialog?.setOnDismissListener {
+            check = false
+        }
     }
 
     private fun updateDisplay(view: View, value: String) {
@@ -230,11 +248,22 @@ class EnergyFragment : BaseFragment<FragmentEnergyBinding>(), OnClickFromLengthB
         convert()
     }
 
+    override fun onDismissListener() {
+        check = false
+    }
+
     override fun onUnitToSelected(unit: String) {
         viewBinding.spinnerTo.text = unit
         convert()
     }
 
+    override fun onDismissToListener() {
+        check = false
+    }
 
+    override fun onResume() {
+        super.onResume()
+        check = false
+    }
 
 }

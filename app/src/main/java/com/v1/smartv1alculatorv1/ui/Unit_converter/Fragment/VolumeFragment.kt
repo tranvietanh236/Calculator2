@@ -2,6 +2,8 @@ package com.v1.smartv1alculatorv1.ui.Unit_converter.Fragment
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.icu.text.DecimalFormat
+import android.icu.text.DecimalFormatSymbols
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -25,7 +27,7 @@ import kotlinx.coroutines.withContext
 
 class VolumeFragment : BaseFragment<FragmentVolumeBinding>(),OnClickFromLengthBottomSheet,
     OnClickToLengthBottomSheet {
-
+    private var check = false
     override fun inflateViewBinding(): FragmentVolumeBinding {
         return FragmentVolumeBinding.inflate(layoutInflater)
     }
@@ -33,6 +35,7 @@ class VolumeFragment : BaseFragment<FragmentVolumeBinding>(),OnClickFromLengthBo
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        convert()
         val from = UnitPreferences.getFromVolumeUnit(requireContext())
         val to = UnitPreferences.getToVolumeUnit(requireContext())
         viewBinding.spinnerFrom.text = from
@@ -58,10 +61,16 @@ class VolumeFragment : BaseFragment<FragmentVolumeBinding>(),OnClickFromLengthBo
         })
 
         viewBinding.imageFrom.setOnClickListener {
-            openBottomSheetFrom()
+            if (!check){
+                check = true
+                openBottomSheetFrom()
+            }
         }
         viewBinding.imageTo.setOnClickListener {
-            openBottomSheetTo()
+            if (!check){
+                check = true
+                openBottomSheetTo()
+            }
         }
 
         // Đặt listener cho nút đảo ngược đơn vị
@@ -122,11 +131,11 @@ class VolumeFragment : BaseFragment<FragmentVolumeBinding>(),OnClickFromLengthBo
             "US fl oz" -> valueInCubicMeters / 0.0000295735  // 1 US fl oz = 0.0000295735 m³
             else -> valueInCubicMeters
         }
-
-        // Hiển thị kết quả
-        viewBinding.textViewResult.text = result.toString()
-        // Nếu cần định dạng kết quả với 4 chữ số thập phân
-        // viewBinding.textViewResult.text = "%.4f".format(result)
+        val symbols = DecimalFormatSymbols().apply {
+            decimalSeparator = '.'
+        }
+        val decimalFormat = DecimalFormat("0.##################################", symbols)
+        viewBinding.textViewResult.text = decimalFormat.format(result)
     }
 
 
@@ -145,13 +154,17 @@ class VolumeFragment : BaseFragment<FragmentVolumeBinding>(),OnClickFromLengthBo
         val unitsBottomSheet = VolumeFromBottomSheetFragment()
         unitsBottomSheet.setOnUnitSelectedListener(this)
         unitsBottomSheet.show(parentFragmentManager, unitsBottomSheet.tag)
-
+        unitsBottomSheet.dialog?.setOnDismissListener {
+            check = false
+        }
     }
     fun openBottomSheetTo(){
         val unitsBottomSheet = VolumeToBottomSheetFragment()
         unitsBottomSheet.setOnUnitSelectedListener(this)
         unitsBottomSheet.show(parentFragmentManager, unitsBottomSheet.tag)
-
+        unitsBottomSheet.dialog?.setOnDismissListener {
+            check = false
+        }
     }
 
     private fun updateDisplay(view: View, value: String) {
@@ -249,10 +262,21 @@ class VolumeFragment : BaseFragment<FragmentVolumeBinding>(),OnClickFromLengthBo
         convert()
     }
 
+    override fun onDismissListener() {
+        check = false
+    }
+
     override fun onUnitToSelected(unit: String) {
         viewBinding.spinnerTo.text = unit
         convert()
     }
 
+    override fun onDismissToListener() {
+        check = false
+    }
 
+    override fun onResume() {
+        super.onResume()
+        check = false
+    }
 }

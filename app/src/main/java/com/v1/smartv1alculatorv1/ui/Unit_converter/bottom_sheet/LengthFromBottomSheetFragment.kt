@@ -1,6 +1,7 @@
 package com.v1.smartv1alculatorv1.ui.Unit_converter.bottom_sheet
 
 import UnitsAdapter
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ class LengthFromBottomSheetFragment : BottomSheetDialogFragment() {
     private var listener: OnClickFromLengthBottomSheet? = null
     private var ic_close : ImageView? = null
 
+
     fun setOnUnitSelectedListener(listener: OnClickFromLengthBottomSheet) {
         this.listener = listener
     }
@@ -33,10 +35,13 @@ class LengthFromBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialog?.setCancelable(false)
+        dialog?.setCanceledOnTouchOutside(false)
         selectedPosition = UnitPreferences.loadSavedPositionFromLength(requireContext())
         ic_close = view.findViewById(R.id.ic_close_length)
         ic_close?.setOnClickListener {
             dismiss()
+
         }
         val recyclerViewUnits: RecyclerView = view.findViewById(R.id.recyclerView)
         val unitList = listOf(
@@ -68,4 +73,10 @@ class LengthFromBottomSheetFragment : BottomSheetDialogFragment() {
         adapter.updatePosition(selectedPosition!!)
         recyclerViewUnits.adapter = adapter
     }
+
+    override fun dismiss() {
+        super.dismiss()
+        listener?.onDismissListener()
+    }
+
 }
