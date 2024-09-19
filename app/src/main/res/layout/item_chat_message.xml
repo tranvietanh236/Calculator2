@@ -1,21 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#F2F3F7">
 
-    <TextView
+    <ImageView
+        android:id="@+id/img_chatbot"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/ic_chat_bot"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/textMessageBot"
+        android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="12dp"
-        android:fontFamily="@font/inter_semibold"
-        android:background="@drawable/bg_bot_message"
-        android:padding="10dp"
-        android:textColor="#010101"
-        android:lineSpacingExtra="2dp"
-        android:textSize="12sp"
-        android:visibility="gone" />
+        android:background="@drawable/bg_item_chat_bot_12"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp">
+
+        <TextView
+            android:id="@+id/txt_bot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:fontFamily="@font/manrope_medium"
+            android:lineSpacingExtra="2dp"
+            android:padding="10dp"
+            android:textColor="#010101"
+            android:textSize="12sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ic_copy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_copy"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txt_bot" />
+
+        <ImageView
+            android:id="@+id/ic_reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_reload"
+            app:layout_constraintStart_toEndOf="@id/ic_copy"
+            app:layout_constraintTop_toBottomOf="@id/txt_bot" />
+
+        <ImageView
+            android:id="@+id/ic_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_like_off"
+            app:layout_constraintStart_toEndOf="@id/ic_reload"
+            app:layout_constraintTop_toBottomOf="@id/txt_bot" />
+
+        <ImageView
+            android:id="@+id/ic_dislike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_dislike_off"
+            app:layout_constraintStart_toEndOf="@id/ic_like"
+            app:layout_constraintTop_toBottomOf="@id/txt_bot"
+            app:layout_goneMarginEnd="12dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/textTimestampBot"
@@ -24,35 +90,36 @@
         android:layout_below="@id/textMessageBot"
         android:layout_alignStart="@id/textMessageBot"
         android:layout_marginTop="8dp"
-        android:textColor="#80010101"
         android:fontFamily="@font/inter_regular"
+        android:textColor="#80010101"
         android:textSize="10sp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <TextView
+        android:layout_marginEnd="12dp"
         android:id="@+id/textMessageUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="12dp"
+        android:background="@drawable/bg_border_item_user_12"
+        android:fontFamily="@font/manrope_medium"
         android:lineSpacingExtra="2dp"
-        android:fontFamily="@font/inter_semibold"
-        android:background="@android:color/transparent"
         android:padding="10dp"
         android:textColor="#010101"
         android:textSize="12sp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <TextView
-        android:layout_marginTop="8dp"
         android:id="@+id/textTimestampUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textMessageUser"
-        android:fontFamily="@font/inter_regular"
         android:layout_alignEnd="@id/textMessageUser"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/inter_regular"
         android:textColor="#80010101"
         android:textSize="10sp"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </RelativeLayout>

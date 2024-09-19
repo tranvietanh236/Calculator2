@@ -1,28 +1,31 @@
-package com.v1.smartv1alculatorv1.ui.chat_ai.Fragment
+package com.v1.smartv1alculatorv1.ui.history
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.calculator.customformula.base.BaseFragment
 import com.v1.smartv1alculatorv1.Database.ChatRepository
 import com.v1.smartv1alculatorv1.Model.ChatAnswer
+import com.v1.smartv1alculatorv1.databinding.FragmentHisTutorBinding
 import com.v1.smartv1alculatorv1.databinding.FragmentHistoryBinding
 import com.v1.smartv1alculatorv1.ui.chat_ai.Adapter.ChatAdapter
-import com.v1.smartv1alculatorv1.ui.history.HistoryAdapter2
 
 
-class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {
-
-    private lateinit var chatAdapter: HistoryAdapter2
+class HisTutorFragment : BaseFragment<FragmentHisTutorBinding>() {
+    private lateinit var chatAdapter: ChatAdapter
     private lateinit var chatRepository: ChatRepository
     private var chatList: MutableList<ChatAnswer> = mutableListOf()
 
-    override fun inflateViewBinding() = FragmentHistoryBinding.inflate(layoutInflater)
+
+    override fun inflateViewBinding(): FragmentHisTutorBinding {
+        return FragmentHisTutorBinding.inflate(layoutInflater)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         chatRepository = ChatRepository(requireContext())
-        chatAdapter = HistoryAdapter2(chatList)
+        chatAdapter = ChatAdapter(chatList,viewBinding.test)
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.recyclerView.adapter = chatAdapter
 

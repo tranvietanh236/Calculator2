@@ -3,10 +3,13 @@ package com.v1.smartv1alculatorv1.base
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.view.Window
+import android.view.WindowInsets
 import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -39,18 +42,10 @@ abstract class BaseActivity<VB : ViewBinding, V : ViewModel> : AppCompatActivity
         bindView()
         viewModel()
 
+        //showStatusBar(this)
+        hideNavigationBar()
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            // Sử dụng WindowInsetsController cho Android 11 (API 30) trở lên
-            window.insetsController?.setSystemBarsAppearance(
-                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
-                WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-            )
-        } else {
-            // Sử dụng View flags cho các phiên bản Android cũ hơn
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        }
+        //showStatusBar(this)
 
     }
 
@@ -64,43 +59,6 @@ abstract class BaseActivity<VB : ViewBinding, V : ViewModel> : AppCompatActivity
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        showStatusBar(this)
-    }
-
-
-    override fun hasWindowFocus(): Boolean {
-        showStatusBar(this)
-        return super.hasWindowFocus()
-    }
-
-    private fun hideStatusBar(activity: Activity?) {
-        try {
-            if (activity == null) return
-            val window: Window = activity.window ?: return
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
-            // Clear the fullscreen flags
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    )
-            val lp = window.attributes
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                lp.layoutInDisplayCutoutMode =
-                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-            }
-            window.attributes = lp
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-    }
 
     private fun showStatusBar(activity: Activity?) {
         try {
@@ -115,9 +73,9 @@ abstract class BaseActivity<VB : ViewBinding, V : ViewModel> : AppCompatActivity
 
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                            //or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+
+
                     )
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -128,7 +86,8 @@ abstract class BaseActivity<VB : ViewBinding, V : ViewModel> : AppCompatActivity
                 val windowInsetsController = window.insetsController
                 window.statusBarColor = Color.TRANSPARENT // Làm cho thanh trạng thái trong suốt
             } else {
-                window.statusBarColor = Color.TRANSPARENT // Chỉ định màu trong suốt cho các phiên bản Android thấp hơn
+                window.statusBarColor =
+                    Color.TRANSPARENT // Chỉ định màu trong suốt cho các phiên bản Android thấp hơn
             }
             // Adjust window attributes to reset display cutout mode if necessary
             val lp = window.attributes
@@ -143,5 +102,36 @@ abstract class BaseActivity<VB : ViewBinding, V : ViewModel> : AppCompatActivity
     }
 
 
+    fun hideNavigationBar() {
+        val decorView = window.decorView
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // Android 11 (API level 30) and above
+            decorView.windowInsetsController?.let { controller ->
+                controller.hide(WindowInsets.Type.navigationBars())
+                controller.systemBarsBehavior =
+                    WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+        } else {
+            // Below Android 11
+            decorView.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                    )
+
+//             Listener để ẩn lại thanh điều hướng khi người dùng tương tác
+            decorView.setOnSystemUiVisibilityChangeListener { visibility ->
+                if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
+                    Handler().postDelayed({
+                        decorView.systemUiVisibility = (
+                                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                        or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                                )
+                    }, 3000)
+                }
+            }
+        }
+
+    }
 
 }

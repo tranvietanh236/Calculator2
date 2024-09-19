@@ -18,6 +18,7 @@ class ChatDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
         const val COLUMN_CONVERSATION_ID = "conversation_id"
 
 
+
     }
 
     override fun onCreate(db: SQLiteDatabase) {

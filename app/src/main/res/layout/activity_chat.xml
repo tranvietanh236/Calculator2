@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
+    android:background="#F47026"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +19,7 @@
             android:id="@+id/ivBack"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_back"
+            android:src="@drawable/ic_back_converter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,20 +28,12 @@
             android:id="@+id/ivHistory"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginEnd="12dp"
             android:src="@drawable/ic_history_ai"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/ivHome"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/ivHome"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/ic_home"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
 
         <TextView
             android:id="@+id/tvTitle"
@@ -48,21 +41,22 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginHorizontal="65dp"
-            android:fontFamily="@font/inter_bold"
+            android:fontFamily="@font/manrope_bold"
             android:gravity="center"
             android:text="@string/ai_assistant"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/bg_chatai_24_while"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
         app:layout_constraintTop_toBottomOf="@id/mainRelativeLayout" />
 
 

@@ -50,9 +50,9 @@
     <string name="logarithmInv" translatable="false">10^</string>
 
 
-    <string name="enter_your_question">Enter your question</string>
+    <string name="enter_your_question">Type your question</string>
     <string name="start_conversation">Start conversation</string>
-    <string name="ai_assistant">AI Assistant</string>
+    <string name="ai_assistant">AI Tutor</string>
     <string name="history">History</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

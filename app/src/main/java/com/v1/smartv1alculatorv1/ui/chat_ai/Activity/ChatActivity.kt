@@ -32,7 +32,10 @@ class ChatActivity : BaseActivity<ActivityChatBinding, ChatActiviyViewModel>() {
     override fun initView() {
         super.initView()
         bmiValue = intent.getFloatExtra("BMI", 0f)
-
+        window.decorView.systemUiVisibility = (
+                //View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                )
 
         val mainAdapter = MainChatAdapter(this)
         binding.viewPager.adapter = mainAdapter
@@ -78,10 +81,6 @@ class ChatActivity : BaseActivity<ActivityChatBinding, ChatActiviyViewModel>() {
             }
         }
 
-        binding.ivHome.setOnClickListener {
-            //startActivity(Intent(this, HealthyCheck::class.java))
-            finish()
-        }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

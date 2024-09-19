@@ -1,7 +1,8 @@
-package com.v1.smartv1alculatorv1.ui.chat_ai.Fragment
+package com.v1.smartv1alculatorv1.ui.chat_ai.Activity
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -10,98 +11,112 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.calculator.customformula.base.BaseFragment
+import com.calculator.customformula.utils.GlobalFunction
 import com.v1.smartv1alculatorv1.Database.ChatRepository
 import com.v1.smartv1alculatorv1.Model.ChatAnswer
 import com.v1.smartv1alculatorv1.Model.UserMessage
 import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.api.ModuleChat
-import com.v1.smartv1alculatorv1.databinding.FragmentChatBinding
-import com.v1.smartv1alculatorv1.ui.chat_ai.Activity.ChatActivity
-import com.v1.smartv1alculatorv1.ui.chat_ai.ViewModel.ChatViewModel
+import com.v1.smartv1alculatorv1.base.BaseActivity
+import com.v1.smartv1alculatorv1.base.BaseViewModel
+import com.v1.smartv1alculatorv1.databinding.ActivityChatNewBinding
 import com.v1.smartv1alculatorv1.ui.chat_ai.Adapter.ChatAdapter
+import com.v1.smartv1alculatorv1.ui.chat_ai.ViewModel.ChatViewModel
+import com.v1.smartv1alculatorv1.ui.history.HistoryActivity
+import com.v1.smartv1alculatorv1.ui.home.HomeActivity
 import io.reactivex.rxjava3.observers.DisposableObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import java.io.IOException
-import java.util.*
+import java.util.HashMap
 
-class ChatFragment : BaseFragment<FragmentChatBinding>() {
-
+class ChatActivityNew : BaseActivity<ActivityChatNewBinding, BaseViewModel>() {
     private lateinit var chatAdapter: ChatAdapter
     private lateinit var chatViewModel: ChatViewModel
     private lateinit var chatRepository: ChatRepository
 
-
+    private val conversationResetDelay: Long = 30 * 60 * 1000L
     private val handler = Handler(Looper.getMainLooper())
     private val resetConversationIdRunnable = Runnable {
         chatViewModel.currentConversationId = null
         clearChatList()
     }
     private var isWaitingForResponse: Boolean = false
+    override fun createBinding(): ActivityChatNewBinding {
+        return ActivityChatNewBinding.inflate(layoutInflater)
+    }
 
-    override fun inflateViewBinding() = FragmentChatBinding.inflate(layoutInflater)
-
-
-
-
+    override fun setViewModel(): BaseViewModel {
+        return BaseViewModel()
+    }
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewBinding.txtQs1.setOnClickListener {
+    override fun initView() {
+        super.initView()
+        binding.ivHistory.setOnClickListener {
+            GlobalFunction.startActivity(this, HistoryActivity::class.java)
+        }
+        // Đổi màu StatusBar
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = ContextCompat.getColor(this, R.color.ic_converter_color)
+        }
+        binding.txtQs1.setOnClickListener {
             sendMessage("What is the least common multiple of 6 and 11?")
         }
 
-        viewBinding.txtQs2.setOnClickListener {
+        binding.txtQs2.setOnClickListener {
             sendMessage("Make a sentence using the given words:is/you/ she / waiting for.")
         }
-        viewBinding.txtQs3.setOnClickListener {
+        binding.txtQs3.setOnClickListener {
             sendMessage("Why is the Earth called a watery planet?")
         }
 
 
-        chatRepository = ChatRepository(requireContext())
+        chatRepository = ChatRepository(this)
         chatViewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
 
         // Khởi tạo chatAdapter sau khi gán giá trị cho chatViewModel.chatList
-        chatAdapter = ChatAdapter(chatViewModel.chatList.value!!, viewBinding.clQs)
-        viewBinding.recyclerViewChat.layoutManager = LinearLayoutManager(requireContext())
-        viewBinding.recyclerViewChat.adapter = chatAdapter
+        chatAdapter = ChatAdapter(chatViewModel.chatList.value!!, binding.clQs)
+        binding.recyclerViewChat.layoutManager = LinearLayoutManager(this)
+        binding.recyclerViewChat.adapter = chatAdapter
 
-//        if (SplashActivity.isClearn) {
-//            clearChatList1()
-//            SplashActivity.isClearn = false
-//        }
+        if (HomeActivity.isClearn) {
+            clearChatList1()
+            HomeActivity.isClearn = false
+        }
 
         clearMessagesIfTimeout()
         if (chatViewModel.chatList.value!!.isEmpty()) {
-            viewBinding.textViewEmpty.visibility = View.VISIBLE
-            viewBinding.clQs.visibility = View.VISIBLE
+            binding.textViewEmpty.visibility = View.VISIBLE
+            binding.clQs.visibility = View.VISIBLE
 
         } else {
-            viewBinding.textViewEmpty.visibility = View.GONE
-            viewBinding.clQs.visibility = View.GONE
+            binding.textViewEmpty.visibility = View.GONE
+            binding.clQs.visibility = View.GONE
         }
-        viewBinding.actionButton.setOnClickListener {
+        binding.actionButton.setOnClickListener {
             sendMessage()
         }
 //        cardViewM2
 
-        viewBinding.editTextUserInput.addTextChangedListener { s ->
+        binding.editTextUserInput.addTextChangedListener { s ->
             val inputText = s.toString().trim()
             if (inputText.isNotEmpty()) {
-                viewBinding.actionButton.setImageResource(R.drawable.ic_send_ai_on)
-                viewBinding.editTextUserInput.setBackgroundResource(R.drawable.bg_edit_text_on)
+                binding.actionButton.setImageResource(R.drawable.ic_send_ai_on)
+                binding.editTextUserInput.setBackgroundResource(R.drawable.bg_edit_text_on)
             } else {
-                viewBinding.actionButton.setImageResource(R.drawable.ic_send_ai_off)
-                viewBinding.editTextUserInput.setBackgroundResource(R.drawable.bg_edit_text_off)
+                binding.actionButton.setImageResource(R.drawable.ic_send_ai_off)
+                binding.editTextUserInput.setBackgroundResource(R.drawable.bg_edit_text_off)
             }
         }
         val userBmi = ChatActivity.bmiValue
@@ -109,25 +124,22 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
             sendMessage("My BMI is $userBmi, what does that mean?")
 
         }
-        viewBinding.recyclerViewChat.setOnTouchListener { _, event ->
+        binding.recyclerViewChat.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 hideKeyboard()
             }
             true
         }
-
     }
-
-
     private fun clearMessagesIfTimeout() {
-        val sharedPref = requireContext().getSharedPreferences("ChatPrefs", Context.MODE_PRIVATE)
+        val sharedPref = this.getSharedPreferences("ChatPrefs", Context.MODE_PRIVATE)
         val lastMessageTime = sharedPref.getLong("last_message_time", 0L)
         val currentTime = System.currentTimeMillis()
 
     }
 
     private fun updateLastMessageTime() {
-        val sharedPref = requireContext().getSharedPreferences("ChatPrefs", Context.MODE_PRIVATE)
+        val sharedPref = this.getSharedPreferences("ChatPrefs", Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putLong("last_message_time", System.currentTimeMillis())
             apply()
@@ -137,15 +149,15 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
     private fun sendMessage(message: String? = null) {
         if (isWaitingForResponse) return
 
-        val userMessageText = message ?: viewBinding.editTextUserInput.text.toString().trim()
-        val deviceId = Settings.Secure.getString(requireContext().contentResolver, Settings.Secure.ANDROID_ID)
+        val userMessageText = message ?: binding.editTextUserInput.text.toString().trim()
+        val deviceId = Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
 
         if (userMessageText.isNotEmpty()) {
             isWaitingForResponse = true
-            viewBinding.llPleaseWait.visibility = View.VISIBLE
+            binding.llPleaseWait.visibility = View.VISIBLE
 
             val userMessage = ChatAnswer(
-                createdAt = (System.currentTimeMillis().toString()),
+                createdAt = (System.currentTimeMillis() / 1000L).toString(),
                 answer = userMessageText,
                 conversationId = chatViewModel.currentConversationId.orEmpty(),
                 isBot = false
@@ -155,16 +167,16 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
             chatRepository.insertChat(userMessage)
 
             if (chatViewModel.chatList.value!!.isEmpty()) {
-                viewBinding.textViewEmpty.visibility = View.VISIBLE
-                viewBinding.clQs.visibility = View.VISIBLE
+                binding.textViewEmpty.visibility = View.VISIBLE
+                binding.clQs.visibility = View.VISIBLE
             } else {
-                viewBinding.textViewEmpty.visibility = View.GONE
-                viewBinding.clQs.visibility = View.GONE
+                binding.textViewEmpty.visibility = View.GONE
+                binding.clQs.visibility = View.GONE
             }
 
-            requireActivity().runOnUiThread {
+          runOnUiThread {
                 chatAdapter.notifyItemInserted(chatViewModel.chatList.value!!.size - 1)
-                viewBinding.recyclerViewChat.scrollToPosition(chatViewModel.chatList.value!!.size - 1)
+                binding.recyclerViewChat.scrollToPosition(chatViewModel.chatList.value!!.size - 1)
             }
 
             val userMessageToSend = UserMessage(
@@ -195,7 +207,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                             }
 
                             val botMessage = ChatAnswer(
-                                createdAt = (System.currentTimeMillis().toString()),
+                                createdAt = (System.currentTimeMillis() / 1000L).toString(),
                                 answer = answer,
                                 conversationId = chatViewModel.currentConversationId.orEmpty(),
                                 isBot = true
@@ -204,12 +216,11 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                             chatViewModel.chatList.value!!.add(botMessage)
                             chatRepository.insertChat(botMessage)
 
-                            if (isAdded) {
-                                requireActivity().runOnUiThread {
+                                runOnUiThread {
                                     chatAdapter.notifyItemInserted(chatViewModel.chatList.value!!.size - 1)
-                                    viewBinding.recyclerViewChat.scrollToPosition(chatViewModel.chatList.value!!.size - 1)
-                                    viewBinding.llPleaseWait.visibility = View.GONE
-                                }
+                                    binding.recyclerViewChat.scrollToPosition(chatViewModel.chatList.value!!.size - 1)
+                                    binding.llPleaseWait.visibility = View.GONE
+
                             }
                         } catch (e: IOException) {
                             e.printStackTrace()
@@ -225,7 +236,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                     override fun onComplete() {}
                 })
 
-            viewBinding.editTextUserInput.setText("")
+            binding.editTextUserInput.setText("")
             updateLastMessageTime()
 
         }
@@ -257,32 +268,42 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         return Pair(answer, conversationId)
     }
 
+
+    private fun startConversationTimeoutHandler() {
+        handler.removeCallbacks(resetConversationIdRunnable)
+        handler.postDelayed(resetConversationIdRunnable, conversationResetDelay)
+    }
+
     fun clearChatList() {
         chatViewModel.chatList.value!!.clear()
         chatAdapter.notifyDataSetChanged()
     }
 
+    fun clearChatList1() {
+        chatViewModel.chatList.value!!.clear()
+        chatViewModel.currentConversationId = null
+    }
 
     private fun getStoredConversationId(): String? {
-        val sharedPref = requireContext().getSharedPreferences("ChatPrefs", Context.MODE_PRIVATE)
+        val sharedPref = this.getSharedPreferences("ChatPrefs", Context.MODE_PRIVATE)
         return sharedPref.getString("conversation_id", null)
     }
 
     private fun storeConversationId(conversationId: String?) {
-        val sharedPref = requireContext().getSharedPreferences("ChatPrefs", Context.MODE_PRIVATE)
+        val sharedPref = this.getSharedPreferences("ChatPrefs", Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString("conversation_id", conversationId)
             apply()
         }
     }
     private fun hideKeyboard() {
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        val view = activity?.currentFocus
+        val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val view = this.currentFocus
         view?.let {
             imm.hideSoftInputFromWindow(it.windowToken, 0)
         }
-        viewBinding.root.clearFocus()
-        imm.hideSoftInputFromWindow(viewBinding.root.windowToken, 0)
+        binding.root.clearFocus()
+        imm.hideSoftInputFromWindow(binding.root.windowToken, 0)
     }
 
 
