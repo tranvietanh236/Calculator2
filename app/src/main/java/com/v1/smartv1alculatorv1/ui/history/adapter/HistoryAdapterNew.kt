@@ -51,8 +51,12 @@ class HistoryAdapterNew(private var list: List<HistoryModel>,
         val daysDifference = ChronoUnit.DAYS.between(itemDate, today)
 
         holder.binding.root.setOnClickListener {
-            Toast.makeText(context, "Item $position clicked", Toast.LENGTH_SHORT).show()
-            GlobalFunction.startActivity(context, DetailHistoryActivity::class.java)
+            val intent = Intent(context, DetailHistoryActivity::class.java)
+            intent.putExtra("answer", data.answer)
+            intent.putExtra("answerBot", data.answerBot)
+            intent.putExtra("time", data.createdAt)
+            context.startActivity(intent)
+
         }
 
         holder.binding.historyTime.visibility = View.VISIBLE

@@ -12,10 +12,13 @@ import com.v1.smartv1alculatorv1.databinding.ActivityHomeBinding
 import com.v1.smartv1alculatorv1.ui.Unit_converter.HomeUnitConverterActivity
 import com.v1.smartv1alculatorv1.ui.chat_ai.Activity.ChatActivity
 import com.v1.smartv1alculatorv1.ui.history.activity.HistoryActivityNew
+import com.v1.smartv1alculatorv1.ui.scan_to_slove.ScanActivityNew
+import com.v1.smartv1alculatorv1.ui.scan_to_slove.ScanToSoloveActivity
 
 class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>() {
     private val CAMERA_PERMISSION_CODE = 100
-    companion object{
+
+    companion object {
         var isClearn = true
     }
 
@@ -34,8 +37,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>() {
             GlobalFunction.startActivity(this@HomeActivity, HomeUnitConverterActivity::class.java)
         }
 
-        binding.ScanToSolve.setOnClickListener {
+        binding.icHistory.setOnClickListener {
             GlobalFunction.startActivity(this@HomeActivity, HistoryActivityNew::class.java)
+        }
+        binding.ScanToSolve.setOnClickListener {
+            GlobalFunction.startActivity(this@HomeActivity, ScanActivityNew::class.java)
         }
         binding.AiTutor.setOnClickListener {
             GlobalFunction.startActivity(this@HomeActivity, ChatActivity::class.java)
