@@ -1,4 +1,4 @@
-package com.v1.smartv1alculatorv1.ui.history
+package com.v1.smartv1alculatorv1.ui.history.activity
 
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -7,7 +7,7 @@ import com.v1.smartv1alculatorv1.Model.ChatAnswer
 import com.v1.smartv1alculatorv1.base.BaseActivity
 import com.v1.smartv1alculatorv1.base.BaseViewModel
 import com.v1.smartv1alculatorv1.databinding.ActivityHistoryBinding
-import com.v1.smartv1alculatorv1.ui.chat_ai.Adapter.ChatAdapter
+import com.v1.smartv1alculatorv1.ui.history.HistoryAdapter
 
 class HistoryActivity : BaseActivity<ActivityHistoryBinding, BaseViewModel>() {
     private lateinit var chatAdapter: HistoryAdapter

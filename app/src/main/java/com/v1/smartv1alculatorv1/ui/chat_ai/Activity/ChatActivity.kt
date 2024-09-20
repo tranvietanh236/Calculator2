@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.base.BaseActivity
@@ -31,6 +32,7 @@ class ChatActivity : BaseActivity<ActivityChatBinding, ChatActiviyViewModel>() {
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        window.statusBarColor = ContextCompat.getColor(this, R.color.ic_converter_color)
         bmiValue = intent.getFloatExtra("BMI", 0f)
         window.decorView.systemUiVisibility = (
                 //View.SYSTEM_UI_FLAG_LAYOUT_STABLE

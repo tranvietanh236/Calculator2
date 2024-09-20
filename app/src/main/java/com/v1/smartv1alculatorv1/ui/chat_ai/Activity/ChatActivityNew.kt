@@ -3,7 +3,6 @@ package com.v1.smartv1alculatorv1.ui.chat_ai.Activity
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
@@ -11,12 +10,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,7 +25,7 @@ import com.v1.smartv1alculatorv1.base.BaseViewModel
 import com.v1.smartv1alculatorv1.databinding.ActivityChatNewBinding
 import com.v1.smartv1alculatorv1.ui.chat_ai.Adapter.ChatAdapter
 import com.v1.smartv1alculatorv1.ui.chat_ai.ViewModel.ChatViewModel
-import com.v1.smartv1alculatorv1.ui.history.HistoryActivity
+import com.v1.smartv1alculatorv1.ui.history.activity.HistoryActivity
 import com.v1.smartv1alculatorv1.ui.home.HomeActivity
 import io.reactivex.rxjava3.observers.DisposableObserver
 import io.reactivex.rxjava3.schedulers.Schedulers

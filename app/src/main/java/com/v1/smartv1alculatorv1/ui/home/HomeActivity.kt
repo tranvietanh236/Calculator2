@@ -6,17 +6,12 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.calculator.customformula.utils.GlobalFunction
-import com.v1.smartv1alculatorv1.MainActivity
+import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.base.BaseActivity
 import com.v1.smartv1alculatorv1.databinding.ActivityHomeBinding
-import com.v1.smartv1alculatorv1.ui.Unit_converter.ConverterActivity
 import com.v1.smartv1alculatorv1.ui.Unit_converter.HomeUnitConverterActivity
 import com.v1.smartv1alculatorv1.ui.chat_ai.Activity.ChatActivity
-import com.v1.smartv1alculatorv1.ui.chat_ai.Activity.ChatActivityNew
-import com.v1.smartv1alculatorv1.ui.history.HistoryActivity
-import com.v1.smartv1alculatorv1.ui.history.HistoryActivityNew
-import com.v1.smartv1alculatorv1.ui.scan_to_slove.ScanToSoloveActivity
-import com.v1.smartv1alculatorv1.ui.smartcalculator.SmartCalculatorActivity
+import com.v1.smartv1alculatorv1.ui.history.activity.HistoryActivityNew
 
 class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>() {
     private val CAMERA_PERMISSION_CODE = 100
@@ -34,6 +29,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>() {
 
     override fun initView() {
         super.initView()
+        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
         binding.ConverterUnit.setOnClickListener {
             GlobalFunction.startActivity(this@HomeActivity, HomeUnitConverterActivity::class.java)
         }

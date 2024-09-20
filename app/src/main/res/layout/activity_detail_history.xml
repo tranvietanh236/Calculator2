@@ -5,6 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.history.activity.HistoryActivityNew">
+    tools:context=".ui.history.activity.DetailHistoryActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.calculator.customformula.base.BaseFragment
 import com.v1.smartv1alculatorv1.Database.ChatRepository
 import com.v1.smartv1alculatorv1.Model.ChatAnswer
+import com.v1.smartv1alculatorv1.Model.HistoryModel
 import com.v1.smartv1alculatorv1.Model.UserMessage
 import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.api.ModuleChat
@@ -201,8 +202,15 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                                 isBot = true
                             )
 
+                            val history = HistoryModel(
+                                createdAt = System.currentTimeMillis().toString(),
+                                answer = userMessageText,
+                                answerBot = answer,
+                                conversationId = chatViewModel.currentConversationId.orEmpty()
+                            )
                             chatViewModel.chatList.value!!.add(botMessage)
                             chatRepository.insertChat(botMessage)
+                            chatRepository.insertHistory(history)
 
                             if (isAdded) {
                                 requireActivity().runOnUiThread {

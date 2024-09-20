@@ -7,8 +7,7 @@ import com.calculator.customformula.base.BaseFragment
 import com.v1.smartv1alculatorv1.Database.ChatRepository
 import com.v1.smartv1alculatorv1.Model.ChatAnswer
 import com.v1.smartv1alculatorv1.databinding.FragmentHistoryBinding
-import com.v1.smartv1alculatorv1.ui.chat_ai.Adapter.ChatAdapter
-import com.v1.smartv1alculatorv1.ui.history.HistoryAdapter2
+import com.v1.smartv1alculatorv1.ui.history.adapter.HistoryAdapter2
 
 
 class HistoryFragment : BaseFragment<FragmentHistoryBinding>() {

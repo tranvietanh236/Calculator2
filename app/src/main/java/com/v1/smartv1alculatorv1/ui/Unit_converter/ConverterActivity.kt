@@ -2,6 +2,7 @@ package com.v1.smartv1alculatorv1.ui.Unit_converter
 
 
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.v1.smartv1alculatorv1.Model.ConverterModel
 import com.v1.smartv1alculatorv1.R
@@ -23,8 +24,7 @@ class ConverterActivity : BaseActivity<ActivityConverterBinding, ConverterViewMo
 
     override fun initView() {
         super.initView()
-
-
+        window.statusBarColor = ContextCompat.getColor(this, R.color.ic_converter_color)
         val indexUnit = intent.getIntExtra("unit", 0)
         Log.d("TAG123", "index: $indexUnit")
         imageAdapter?.upgradeIndex(indexUnit)

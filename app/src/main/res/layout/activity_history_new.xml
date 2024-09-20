@@ -6,13 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="12dp"
-    tools:context=".ui.history.HistoryActivityNew">
+    android:background="@color/white"
+    tools:context=".ui.history.activity.HistoryActivityNew">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_header_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -43,12 +43,12 @@
         android:layout_marginEnd="6dp"
         android:layout_height="40dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/bg_border_8_history"
+        android:background="@drawable/bg_border_8_history_on"
         android:gravity="center"
         android:fontFamily="@font/manrope_medium"
         app:layout_constraintEnd_toStartOf="@+id/his_tutor"
         android:text="Scan to solve"
-        android:textColor="@color/black"
+        android:textColor="#F47026"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_header_history" />
@@ -64,9 +64,8 @@
         android:layout_marginTop="24dp"
         android:layout_marginStart="6dp"
         android:text="AI Tutor"
-        android:textColor="#F47026"
+        android:textColor="@color/black"
         android:textSize="16sp"
-        android:backgroundTint="#FFEEE9"
         app:layout_constraintStart_toEndOf="@+id/his_scan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_header_history" />

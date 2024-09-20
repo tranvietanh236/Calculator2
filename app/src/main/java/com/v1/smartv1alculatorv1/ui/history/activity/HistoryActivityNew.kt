@@ -1,13 +1,12 @@
-package com.v1.smartv1alculatorv1.ui.history
+package com.v1.smartv1alculatorv1.ui.history.activity
 
-import android.os.Build
 import androidx.core.content.ContextCompat
 import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.base.BaseActivity
 import com.v1.smartv1alculatorv1.base.BaseViewModel
 import com.v1.smartv1alculatorv1.databinding.ActivityHistoryNewBinding
-import com.v1.smartv1alculatorv1.databinding.FragmentHisTutorBinding
-import com.v1.smartv1alculatorv1.ui.chat_ai.Fragment.HistoryFragment
+import com.v1.smartv1alculatorv1.ui.history.HisScanFragment
+import com.v1.smartv1alculatorv1.ui.history.HisTutorFragment
 
 class HistoryActivityNew : BaseActivity<ActivityHistoryNewBinding, BaseViewModel>() {
     override fun createBinding(): ActivityHistoryNewBinding {
@@ -20,9 +19,8 @@ class HistoryActivityNew : BaseActivity<ActivityHistoryNewBinding, BaseViewModel
 
     override fun initView() {
         super.initView()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = ContextCompat.getColor(this, R.color.white)
-        }
+        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
+
         supportFragmentManager.beginTransaction()
             .replace(R.id.container_his_fragment, HisScanFragment())
             .commit()
@@ -31,11 +29,25 @@ class HistoryActivityNew : BaseActivity<ActivityHistoryNewBinding, BaseViewModel
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container_his_fragment, HisScanFragment())
                 .commit()
+            binding.hisScan.setBackgroundResource(R.drawable.bg_border_8_history_on)
+            binding.hisScan.setTextColor(ContextCompat.getColor(this, R.color.txt_his))
+            binding.hisTutor.setBackgroundResource(R.drawable.bg_border_8_history)
+            binding.hisTutor.setTextColor(ContextCompat.getColor(this, R.color.black))
         }
         binding.hisTutor.setOnClickListener {
+            binding.hisTutor.setBackgroundResource(R.drawable.bg_border_8_history_on)
+            binding.hisTutor.setTextColor(ContextCompat.getColor(this, R.color.txt_his))
+            binding.hisScan.setTextColor(ContextCompat.getColor(this, R.color.black))
+            binding.hisScan.setBackgroundResource(R.drawable.bg_border_8_history)
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container_his_fragment, HistoryFragment())
+                .replace(R.id.container_his_fragment, HisTutorFragment())
                 .commit()
+
+
+        }
+
+        binding.icBackHis.setOnClickListener {
+            finish()
         }
     }
 }

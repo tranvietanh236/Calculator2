@@ -1,6 +1,8 @@
 package com.v1.smartv1alculatorv1.ui.Unit_converter
 
 import android.content.Intent
+import androidx.core.content.ContextCompat
+import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.base.BaseActivity
 import com.v1.smartv1alculatorv1.base.BaseViewModel
 import com.v1.smartv1alculatorv1.databinding.ActivityHomeUnitConverterBinding
@@ -16,6 +18,7 @@ class HomeUnitConverterActivity : BaseActivity<ActivityHomeUnitConverterBinding,
 
     override fun initView() {
         super.initView()
+        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
         binding.icBack.setOnClickListener {
             finish()
         }
