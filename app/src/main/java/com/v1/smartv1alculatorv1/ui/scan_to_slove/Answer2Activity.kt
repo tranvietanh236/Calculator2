@@ -8,6 +8,7 @@ import android.provider.Settings
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.v1.smartv1alculatorv1.Database.ChatRepository
@@ -32,7 +33,7 @@ class Answer2Activity : BaseActivity<ActivityAnswer2Binding, BaseViewModel>() {
     private val handler = Handler(Looper.getMainLooper())
 
     private val resetConversationIdRunnable = Runnable {
-        chatViewModel.currentConversationId = null
+        //chatViewModel.currentConversationId = null
     }
     private var isWaitingForResponse: Boolean = false
     override fun createBinding(): ActivityAnswer2Binding {
@@ -45,6 +46,7 @@ class Answer2Activity : BaseActivity<ActivityAnswer2Binding, BaseViewModel>() {
 
     override fun initView() {
         super.initView()
+        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
         binding.icBackAnswers.setOnClickListener {
             finish()
         }
@@ -52,7 +54,7 @@ class Answer2Activity : BaseActivity<ActivityAnswer2Binding, BaseViewModel>() {
         chatRepository = ChatRepository(this)
         chatViewModel.currentConversationId = getStoredConversationId()
 
-        val text = intent.getStringExtra("answer_rq_scan")
+        val text = intent.getStringExtra("answer_rq2")
         Log.d("TextRecognition", "answer2: $text")
         binding.answerTxt.text = text
         sendMessage(text)
@@ -70,7 +72,7 @@ class Answer2Activity : BaseActivity<ActivityAnswer2Binding, BaseViewModel>() {
             val userMessage = ChatAnswer(
                 createdAt = (System.currentTimeMillis() / 1000L).toString(),
                 answer = userMessageText,
-                conversationId = chatViewModel.currentConversationId.orEmpty(),
+                conversationId = "",
                 isBot = false
             )
 
@@ -78,7 +80,7 @@ class Answer2Activity : BaseActivity<ActivityAnswer2Binding, BaseViewModel>() {
             chatRepository.insertChatHis(userMessage)
 
 
-//            requireActivity().runOnUiThread {
+//            runOnUiThread {
 //                chatAdapter.notifyItemInserted(chatViewModel.chatList.value!!.size - 1)
 //                viewBinding.recyclerViewChat.scrollToPosition(chatViewModel.chatList.value!!.size - 1)
 //            }
@@ -87,7 +89,7 @@ class Answer2Activity : BaseActivity<ActivityAnswer2Binding, BaseViewModel>() {
                 inputs = HashMap(),
                 query = userMessageText,
                 responseMode = "streaming",
-                conversationId = chatViewModel.currentConversationId.orEmpty(),
+                conversationId = "",
                 user = deviceId
             )
 
@@ -113,7 +115,7 @@ class Answer2Activity : BaseActivity<ActivityAnswer2Binding, BaseViewModel>() {
                             val botMessage = ChatAnswer(
                                 createdAt = (System.currentTimeMillis() / 1000L).toString(),
                                 answer = answer,
-                                conversationId = chatViewModel.currentConversationId.orEmpty(),
+                                conversationId = "",
                                 isBot = true
                             )
                             Log.d("TAG123", "onNext: ${botMessage.answer}")
@@ -140,7 +142,7 @@ class Answer2Activity : BaseActivity<ActivityAnswer2Binding, BaseViewModel>() {
                 })
 
             updateLastMessageTime()
-            startConversationTimeoutHandler()
+            //startConversationTimeoutHandler()
         }
     }
 
@@ -189,8 +191,4 @@ class Answer2Activity : BaseActivity<ActivityAnswer2Binding, BaseViewModel>() {
         }
     }
 
-    private fun startConversationTimeoutHandler() {
-        handler.removeCallbacks(resetConversationIdRunnable)
-        handler.postDelayed(resetConversationIdRunnable, conversationResetDelay)
-    }
 }

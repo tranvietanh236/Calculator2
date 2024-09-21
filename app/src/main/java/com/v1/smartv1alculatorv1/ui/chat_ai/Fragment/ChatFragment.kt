@@ -148,7 +148,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
             val userMessage = ChatAnswer(
                 createdAt = (System.currentTimeMillis().toString()),
                 answer = userMessageText,
-                conversationId = chatViewModel.currentConversationId.orEmpty(),
+                conversationId = "",
                 isBot = false
             )
 
@@ -206,7 +206,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
                                 createdAt = System.currentTimeMillis().toString(),
                                 answer = userMessageText,
                                 answerBot = answer,
-                                conversationId = chatViewModel.currentConversationId.orEmpty()
+                                conversationId = ""
                             )
                             chatViewModel.chatList.value!!.add(botMessage)
                             chatRepository.insertChat(botMessage)

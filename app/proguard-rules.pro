@@ -52,5 +52,5 @@
 -dontwarn okhttp3.**
 -keep class com.amazic.ads.** { *; }
 -keep class retrofit2.**{ *; }
-
+-keep class androidx.appcompat.widget.** { *; }
 -keep class com.v1.smartv1alculatorv1.**{ *; }
