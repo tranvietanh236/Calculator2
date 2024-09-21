@@ -1,16 +1,19 @@
 package com.v1.smartv1alculatorv1.ui.scan_to_slove
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.v1.smartv1alculatorv1.Database.ChatRepository
 import com.v1.smartv1alculatorv1.Model.ChatAnswer
 import com.v1.smartv1alculatorv1.Model.UserMessage
@@ -19,6 +22,7 @@ import com.v1.smartv1alculatorv1.api.ModuleChat
 import com.v1.smartv1alculatorv1.base.BaseActivity
 import com.v1.smartv1alculatorv1.base.BaseViewModel
 import com.v1.smartv1alculatorv1.databinding.ActivityAnswer2Binding
+import com.v1.smartv1alculatorv1.ui.scan_to_slove.adapter.StepsAdapter
 import com.v1.smartv1alculatorv1.ui.smartcalculator.SmartCalculatorViewModel
 import io.reactivex.rxjava3.observers.DisposableObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -47,16 +51,12 @@ class Answer2Activity : BaseActivity<ActivityAnswer2Binding, BaseViewModel>() {
     override fun initView() {
         super.initView()
         window.statusBarColor = ContextCompat.getColor(this, R.color.white)
-        binding.icBackAnswers.setOnClickListener {
-            finish()
-        }
         chatViewModel = SmartCalculatorViewModel()
         chatRepository = ChatRepository(this)
         chatViewModel.currentConversationId = getStoredConversationId()
 
         val text = intent.getStringExtra("answer_rq2")
         Log.d("TextRecognition", "answer2: $text")
-        binding.answerTxt.text = text
         sendMessage(text)
     }
 
@@ -105,7 +105,6 @@ class Answer2Activity : BaseActivity<ActivityAnswer2Binding, BaseViewModel>() {
                             if (userMessage.conversationId == "") {
                                 chatRepository.updateConversationId("", conversationId)
                             }
-
                             Log.d("conversationId2", conversationId)
                             if (conversationId.isNotEmpty() && conversationId != chatViewModel.currentConversationId) {
                                 chatViewModel.currentConversationId = conversationId
@@ -124,8 +123,84 @@ class Answer2Activity : BaseActivity<ActivityAnswer2Binding, BaseViewModel>() {
 
 
                             runOnUiThread {
-                                binding.rqAnswer.text = botMessage.answer
+                                val solutionSteps = botMessage.answer
+                                Log.d("TAG123", "loi giai: $solutionSteps")
+
+                                if (!solutionSteps.isNullOrEmpty()) {
+                                    // Tìm chỉ số của cả ba chuỗi
+                                    val stepByStepIndex =
+                                        solutionSteps.indexOf("Step-by-Step Solution:")
+                                    val solutionStepsIndex =
+                                        solutionSteps.indexOf("Solution Steps:")
+                                    val solutionProcessIndex =
+                                        solutionSteps.indexOf("Solution Process:")
+                                    val recapIndex =
+                                        solutionSteps.indexOf("**Recap:**") // Tìm chỉ số của "**Recap:**"
+
+                                    // Lấy chỉ số bắt đầu của phần cần lấy
+                                    val startIndex = when {
+                                        stepByStepIndex != -1 && solutionStepsIndex != -1 && solutionProcessIndex != -1 ->
+                                            minOf(
+                                                stepByStepIndex,
+                                                solutionStepsIndex,
+                                                solutionProcessIndex
+                                            )
+
+                                        stepByStepIndex != -1 && solutionProcessIndex != -1 ->
+                                            minOf(stepByStepIndex, solutionProcessIndex)
+
+                                        solutionStepsIndex != -1 && solutionProcessIndex != -1 ->
+                                            minOf(solutionStepsIndex, solutionProcessIndex)
+
+                                        stepByStepIndex != -1 ->
+                                            stepByStepIndex
+
+                                        solutionStepsIndex != -1 ->
+                                            solutionStepsIndex
+
+                                        solutionProcessIndex != -1 ->
+                                            solutionProcessIndex
+
+                                        else ->
+                                            -1
+                                    }
+
+                                    // Lấy phần nội dung từ startIndex đến recapIndex
+                                    if (startIndex != -1 && recapIndex != -1) {
+                                        val stepsSection =
+                                            solutionSteps.substring(startIndex, recapIndex)
+                                                .trim() // Lấy nội dung từ startIndex đến recapIndex
+                                        Log.d("TAG123", "stepsSection: $stepsSection")
+
+                                        // Sử dụng regex để lấy từng bước (bắt đầu bằng số và dấu '.')
+                                        val regex = Regex("""\d+\.\s.+""")
+                                        val stepsList =
+                                            regex.findAll(stepsSection).map { it.value }.toList()
+
+                                        if (stepsList.isNotEmpty()) {
+                                            // Hiển thị BottomSheet với danh sách bước
+                                            val bottomSheet = StepsBottomSheet(stepsList)
+                                            bottomSheet.show(
+                                                supportFragmentManager,
+                                                bottomSheet.tag
+                                            )
+                                        } else {
+                                            Log.d("TAG123", "Không tìm thấy các bước giải")
+                                            //binding.rqAnswer.text = "Không tìm thấy bước giải"
+                                        }
+                                    } else {
+                                        Log.d(
+                                            "TAG123",
+                                            "Không tìm thấy phần Step-by-Step Solution, Solution Steps hoặc Solution Process"
+                                        )
+                                        //binding.rqAnswer.text = "Không tìm thấy phần giải"
+                                    }
+                                } else {
+                                    Log.d("TAG123", "Dữ liệu rỗng hoặc null từ server")
+                                    //binding.rqAnswer.text = "Không có dữ liệu trả về"
+                                }
                             }
+
 
                         } catch (e: IOException) {
                             e.printStackTrace()
@@ -191,4 +266,26 @@ class Answer2Activity : BaseActivity<ActivityAnswer2Binding, BaseViewModel>() {
         }
     }
 
+    fun extractSolutionSteps(text: String): List<String> {
+        // Tìm vị trí bắt đầu và kết thúc của phần Solution Steps
+        val startIndex = text.indexOf("**Solution Steps:**")
+        val endIndex = text.indexOf("**Solution:**")
+
+        // Kiểm tra nếu tìm thấy đúng vị trí
+        if (startIndex != -1 && endIndex != -1) {
+            // Cắt chuỗi chỉ bao gồm phần Solution Steps
+            val solutionStepsPart = text.substring(startIndex, endIndex)
+
+            // Tách từng dòng của Solution Steps
+            return solutionStepsPart
+                .split("\n") // Tách theo dòng
+                .filter {
+                    it.trim().matches(Regex("^\\d+\\.\\s+.*"))
+                } // Lọc các dòng bắt đầu bằng số thứ tự
+                .map { it.trim().substringAfter(".").trim() } // Bỏ số thứ tự và giữ lại nội dung
+        }
+
+        // Trả về danh sách rỗng nếu không tìm thấy Solution Steps
+        return emptyList()
+    }
 }

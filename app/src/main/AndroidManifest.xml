@@ -44,7 +44,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.scan_to_slove.Answer2Activity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowIsTranslucent="true"/>
         <activity
             android:name=".ui.scan_to_slove.ScanToSoloveActivity"
             android:exported="false" />

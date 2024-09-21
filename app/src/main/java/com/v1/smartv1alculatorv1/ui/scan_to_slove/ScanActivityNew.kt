@@ -65,14 +65,13 @@ class ScanActivityNew : BaseActivity<ActivityScanNewBinding, BaseViewModel>() {
             if (croppedBitmap != null) {
                 recognizeTextFromImage(croppedBitmap)
                 lifecycleScope.launch {
-                    delay(1000) // Delay 1 giây
+                    delay(500) // Delay 1 giây
                     val intent = Intent(this@ScanActivityNew, Answer2Activity::class.java)
                     intent.putExtra("answer_rq2", message)
+                   // intent.putExtra("image_data", croppedBitmap)
                     startActivity(intent)
                     finish()
                 }
-
-                startActivity(intent)
             } else {
                 Toast.makeText(this, "Vùng crop không hợp lệ!", Toast.LENGTH_SHORT).show()
             }
