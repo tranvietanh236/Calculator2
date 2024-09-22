@@ -175,4 +175,13 @@ class ChatRepository(context: Context) {
         return chatList
     }
 
+    fun deleteChatHis(){
+        db.delete(ChatDatabase.TABLE_NAME_HISTORY, null, null)
+        db.close()
+    }
+
+    fun deleteChatScan(){
+        db.delete(ChatDatabase.TABLE_NAME_SCAN, null, null)
+        db.close()
+    }
 }

@@ -1,16 +1,20 @@
 package com.v1.smartv1alculatorv1.ui.history.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.v1.smartv1alculatorv1.Model.ScanModel
 import com.v1.smartv1alculatorv1.databinding.ItemScanListBinding
+import com.v1.smartv1alculatorv1.ui.history.activity.DetailHistoryActivity
+import com.v1.smartv1alculatorv1.ui.history.activity.DetailScanActivity
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -46,6 +50,13 @@ class ScanAdapter(
         val itemDate = convertTimestampToLocalDate(data.createdAt)
         val daysDifference = ChronoUnit.DAYS.between(itemDate, today)
 
+        holder.binding.root.setOnClickListener {
+            val intent = Intent(context, DetailScanActivity::class.java)
+            intent.putExtra("resuilt", data.resuilt)
+            intent.putExtra("steps", data.steps)
+            intent.putExtra("imageBytes", data.imageBytes)
+            context.startActivity(intent)
+        }
         holder.binding.historyTime.visibility = View.VISIBLE
         when {
             daysDifference == 0L -> {

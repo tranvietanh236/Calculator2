@@ -16,7 +16,7 @@ import com.v1.smartv1alculatorv1.ui.history.adapter.HistoryAdapterNew
 
 
 class HisTutorFragment : BaseFragment<FragmentHisTutorBinding>(), OnItemHisClickListener {
-    private lateinit var chatAdapter: HistoryAdapterNew
+    lateinit var chatAdapter: HistoryAdapterNew
     private lateinit var chatRepository: ChatRepository
     private var chatList: MutableList<HistoryModel> = mutableListOf()
     private var historyList : MutableList<HistoryModel> = mutableListOf()
@@ -31,7 +31,7 @@ class HisTutorFragment : BaseFragment<FragmentHisTutorBinding>(), OnItemHisClick
         chatAdapter = HistoryAdapterNew(chatList, requireContext(), this)
         viewBinding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.recyclerView.adapter = chatAdapter
-        loadChatHistoryNew()
+        //loadChatHistoryNew()
         loadChatHistory()
     }
 
@@ -40,7 +40,7 @@ class HisTutorFragment : BaseFragment<FragmentHisTutorBinding>(), OnItemHisClick
         loadChatHistory()
     }
 
-    private fun loadChatHistory() {
+    fun loadChatHistory() {
         chatList.clear()
         chatList.addAll(chatRepository.getAllHistory())
         if (chatList.isEmpty()) {
@@ -51,11 +51,11 @@ class HisTutorFragment : BaseFragment<FragmentHisTutorBinding>(), OnItemHisClick
         chatAdapter.notifyDataSetChanged()
     }
 
-    fun loadChatHistoryNew(){
-        historyList.clear()
-        historyList.addAll(chatRepository.getAllHistory())
-
-    }
+//    fun loadChatHistoryNew(){
+//        historyList.clear()
+//        historyList.addAll(chatRepository.getAllHistory())
+//
+//    }
 
     override fun onItemClick(data: HistoryModel) {
         GlobalFunction.startActivity(requireContext(), DetailHistoryActivity::class.java)

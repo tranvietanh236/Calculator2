@@ -28,6 +28,7 @@
             android:id="@+id/ivHistory"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:visibility="gone"
             android:src="@drawable/ic_history_ai"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

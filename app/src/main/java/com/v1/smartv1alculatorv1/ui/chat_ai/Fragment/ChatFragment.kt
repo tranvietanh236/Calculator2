@@ -15,6 +15,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.calculator.customformula.base.BaseFragment
+import com.calculator.customformula.utils.GlobalFunction
 import com.v1.smartv1alculatorv1.Database.ChatRepository
 import com.v1.smartv1alculatorv1.Model.ChatAnswer
 import com.v1.smartv1alculatorv1.Model.HistoryModel
@@ -25,6 +26,7 @@ import com.v1.smartv1alculatorv1.databinding.FragmentChatBinding
 import com.v1.smartv1alculatorv1.ui.chat_ai.Activity.ChatActivity
 import com.v1.smartv1alculatorv1.ui.chat_ai.ViewModel.ChatViewModel
 import com.v1.smartv1alculatorv1.ui.chat_ai.Adapter.ChatAdapter
+import com.v1.smartv1alculatorv1.ui.scan_to_slove.ScanActivityNew
 import io.reactivex.rxjava3.observers.DisposableObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.ResponseBody
@@ -72,7 +74,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         chatViewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
 
         // Khởi tạo chatAdapter sau khi gán giá trị cho chatViewModel.chatList
-        chatAdapter = ChatAdapter(chatViewModel.chatList.value!!, viewBinding.clQs)
+        chatAdapter = ChatAdapter(chatViewModel.chatList.value!!, viewBinding.clQs, requireContext())
         viewBinding.recyclerViewChat.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.recyclerViewChat.adapter = chatAdapter
 
@@ -92,6 +94,7 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
         }
         viewBinding.actionButton.setOnClickListener {
             sendMessage()
+            hideKeyboard()
         }
 //        cardViewM2
 
@@ -117,6 +120,9 @@ class ChatFragment : BaseFragment<FragmentChatBinding>() {
             true
         }
 
+        viewBinding.clScan.setOnClickListener {
+            GlobalFunction.startActivity(requireContext(), ScanActivityNew::class.java)
+        }
     }
 
 

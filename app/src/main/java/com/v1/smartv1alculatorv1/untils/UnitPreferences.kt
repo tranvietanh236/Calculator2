@@ -7,15 +7,15 @@ import okhttp3.internal.cache2.Relay.Companion.edit
 object UnitPreferences {
 
     private const val PREFS_NAME = "unit_preferences"
-    private const val DEFAULT_LENGTH_UNIT = "M"
-    private const val DEFAULT_VOLUME_UNIT = "M³"
-    private const val DEFAULT_AREA_UNIT = "M²"
-    private const val DEFAULT_MASS_UNIT = "Kg"
-    private const val DEFAULT_TIME_UNIT = "S"
-    private const val DEFAULT_SPEED_UNIT = "M/s"
+    private const val DEFAULT_LENGTH_UNIT = "km"
+    private const val DEFAULT_VOLUME_UNIT = "km³"
+    private const val DEFAULT_AREA_UNIT = "km²"
+    private const val DEFAULT_MASS_UNIT = "kg"
+    private const val DEFAULT_TIME_UNIT = "year"
+    private const val DEFAULT_SPEED_UNIT = "km/h"
     private const val DEFAULT_TEMP_UNIT = "°C"
     private const val DEFAULT_DENSITY_UNIT = "kg/m³"
-    private const val DEFAULT_ENERGY_UNIT = "J"
+    private const val DEFAULT_ENERGY_UNIT = "kWh"
 
     private fun getSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)

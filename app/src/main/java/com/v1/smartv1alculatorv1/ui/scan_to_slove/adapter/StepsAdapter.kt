@@ -31,11 +31,12 @@ class StepsAdapter(private val stepsList: List<String>) :
             val part2 =
                 txtFilter.substring(indexes + 1).trim() // Phần từ sau dấu phẩy hoặc dấu hai chấm
 
+            val index = position + 1
             // Hiển thị kết quả lên TextView
             if (position == stepsList.size - 1) {
                 holder.tvStep.text = "Result:"
             } else {
-                holder.tvStep.text = "Step $part1"
+                holder.tvStep.text = "Step $index:$part1"
             }
 
             holder.tvDescription.text = part2

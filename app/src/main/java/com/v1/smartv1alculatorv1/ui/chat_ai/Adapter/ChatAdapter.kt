@@ -1,21 +1,27 @@
 package com.v1.smartv1alculatorv1.ui.chat_ai.Adapter
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.v1.smartv1alculatorv1.Model.ChatAnswer
 import com.v1.smartv1alculatorv1.R
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class ChatAdapter(
     private var chatList: List<ChatAnswer>,
-    private val textViewEmptyConversation: ConstraintLayout
+    private val textViewEmptyConversation: ConstraintLayout,
+    private val context: Context
 ) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
@@ -26,6 +32,14 @@ class ChatAdapter(
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chatSummary = chatList[position]
         holder.bind(chatSummary)
+        holder.img_copy.setOnClickListener {
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Copied Text", chatSummary.answer)
+            clipboard.setPrimaryClip(clip)
+
+            // Thông báo cho người dùng biết đã copy thành công
+            Toast.makeText(context, "copied", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun getItemCount(): Int {
@@ -55,6 +69,8 @@ class ChatAdapter(
         private val textTimestampBot: TextView = itemView.findViewById(R.id.textTimestampBot)
         private val textTimestampUser: TextView = itemView.findViewById(R.id.textTimestampUser)
         private val img_chatbot: ImageView = itemView.findViewById(R.id.img_chatbot)
+        val img_copy: ImageView = itemView.findViewById(R.id.ic_copy)
+
 
         fun bind(message: ChatAnswer) {
             llBot.visibility = View.GONE
@@ -72,6 +88,8 @@ class ChatAdapter(
                 textMessageUser.visibility = View.VISIBLE
                 textTimestampUser.visibility = View.VISIBLE
             }
+
+
         }
 
         private fun formatTimestamp(timestamp: String): String {

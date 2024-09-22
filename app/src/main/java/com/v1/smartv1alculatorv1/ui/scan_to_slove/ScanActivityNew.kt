@@ -40,6 +40,7 @@ class ScanActivityNew : BaseActivity<ActivityScanNewBinding, BaseViewModel>() {
     private var imageCapture: ImageCapture? = null
     private var message = ""
     var currentRotation = 0f
+    var check = false
     override fun createBinding(): ActivityScanNewBinding {
         return ActivityScanNewBinding.inflate(layoutInflater)
     }
@@ -56,12 +57,13 @@ class ScanActivityNew : BaseActivity<ActivityScanNewBinding, BaseViewModel>() {
             finish()
         }
         binding.imgCap.setOnClickListener {
+            check = true
             takePicture()
-            binding.txtImage.visibility = View.GONE
+            binding.txtImage.visibility = View.INVISIBLE
             binding.imageView.visibility = View.VISIBLE
             binding.previewView.visibility = View.GONE
             binding.imgCap.visibility = View.GONE
-            binding.imgCap2.visibility = View.VISIBLE
+
         }
 
         binding.imgCap2.setOnClickListener {
@@ -90,28 +92,27 @@ class ScanActivityNew : BaseActivity<ActivityScanNewBinding, BaseViewModel>() {
         }
 
         binding.openImg.setOnClickListener {
-            openGallery()
-            binding.txtImage.visibility = View.GONE
-            binding.roateRightImg.visibility = View.VISIBLE
-            binding.roateLeftImg.visibility = View.VISIBLE
-            binding.openImg.visibility = View.GONE
-            binding.customCropView.visibility = View.VISIBLE
-            binding.imageView.visibility = View.VISIBLE
-            binding.previewView.visibility = View.GONE
-            binding.imgCap.visibility = View.GONE
-            binding.imgCap2.visibility = View.VISIBLE
+            if (!check){
+                openGallery()
+                binding.txtImage.visibility = View.INVISIBLE
+                binding.roateRightImg.visibility = View.VISIBLE
+                binding.roateLeftImg.visibility = View.VISIBLE
+                binding.openImg.visibility = View.GONE
+                binding.customCropView.visibility = View.VISIBLE
+                binding.imageView.visibility = View.VISIBLE
+                binding.previewView.visibility = View.GONE
+                binding.imgCap.visibility = View.GONE
+                binding.imgCap2.visibility = View.VISIBLE
+            }
+
         }
 
         binding.roateRightImg.setOnClickListener {
             currentRotation += 90f
-//            binding.imageView.rotation = currentRotation
-//            binding.customCropView.rotation = currentRotation
             binding.cardview.rotation = currentRotation
         }
         binding.roateLeftImg.setOnClickListener {
             currentRotation -= 90f
-//            binding.imageView.rotation = currentRotation
-//            binding.customCropView.rotation = currentRotation
             binding.cardview.rotation = currentRotation
         }
     }
@@ -173,6 +174,10 @@ class ScanActivityNew : BaseActivity<ActivityScanNewBinding, BaseViewModel>() {
                     val rotatedBitmap = rotateBitmapIfNeeded(photoFile.absolutePath, bitmap)
                     binding.imageView.setImageBitmap(rotatedBitmap)
                     binding.customCropView.visibility = View.VISIBLE
+                    binding.imgCap2.visibility = View.VISIBLE
+                    binding.roateRightImg.visibility = View.VISIBLE
+                    binding.roateLeftImg.visibility = View.VISIBLE
+                    binding.openImg.visibility = View.GONE
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -230,5 +235,10 @@ class ScanActivityNew : BaseActivity<ActivityScanNewBinding, BaseViewModel>() {
 
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        check = false
     }
 }

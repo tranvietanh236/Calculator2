@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="32dp"
+    android:backgroundTint="#FFFFFF"
+    android:background="@drawable/bg_border_20_black"
+    android:padding="24dp">
+
+    <ImageView
+        android:id="@+id/ic_warning"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_delete_dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_content_wn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="Are you sure you want to \ndelete all history?"
+        android:textColor="#747474"
+        android:fontFamily="@font/manrope_medium"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ic_warning"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/tv_cancel_his"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="6dp"
+        android:background="@drawable/bg_boder_12_e5e5e5e"
+        android:fontFamily="@font/manrope_medium"
+        android:gravity="center"
+        android:text="Cancel"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_delete_his"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_content_wn" />
+
+    <TextView
+        android:id="@+id/tv_delete_his"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_boder_12_e5e5e5e"
+        android:fontFamily="@font/manrope_medium"
+        android:gravity="center"
+        android:text="Delete"
+        android:textColor="#EE5B5B"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_cancel_his"
+        app:layout_constraintTop_toBottomOf="@id/tv_content_wn" />
+</androidx.constraintlayout.widget.ConstraintLayout>

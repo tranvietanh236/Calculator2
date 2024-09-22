@@ -61,9 +61,7 @@ class ChatActivityNew : BaseActivity<ActivityChatNewBinding, BaseViewModel>() {
             GlobalFunction.startActivity(this, HistoryActivity::class.java)
         }
         // Đổi màu StatusBar
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.statusBarColor = ContextCompat.getColor(this, R.color.ic_converter_color)
-        }
+        window.statusBarColor = ContextCompat.getColor(this, R.color.ic_converter_color)
         binding.txtQs1.setOnClickListener {
             sendMessage("What is the least common multiple of 6 and 11?")
         }
@@ -80,7 +78,7 @@ class ChatActivityNew : BaseActivity<ActivityChatNewBinding, BaseViewModel>() {
         chatViewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
 
         // Khởi tạo chatAdapter sau khi gán giá trị cho chatViewModel.chatList
-        chatAdapter = ChatAdapter(chatViewModel.chatList.value!!, binding.clQs)
+        chatAdapter = ChatAdapter(chatViewModel.chatList.value!!, binding.clQs, this)
         binding.recyclerViewChat.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewChat.adapter = chatAdapter
 

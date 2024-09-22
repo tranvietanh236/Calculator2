@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.v1.smartv1alculatorv1.Model.ChatAnswer
 import com.v1.smartv1alculatorv1.R
-import com.v1.smartv1alculatorv1.ui.chat_ai.Adapter.ChatAdapter.ChatViewHolder
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
