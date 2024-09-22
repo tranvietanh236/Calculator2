@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="54sp"
+    android:background="@drawable/custom_item_language"
+    android:layout_marginHorizontal="16sp"
+    android:layout_marginTop="12sp">
+
+    <ImageView
+        android:id="@+id/imgFrag"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/img_enguage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="15sp"
+        app:layout_constraintRight_toRightOf="@+id/txtCountry"
+        />
+    <TextView
+        android:id="@+id/txtCountry"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="English"
+        android:gravity="center"
+        android:fontFamily="@font/manrope_medium"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/imgFrag"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/imgFrag"
+        android:paddingLeft="16sp"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

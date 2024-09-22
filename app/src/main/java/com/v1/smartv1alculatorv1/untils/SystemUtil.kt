@@ -62,4 +62,9 @@ object SystemUtil {
         val sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE)
         return sharedPreferences.getBoolean("active", value)
     }
+
+    fun getDeviceLanguage(context: Context): String? {
+        val pre = context.getSharedPreferences("data", Context.MODE_PRIVATE)
+        return pre.getString("device_language", null)
+    }
 }

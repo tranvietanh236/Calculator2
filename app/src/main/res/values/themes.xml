@@ -3,6 +3,20 @@
     <style name="Base.Theme.Smartv1alculatorv1" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowBackground">#ffffff</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="buttonStyle">@color/transparent</item>
+        <item name="dialogTheme">@color/transparent</item>
+        <item name="android:alertDialogTheme">@color/transparent</item>
+    </style>
+
+    <style name="BaseDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/background_light</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom_sort_mem</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom_sort_mem</item>
     </style>
 
     <style name="Theme.Smartv1alculatorv1" parent="Base.Theme.Smartv1alculatorv1" />

@@ -2,8 +2,37 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="custom_red">#F47026</color>
+    <attr name="text_color" format="color"/>
+    <color name="txt_color_red">#F47026</color>
     <color name="button_ripple_color">#9E9E9E</color>
     <color name="bg_stroke">#D3D3D3</color>
     <color name="ic_setting_color">#747474</color>
-
+    <color name="color_app">#F96426</color>
+    <color name="f35345">#F35345</color>
+    <color name="_010101">#010101</color>
+    <color name="f1f1f1">#F1F1F1</color>
+    <color name="ff7507">#FF7507</color>
+    <color name="_32443a">#32443A</color>
+    <color name="_666666">#666666</color>
+    <color name="f1fcff">#F1FCFF</color>
+    <color name="_4cd6d7d9">#4CD6D7D9</color>
+    <color name="f0fcf5">#F0FCF5</color>
+    <color name="fff9fa">#FFF9FA</color>
+    <color name="fcfafe">#FCFAFE</color>
+    <color name="f9fafb">#F9FAFB</color>
+    <color name="_33010101">#33010101</color>
+    <color name="fcfcfd">#FCFCFD</color>
+    <color name="transparent">#00000000</color>
+    <color name="_00ad50">#00AD50</color>
+    <color name="cc010101">#CC010101</color>
+    <color name="fff0e5">#FFF0E5</color>
+    <color name="color_FFF0E5">#FFF0E5</color>
+    <color name="color_010101_50">#80010101</color>
+    <color name="_0077FE">#0077FE</color>
+    <color name="F36F56">#F36F56</color>
+    <color name="FF2600">#FF2600</color>
+    <color name="color_fff6f3">#FFF6F3</color>
+    <color name="color_476EF1">#476EF1</color>
+    <color name="color_FF8A2D">#FF8A2D</color>
 </resources>

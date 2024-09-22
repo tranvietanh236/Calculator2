@@ -42,6 +42,40 @@ class ChatRepository(context: Context) {
         return chatList
     }
 
+    fun insertChatHisSamrt(chatAnswer: ChatAnswer) {
+        val values = ContentValues().apply {
+            put(ChatDatabase.COLUMN_MESSAGE, chatAnswer.answer)
+            put(ChatDatabase.COLUMN_IS_BOT, if (chatAnswer.isBot) 1 else 0)
+            put(ChatDatabase.COLUMN_TIMESTAMP, chatAnswer.createdAt)
+            put(ChatDatabase.COLUMN_CONVERSATION_ID, chatAnswer.conversationId)
+        }
+        db.insert(ChatDatabase.TABLE_NAME_HISTORY_SMART, null, values)
+    }
+    fun getAllChatsHisSmart(): List<ChatAnswer> {
+        val chatList = mutableListOf<ChatAnswer>()
+        val cursor = db.query(
+            ChatDatabase.TABLE_NAME_HISTORY_SMART,
+            null, null, null, null, null, null
+        )
+        with(cursor) {
+            while (moveToNext()) {
+                val message = getString(getColumnIndexOrThrow(ChatDatabase.COLUMN_MESSAGE))
+                val isBot = getInt(getColumnIndexOrThrow(ChatDatabase.COLUMN_IS_BOT)) == 1
+                val timestamp = getString(getColumnIndexOrThrow(ChatDatabase.COLUMN_TIMESTAMP))
+                val conversationId = getString(getColumnIndexOrThrow(ChatDatabase.COLUMN_CONVERSATION_ID))
+                chatList.add(ChatAnswer(timestamp, message, conversationId, isBot))
+            }
+            close()
+        }
+        return chatList
+    }
+
+
+
+
+
+
+
     fun insertChatHis(chatAnswer: ChatAnswer) {
         val values = ContentValues().apply {
             put(ChatDatabase.COLUMN_MESSAGE, chatAnswer.answer)

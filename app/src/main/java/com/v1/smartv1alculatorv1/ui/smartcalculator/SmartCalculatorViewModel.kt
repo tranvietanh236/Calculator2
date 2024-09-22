@@ -9,4 +9,6 @@ class SmartCalculatorViewModel : BaseViewModel() {
         MutableLiveData<MutableList<ChatAnswer>>(ArrayList())
     }
     var currentConversationId: String? = null
+
+
 }

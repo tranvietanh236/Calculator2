@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="content_intro_1"> 私たちの電卓アプリは、加算、減算、乗算、除算などの基本機能を提供します。</string>
+    <string name="title_intro_1">スキャンして解決</string>
+    <string name="content_intro_2">私たちの電卓アプリは、加算、減算、乗算、除算などの基本機能を提供します。</string>
+    <string name="title_intro_2">AI チューター</string>
+    <string name="content_intro_3">私たちの電卓アプリは、加算、減算、乗算、除算などの基本機能を提供します。</string>
+    <string name="title_intro_3">スマート電卓</string>
+    <string name="content_intro_4">私たちの電卓アプリは、加算、減算、乗算、除算などの基本機能を提供します。</string>
+    <string name="title_intro_4">単位変換器</string>
+
+    <string name="permission">パーミッション: </string>
+    <string name="device_storage_access">デバイスストレージアクセス。</string>
+    <string name="screen_overlay_access">スクリー ンオーバーレイアクセス。</string>
+    <string name="accessibility_service">アクセシビリティサービス。</string>
+    <string name="continue_without_permission">パーミッションなしで続ける。</string>
+    <string name="save_amp_continue"><![CDATA[保存 & 続ける]]></string>
+    <string name="language">言語</string>
+    <string name="setting">設定</string>
+    <string name="share">共有</string>
+    <string name="rating">評価</string>
+    <string name="policy">プライバシーポリシー</string>
+    <string name="smart_calculator">スマート計算機</string>
+    <string name="enter_an_expression">式を入力してください</string>
+    <string name="history">履歴:</string>
+    <string name="try_these_question">これらの質問を試してみてください:</string>
+    <string name="solve_another_one">別の問題を解いてみてください</string>
+    <string name="do_you_like">このアプリは好きですか?</string>
+    <string name="let_us_know">私たちは、あなたの体験を5つ星で評価してくださいGoogle Play!</string>
+    <string name="cancel">キャンセル</string>
+    <string name="sumbit">送信</string>
+    <string name="thank_you">ありがとうございます!</string>
+    <string name="thank_you_for">ありがとうございます、あなたの時間を取って、私たちのアプリを評価してくださった。</string>
+    <string name="got_it">わかりました</string>
+
+</resources>

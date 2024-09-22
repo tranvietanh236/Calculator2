@@ -95,7 +95,7 @@ class ScanToSoloveActivity : BaseActivity<ActivityScanToSoloveBinding, BaseViewM
         }
     }
 
-    //    private fun checkCameraPermission() {
+//    private fun checkCameraPermission() {
 //        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
 //            == PackageManager.PERMISSION_GRANTED) {
 //            // Quyền đã được cấp, tiếp tục sử dụng camera

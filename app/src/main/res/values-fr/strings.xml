@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="content_intro_1">Notre application de calculatrice propose des fonctions de base comme l\'addition, la soustraction, la multiplication et la division.</string>
+    <string name="title_intro_1">Scanner pour résoudre</string>
+    <string name="content_intro_2">Notre application de calculatrice propose des fonctions de base comme l\'addition, la soustraction, la multiplication et la division.</string>
+    <string name="title_intro_2">Tuteur IA</string>
+    <string name="content_intro_3">Notre application de calculatrice propose des fonctions de base comme l\'addition, la soustraction, la multiplication et la division.</string>
+    <string name="title_intro_3">Calculatrice intelligente</string>
+    <string name="content_intro_4">Notre application de calculatrice propose des fonctions de base comme l\'addition, la soustraction, la multiplication et la division.</string>
+    <string name="title_intro_4">Convertisseur d\'unités</string>
+
+
+    <string name="permission">Autorisation: </string>
+    <string name="device_storage_access">Accès au stockage de l\'appareil.</string>
+    <string name="screen_overlay_access">Accès à la superposition d\'écran.</string>
+    <string name="accessibility_service">Service d\'accessibilité.</string>
+    <string name="continue_without_permission">Continuer sans autorisation.</string>
+    <string name="save_amp_continue"><![CDATA[Enregistrer & Continuer]]></string>
+    <string name="language">Langue</string>
+    <string name="setting">Param ètres</string>
+    <string name="share">Partager</string>
+    <string name="rating">Évaluation</string>
+    <string name="policy">Politique de confidentialité</string>
+    <string name="smart_calculator">Calculatrice intelligente</string>
+    <string name="enter_an_expression">Entrez une expression</string>
+    <string name="history">Historique:</string>
+    <string name="try_these_question">Essayez ces questions:</string>
+    <string name="solve_another_one">Résolvez-en un autre</string>
+    <string name="do_you_like">Aimez-vous cette application?</string>
+    <string name="let_us_know">Faites-nous savoir votre expérience 5 étoiles est le meilleur sur Google Play!</string>
+    <string name="cancel">Annuler</string>
+    <string name="sumbit">Soumettre</string>
+    <string name="thank_you">Merci!</string>
+    <string name="thank_you_for">Merci de prendre le temps de noter notre application. J\'apprécie beaucoup.</string>
+    <string name="got_it">Compris</string>
+
+</resources>

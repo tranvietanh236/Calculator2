@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="content_intro_1">Nosso aplicativo de calculadora oferece funções básicas como adição, subtração, multiplicação e divisão.</string>
+    <string name="title_intro_1">Escanear para resolver</string>
+    <string name="content_intro_2">ONosso aplicativo de calculadora oferece funções básicas como adição, subtração, multiplicação e divisão.</string>
+    <string name="title_intro_2">Tutor de IA</string>
+    <string name="content_intro_3">Nosso aplicativo de calculadora oferece funções básicas como adição, subtração, multiplicação e divisão.</string>
+    <string name="title_intro_3">Calculadora inteligente</string>
+    <string name="content_intro_4">Nosso aplicativo de calculadora oferece funções básicas como adição, subtração, multiplicação e divisão.</string>
+    <string name="title_intro_4">Conversor de unidades</string>
+
+
+    <string name="permission">Permissão: </string>
+    <string name="device_storage_access">Acesso ao armazenamento do dispositivo.</string>
+    <string name="screen_overlay_access">Acesso à sobreposição de tela.</string>
+    <string name="accessibility_service">Serviço de acessibilidade.</string>
+    <string name="continue_without_permission">Continuar sem permissão.</string>
+    <string name="save_amp_continue"><![CDATA[Salvar & Continuar]]></string>
+    <string name="language">Língua</string>
+    <string name="setting">Configuração</string>
+    <string name="share">Compartilhar</string>
+    <string name="rating">Avaliação</string>
+    <string name="policy">Política de privacidade</string>
+    <string name="smart_calculator">Calculadora inteligente</string>
+    <string name="enter_an_expression">Insira uma expressão</string>
+    <string name="history">Histórico:</string>
+    <string name="try_these_question">Tente essas perguntas:</string>
+    <string name="solve_another_one">Resolva outro</string>
+    <string name="do_you_like">Você gosta dessa aplicação?</string>
+    <string name="let_us_know">Nos conte sua experiência 5 estrelas é o melhor no Google Play!</string>
+    <string name="cancel">Cancelar</string>
+    <string name="sumbit">Enviar</string>
+    <string name="thank_you">Obrigado!</string>
+    <string name="thank_you_for">Obrigado por tomar o tempo para avaliar nossa aplicação. Eu aprecio muito.</string>
+    <string name="got_it">Entendi</string>
+
+
+</resources>

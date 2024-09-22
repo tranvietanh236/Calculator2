@@ -3,33 +3,32 @@ package com.v1.smartv1alculatorv1.ui.smartcalculator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.os.Handler
-import android.os.Looper
-import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import androidx.core.content.ContentProviderCompat.requireContext
+import android.widget.EditText
+import android.widget.PopupWindow
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.v1.smartv1alculatorv1.Database.ChatRepository
-import com.v1.smartv1alculatorv1.Model.ChatAnswer
-import com.v1.smartv1alculatorv1.Model.UserMessage
-import com.v1.smartv1alculatorv1.api.ModuleChat
+import androidx.recyclerview.widget.GridLayoutManager
+import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.base.BaseActivity
 import com.v1.smartv1alculatorv1.databinding.ActivitySmartCalculatorBinding
+import com.v1.smartv1alculatorv1.ui.home.HomeActivity
 import com.v1.smartv1alculatorv1.untils.NumberFormatter
-import io.reactivex.rxjava3.observers.DisposableObserver
-import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineScope
+import com.v1.smartv1alculatorv1.untils.tap
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
-import org.json.JSONObject
-import java.io.IOException
 import java.text.DecimalFormatSymbols
+
 
 class SmartCalculatorActivity :
     BaseActivity<ActivitySmartCalculatorBinding, SmartCalculatorViewModel>() {
@@ -38,6 +37,11 @@ class SmartCalculatorActivity :
         DecimalFormatSymbols.getInstance().decimalSeparator.toString()
     private val groupingSeparatorSymbol =
         DecimalFormatSymbols.getInstance().groupingSeparator.toString()
+
+    private lateinit var historyAdapter: HistoryAdapter
+    private var historyList: MutableList<String> = mutableListOf()
+
+    private val REQUEST_CODE = 1 // Khai báo REQUEST_CODE
 
     private var isInvButtonClicked = false
     private var isEqualLastAction = false
@@ -55,11 +59,44 @@ class SmartCalculatorActivity :
     override fun initView() {
         super.initView()
 
+
+        // Ẩn clearButton khi EditText không có nội dung lúc khởi tạo
+        val hasText = binding.input.text.isNotEmpty()
+        binding.clearButton.visibility = if (hasText) View.VISIBLE else View.INVISIBLE
+
         binding.icBackSmartcal.setOnClickListener {
-            finish()
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
         }
-        binding.nextCursorStart.setOnClickListener{
-            showCursorAtStart()
+        binding.imgThongTin.setOnClickListener {
+            val intent = Intent(this, GuideActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Khởi tạo RecyclerView với GridLayoutManager
+        val layoutManager = GridLayoutManager(this, 3) // Số cột bạn muốn
+        binding.recyclerView.layoutManager = layoutManager
+        historyAdapter = HistoryAdapter(historyList)
+        binding.recyclerView.adapter = historyAdapter
+
+
+
+        binding.nextCursorStart.setOnClickListener {
+            // Lấy văn bản hiện tại từ EditText
+            val currentText = binding.input.text.toString()
+
+            // Thêm dấu '{' vào đầu và xuống dòng
+            val newText = if (currentText.isNotEmpty()) {
+                "{\n$currentText"
+            } else {
+                "{\n"
+            }
+            // Cập nhật văn bản mới vào EditText
+            binding.input.setText(newText)
+            // Đặt con trỏ ở cuối văn bản mới
+            binding.input.post {
+                binding.input.setSelection(newText.length) // Di chuyển con trỏ đến cuối
+            }
         }
         binding.nextCursorRight.setOnClickListener{
             binding.input.requestFocus()
@@ -69,6 +106,59 @@ class SmartCalculatorActivity :
             binding.input.requestFocus()
             moveCursor(-1)
         }
+
+        binding.btnGiaTriTuyetDoi.setOnClickListener {
+            insertAbsoluteValueSymbols(it)
+        }
+
+        binding.btnPhanSo.setOnClickListener {
+            insertValuePhanSo(it)
+        }
+        binding.txtTry1.requestFocus()
+
+
+
+
+        binding.input.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Không cần xử lý trước khi thay đổi
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val hasText = s?.isNotEmpty() == true
+                // Hiển thị hoặc ẩn drawable tùy thuộc vào nội dung của EditText
+                binding.input.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (hasText) R.drawable.custom_clean_x else 0, 0)
+                // Hiển thị hoặc ẩn clearButton dựa trên nội dung
+                binding.clearButton.visibility = if (hasText) View.VISIBLE else View.INVISIBLE
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Không cần xử lý sau khi thay đổi
+            }
+        })
+
+        binding.clearButton.setOnClickListener {
+            Toast.makeText(this, "Clear button clicked", Toast.LENGTH_SHORT).show()
+            binding.input.text.clear()
+
+        }
+
+
+        binding.xBtn.tap {
+            it?.let { view -> showPopupWindow(view) }
+            true
+        }
+
+        binding.squareInv.tap {
+            it?.let { view -> showPopupWindowMU(view) }
+            true
+        }
+
+        binding.square.tap {
+            it?.let { view -> showPopupWindowCanbac(view) }
+            true
+        }
+
         binding.input.setOnTouchListener { v, event ->
             v.performClick() // Đảm bảo rằng EditText vẫn nhận được sự kiện click
             v.requestFocus() // Yêu cầu EditText được focus
@@ -77,28 +167,112 @@ class SmartCalculatorActivity :
             true
         }
 
-        binding.equalsButton.setOnClickListener {
-            //sendMessage()
-            val message = binding.input.text.toString()
-            val intent = Intent(this@SmartCalculatorActivity, AnswerActivity::class.java)
-            intent.putExtra("answer_rq", message)
-            startActivity(intent)
+        binding.imgHistoryDelete.setOnClickListener {
+            historyList.clear()
+            historyAdapter.notifyDataSetChanged()
+            binding.constraintBanner1.visibility = View.GONE
+            binding.constraintBanner2.visibility = View.VISIBLE
+
         }
+
+
+        binding.imgGui.setOnClickListener {
+            val message = binding.input.text.toString()
+            if (message.isNotEmpty()) {
+                val intent = Intent(this@SmartCalculatorActivity, AnswerActivity::class.java)
+                Log.d("choi",message)
+                intent.putExtra("answer_rq", message)
+                startActivityForResult(intent, REQUEST_CODE)
+
+            } else {
+                // Thông báo lỗi nếu người dùng chưa nhập gì
+                Toast.makeText(this, "Vui lòng nhập phép tính", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        val selectedBackground = ContextCompat.getDrawable(this, R.drawable.backgroud_border_doi_mau)
+        val DatlaiBackground = ContextCompat.getDrawable(this, R.drawable.backgroud_border)
+        val selected3Background = ContextCompat.getDrawable(this, R.drawable.custom_3_cham_do)
+        val Datlai3Background = ContextCompat.getDrawable(this, R.drawable.custom_3_cham)
+
+        binding.btnBa1.setOnClickListener {
+            binding.tableLayout.visibility = View.GONE
+            binding.tableLayout2.visibility = View.GONE
+            binding.tableLayout3.visibility = View.VISIBLE
+
+            binding.btnBa3.background = selected3Background
+            binding.btnAbc1.background = DatlaiBackground
+            binding.btnAbc2.background = DatlaiBackground
+            binding.btnAbc3.background = DatlaiBackground
+
+        }
+
+        binding.btnBa2.setOnClickListener {
+            binding.tableLayout.visibility = View.VISIBLE
+            binding.tableLayout2.visibility = View.GONE
+            binding.tableLayout3.visibility = View.GONE
+
+            binding.btnBa1.background = selected3Background
+            binding.btnAbc1.background = DatlaiBackground
+            binding.btnAbc2.background = DatlaiBackground
+            binding.btnAbc3.background = DatlaiBackground
+
+        }
+
+        binding.btnBa3.setOnClickListener {
+            binding.tableLayout.visibility = View.VISIBLE
+            binding.tableLayout2.visibility = View.GONE
+            binding.tableLayout3.visibility = View.GONE
+
+            binding.btnBa1.background = selected3Background
+            binding.btnAbc1.background = DatlaiBackground
+            binding.btnAbc2.background = DatlaiBackground
+            binding.btnAbc3.background = DatlaiBackground
+        }
+
+
         binding.btnAbc1.setOnClickListener {
             binding.tableLayout.visibility = View.GONE
             binding.tableLayout2.visibility = View.VISIBLE
+            binding.tableLayout3.visibility = View.GONE
+
+
+            binding.btnAbc2.background = selectedBackground
+            binding.btnBa1.background = Datlai3Background
+            binding.btnBa2.background = Datlai3Background
+            binding.btnBa3.background = Datlai3Background
 
         }
         binding.btnAbc2.setOnClickListener {
             binding.tableLayout.visibility = View.VISIBLE
             binding.tableLayout2.visibility = View.GONE
+            binding.tableLayout3.visibility = View.GONE
+
+            binding.btnAbc1.background = selectedBackground
+            binding.btnBa1.background = Datlai3Background
+            binding.btnBa2.background = Datlai3Background
+            binding.btnBa3.background = Datlai3Background
+
         }
+        binding.btnAbc3.setOnClickListener {
+            binding.tableLayout.visibility = View.VISIBLE
+            binding.tableLayout2.visibility = View.GONE
+            binding.tableLayout3.visibility = View.GONE
+
+            binding.btnAbc1.background = selectedBackground
+            binding.btnBa1.background = Datlai3Background
+            binding.btnBa2.background = Datlai3Background
+            binding.btnBa3.background = Datlai3Background
+
+        }
+
     }
 
 
     private fun updateDisplay(view: View, value: String) {
         val valueNoSeparators = value.replace(groupingSeparatorSymbol, "")
         val isValueInt = valueNoSeparators.toIntOrNull() != null
+        val isValueLetter = value.matches(Regex("[a-zA-Z]")) // Kiểm tra nếu giá trị là chữ cái
 
         // Reset input with current number if following "equal"
         if (isEqualLastAction) {
@@ -130,12 +304,19 @@ class SmartCalculatorActivity :
 
             val newValue = leftValue + value + rightValue
 
-            var newValueFormatted =
+            var newValueFormatted = if(isValueInt) {
                 NumberFormatter.format(newValue, decimalSeparatorSymbol, groupingSeparatorSymbol)
-
+            }else{
+                newValue // Nếu là chữ cái thì không cần định dạng
+            }
             withContext(Dispatchers.Main) {
                 // Avoid two decimalSeparator in the same number
                 // when you click on the decimalSeparator button
+
+                // Tránh thêm hai dấu thập phân
+                if (value == decimalSeparatorSymbol && decimalSeparatorSymbol in binding.input.text.toString()) {
+                    return@withContext
+                }
                 if (value == decimalSeparatorSymbol && decimalSeparatorSymbol in binding.input.text.toString()) {
                     if (binding.input.text.toString().isNotEmpty()) {
                         var lastNumberBefore = ""
@@ -164,6 +345,7 @@ class SmartCalculatorActivity :
 
                 // Update Display
                 binding.input.setText(newValueFormatted)
+
 
                 // Set cursor position
                 if (isValueInt) {
@@ -199,7 +381,7 @@ class SmartCalculatorActivity :
                         || currentSymbol == "-")
             ) { // Minus symbol is an override
                 // If previous character is a symbol, replace it
-                if (previousChar.matches("[+\\-÷×^]".toRegex())) {
+                if (previousChar.matches("[+\\-÷×^/]".toRegex())) {
                     //keyVibration(view)
 
                     val leftString =
@@ -225,7 +407,7 @@ class SmartCalculatorActivity :
                     }
                 }
                 // If next character is a symbol, replace it
-                else if (nextChar.matches("[+\\-÷×^%!]".toRegex())
+                else if (nextChar.matches("[+\\-÷×^%!/]".toRegex())
                     && currentSymbol != "%"
                 ) { // Make sure that percent symbol doesn't replace succeeding symbols
                     //keyVibration(view)
@@ -269,6 +451,18 @@ class SmartCalculatorActivity :
     fun multiplyButton(view: View) {
         addSymbol(view, "×")
     }
+
+    fun bangButton(view: View) {
+        addSymbol(view, "=")
+    }
+//    fun muButton(view: View) {
+//        addSymbol(view, "^²")
+//    }
+
+    fun phansoButton(view: View) {
+        addSymbol(view, "/")
+    }
+
 
     fun piButton(view: View) {
         updateDisplay(view, "π")
@@ -365,4 +559,201 @@ class SmartCalculatorActivity :
         // Hiển thị con trỏ
         binding.input.requestFocus()
     }
+
+
+    private fun showPopupWindow(anchorView: View) {
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView = inflater.inflate(R.layout.popup_key_options_x_y, null)
+
+
+        val popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+        val buttonBackground = ContextCompat.getDrawable(this, R.drawable.background_button_popupwindow)
+        val selectedBackground = ContextCompat.getDrawable(this, R.drawable.background_popupwindow_doi_mau)
+
+        val btnXPopup = popupView.findViewById<Button>(R.id.btn_x)
+        val btnYPopup = popupView.findViewById<Button>(R.id.btn_y)
+
+        btnXPopup.setOnClickListener {
+            updateDisplay(binding.xBtn, "x")
+            btnXPopup.background = selectedBackground
+            btnYPopup.background = buttonBackground // Đặt lại màu nền btnY
+            popupWindow.dismiss()
+        }
+
+        btnYPopup.setOnClickListener {
+            updateDisplay(binding.xBtn, "y")
+            btnYPopup.background = selectedBackground
+            btnXPopup.background = buttonBackground // Đặt lại màu nền btnX
+            popupWindow.dismiss()
+        }
+        // Tính toán vị trí để hiển thị popup trên đầu nút bấm
+        val location = IntArray(2)
+        anchorView.getLocationOnScreen(location)
+
+        // Chuyển đổi 50dp sang pixel
+        val offsetInDp = 80
+        val offsetInPx = (offsetInDp * resources.displayMetrics.density).toInt()
+        // Hiển thị popup phía trên đầu anchorView, lùi lên 50dp
+        popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY, location[0], location[1] - popupWindow.height - offsetInPx)
+
+
+    }
+
+
+
+    private fun showPopupWindowMU(anchorView: View) {
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView = inflater.inflate(R.layout.popup_key_options_so_mu, null)
+
+
+        val popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+        val buttonBackground = ContextCompat.getDrawable(this, R.drawable.background_button_popupwindow)
+        val selectedBackground = ContextCompat.getDrawable(this, R.drawable.background_popupwindow_doi_mau)
+
+        val btnMu2Popup = popupView.findViewById<Button>(R.id.btn_power_2)
+        val btnMu3Popup = popupView.findViewById<Button>(R.id.btn_power_3)
+
+        btnMu2Popup.setOnClickListener {
+            updateDisplay(binding.xBtn, "^²")
+            btnMu2Popup.background = selectedBackground // Đổi màu nền btnX
+            btnMu3Popup.background = buttonBackground // Đặt lại màu nền btnY
+            popupWindow.dismiss()
+        }
+
+        btnMu3Popup.setOnClickListener {
+            updateDisplay(binding.xBtn, "^³")
+            btnMu3Popup.background = selectedBackground
+            btnMu2Popup.background = buttonBackground
+            popupWindow.dismiss()
+        }
+
+
+        // Tính toán vị trí để hiển thị popup trên đầu nút bấm
+        val location = IntArray(2)
+        anchorView.getLocationOnScreen(location)
+
+        // Chuyển đổi 50dp sang pixel
+        val offsetInDp = 80
+        val offsetInPx = (offsetInDp * resources.displayMetrics.density).toInt()
+        // Hiển thị popup phía trên đầu anchorView, lùi lên 50dp
+        popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY, location[0], location[1] - popupWindow.height - offsetInPx)
+
+
+
+    }
+
+
+
+    private fun showPopupWindowCanbac(anchorView: View) {
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupView = inflater.inflate(R.layout.popup_key_options_can_bac_2, null)
+
+
+        val popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+        val buttonBackground = ContextCompat.getDrawable(this, R.drawable.background_button_popupwindow)
+        val selectedBackground = ContextCompat.getDrawable(this, R.drawable.background_popupwindow_doi_mau)
+
+        val btnCan2Popup = popupView.findViewById<Button>(R.id.btn_canbac_2)
+        val btnCan3Popup = popupView.findViewById<Button>(R.id.btn_canbac_3)
+
+        btnCan2Popup.setOnClickListener {
+            updateDisplay(binding.xBtn, "²√")
+            btnCan2Popup.background = selectedBackground // Đổi màu nền btnX
+            btnCan3Popup.background = buttonBackground // Đặt lại màu nền btnY
+            popupWindow.dismiss()
+        }
+
+        btnCan3Popup.setOnClickListener {
+            updateDisplay(binding.xBtn, "³√")
+            btnCan3Popup.background = selectedBackground
+            btnCan2Popup.background = buttonBackground
+            popupWindow.dismiss()
+        }
+
+
+        // Tính toán vị trí để hiển thị popup trên đầu nút bấm
+        val location = IntArray(2)
+        anchorView.getLocationOnScreen(location)
+
+        // Chuyển đổi 50dp sang pixel
+        val offsetInDp = 80
+        val offsetInPx = (offsetInDp * resources.displayMetrics.density).toInt()
+        // Hiển thị popup phía trên đầu anchorView, lùi lên 50dp
+        popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY, location[0], location[1] - popupWindow.height - offsetInPx)
+
+
+
+    }
+
+
+
+    fun insertAbsoluteValueSymbols(view: View) {
+        val editText = findViewById<EditText>(R.id.input) // ID của EditText
+        val cursorPosition = editText.selectionStart
+        val text = editText.text.toString()
+
+        // Chèn dấu giá trị tuyệt đối | | vào vị trí con trỏ
+        val newText = text.substring(0, cursorPosition) + "|" + "" + "|" + text.substring(cursorPosition)
+        editText.setText(newText)
+
+        // Đặt con trỏ ở giữa hai dấu |
+        editText.setSelection(cursorPosition + 1)
+    }
+
+    fun insertValuePhanSo(view: View) {
+        val editText = findViewById<EditText>(R.id.input) // ID của EditText
+        val cursorPosition = editText.selectionStart
+        val text = editText.text.toString()
+
+        // Chèn dấu giá trị tuyệt đối | | vào vị trí con trỏ
+        val newText = text.substring(0, cursorPosition) + "( )" + "/" + "( )" + text.substring(cursorPosition)
+        editText.setText(newText)
+
+        // Đặt con trỏ ở giữa hai dấu |
+        editText.setSelection(cursorPosition + 1)
+    }
+
+
+    // Hàm tạo TextView động và thêm vào txt_history
+    private fun addMessageToHistory(message: String) {
+        historyList.add(message)
+        historyAdapter.notifyItemInserted(historyList.size - 1)
+        binding.recyclerView.scrollToPosition(historyList.size - 1)
+
+        // Hiển thị lại constraintBanner1 nếu có dữ liệu
+        if (historyList.isNotEmpty()) {
+            binding.constraintBanner1.visibility = View.VISIBLE
+            binding.constraintBanner2.visibility = View.VISIBLE // Cập nhật banner 2 nếu cần
+        }
+
+
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            val returnedText = data?.getStringExtra("RETURN_TEXT")
+            Log.d("choi","$returnedText")
+            if (!returnedText.isNullOrEmpty()) {
+                addMessageToHistory(returnedText)
+            }
+        }
+    }
+
 }

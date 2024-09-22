@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="content_intro_1">Aplikasi kalkulator kami menawarkan fungsi dasar seperti penjumlahan, pengurangan, perkalian, dan pembagian.</string>
+    <string name="title_intro_1">Pindai untuk menyelesaikan</string>
+    <string name="content_intro_2">Aplikasi kalkulator kami menawarkan fungsi dasar seperti penjumlahan, pengurangan, perkalian, dan pembagian.</string>
+    <string name="title_intro_2">Tutor AI</string>
+    <string name="content_intro_3">Aplikasi kalkulator kami menawarkan fungsi dasar seperti penjumlahan, pengurangan, perkalian, dan pembagian.</string>
+    <string name="title_intro_3">Kalkulator pintar</string>
+    <string name="content_intro_4">Aplikasi kalkulator kami menawarkan fungsi dasar seperti penjumlahan, pengurangan, perkalian, dan pembagian.</string>
+    <string name="title_intro_4">Pengonversi satuan</string>
+
+    <string name="permission">Izin: </string>
+    <string name="device_storage_access">Akses penyimpanan perangkat.</string>
+    <string name="screen_overlay_access">Akses overlay layar.</string>
+    <string name="accessibility_service">Layanan aksesibilitas.</string>
+    <string name="continue_without_permission">Lanjutkan tanpa izin.</string>
+    <string name="save_amp_continue"><![CDATA[Simpan & Lanjutkan]]></string>
+    <string name="language">Bahasa</string>
+    <string name="setting">Pengaturan</string>
+    <string name="share">Bagikan</string>
+    <string name="rating">Penilaian</string>
+    <string name="policy">Kebijakan privasi</string>
+    <string name="smart_calculator">Kalkulator pintar</string>
+    <string name="enter_an_expression">Masukkan ekspresi</string>
+    <string name="history">Riwayat:</string>
+    <string name="try_these_question">Coba pertanyaan ini:</string>
+    <string name="solve_another_one">Selesaikan lainnya</string>
+    <string name="do_you_like">Apakah Anda menyukai aplikasi ini?</string>
+    <string name="let_us_know">Beritahu kami pengalaman Anda 5 bintang adalah yang terbaik di Google Play!</string>
+    <string name="cancel">Batal</string>
+    <string name="sumbit">Kirim</string>
+    <string name="thank_you">Terima kasih!</string>
+    <string name="thank_you_for">Terima kasih telah mengambil waktu untuk menilai aplikasi kami. Saya sangat menghargai itu.</string>
+    <string name="got_it">Saya mengerti</string>
+
+</resources>

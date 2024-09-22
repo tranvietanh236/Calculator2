@@ -28,13 +28,28 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.smartcalculator.GuideActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.setting.LanguageSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.permission.PermissionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.intro.IntroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.smartcalculator.SmartCalculatorActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.language.languageActivity"
             android:exported="false" />
         <activity
             android:name=".ui.scan_to_slove.Answer2Activity"
             android:exported="false" />
         <activity
-            android:name=".ui.scan_to_slove.ScanToSoloveActivity"
+            android:name=".ui.home.HomeActivity"
             android:exported="false" />
         <activity
             android:name=".ui.setting.SettingActivity"
@@ -46,11 +61,12 @@
             android:name=".ui.Unit_converter.ConverterActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.smartcalculator.SmartCalculatorActivity"
+            android:name=".ui.scan_to_slove.ScanToSoloveActivity"
             android:exported="false" />
         <activity
             android:name=".ui.smartcalculator.AnswerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowIsTranslucent="true"/>
         <activity
             android:name=".ui.chat_ai.Activity.ChatActivity"
             android:exported="false"
@@ -60,7 +76,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

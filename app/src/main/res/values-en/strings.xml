@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="content_intro_1">Our calculator app offers basic functions like addition, subtraction, multiplication, and division.</string>
+    <string name="title_intro_1">Scan to solve</string>
+    <string name="content_intro_2">Our calculator app offers basic functions like addition, subtraction, multiplication, and division.</string>
+    <string name="title_intro_2">AI Tutor</string>
+    <string name="content_intro_3">Our calculator app offers basic functions like addition, subtraction, multiplication, and division.</string>
+    <string name="title_intro_3">Smart calculator</string>
+    <string name="content_intro_4">Our calculator app offers basic functions like addition, subtraction, multiplication, and division.</string>
+    <string name="title_intro_4">Unit converter</string>
+
+    <string name="permission">Permission: </string>
+    <string name="device_storage_access">Device Storage Access.</string>
+    <string name="screen_overlay_access">Screen Overlay Access.</string>
+    <string name="accessibility_service">Accessibility Service.</string>
+    <string name="continue_without_permission">Continue without permission.</string>
+    <string name="save_amp_continue"><![CDATA[Save & Continue]]></string>
+    <string name="language">Language</string>
+    <string name="setting">Setting</string>
+    <string name="share">Share</string>
+    <string name="rating">Rating</string>
+    <string name="policy">Privacy Policy</string>
+    <string name="smart_calculator">Smart Calculator</string>
+    <string name="enter_an_expression">Enter an expression</string>
+    <string name="history">History:</string>
+    <string name="try_these_question">Try these questions:</string>
+    <string name="solve_another_one">Solve another one</string>
+    <string name="do_you_like">Do you like this app?</string>
+    <string name="let_us_know">Let us know your experience 5 stars is the best on Google Play!</string>
+    <string name="cancel">Cancel.</string>
+    <string name="sumbit">Submit.</string>
+    <string name="thank_you">Thank You!</string>
+    <string name="thank_you_for">Thank you for taking the time to rate us. I really appreciate that.</string>
+    <string name="got_it">Got it</string>
+
+</resources>

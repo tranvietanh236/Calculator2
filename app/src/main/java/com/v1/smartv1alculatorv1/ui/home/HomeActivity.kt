@@ -13,6 +13,7 @@ import com.v1.smartv1alculatorv1.ui.Unit_converter.ConverterActivity
 import com.v1.smartv1alculatorv1.ui.chat_ai.Activity.ChatActivity
 import com.v1.smartv1alculatorv1.ui.history.HistoryActivity
 import com.v1.smartv1alculatorv1.ui.scan_to_slove.ScanToSoloveActivity
+import com.v1.smartv1alculatorv1.ui.setting.SettingActivity
 import com.v1.smartv1alculatorv1.ui.smartcalculator.SmartCalculatorActivity
 
 class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>() {
@@ -42,6 +43,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>() {
 //        binding.clHistory2.setOnClickListener {
 //            GlobalFunction.startActivity(this@HomeActivity, HistoryActivity::class.java)
 //        }
+
+        binding.icSetting.setOnClickListener{
+            GlobalFunction.startActivity(this@HomeActivity, SettingActivity::class.java)
+        }
 
         checkCameraPermission()
     }
