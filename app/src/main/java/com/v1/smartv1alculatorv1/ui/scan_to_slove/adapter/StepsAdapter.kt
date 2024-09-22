@@ -26,16 +26,23 @@ class StepsAdapter(private val stepsList: List<String>) :
         val indexes = txtFilter.indexOfAny(charArrayOf(',', ':'))
         if (indexes != -1) {
             // Tách thành hai phần
-            val part1 = txtFilter.substring(0, indexes + 1).trim() // Phần từ đầu đến dấu phẩy hoặc dấu hai chấm
-            val part2 = txtFilter.substring(indexes + 1).trim() // Phần từ sau dấu phẩy hoặc dấu hai chấm
+            val part1 = txtFilter.substring(0, indexes + 1)
+                .trim() // Phần từ đầu đến dấu phẩy hoặc dấu hai chấm
+            val part2 =
+                txtFilter.substring(indexes + 1).trim() // Phần từ sau dấu phẩy hoặc dấu hai chấm
 
             // Hiển thị kết quả lên TextView
-            holder.tvStep.text = "Step $part1"
+            if (position == stepsList.size - 1) {
+                holder.tvStep.text = "Result:"
+            } else {
+                holder.tvStep.text = "Step $part1"
+            }
+
             holder.tvDescription.text = part2
         } else {
             // Nếu không tìm thấy dấu phẩy hoặc dấu hai chấm
             holder.tvStep.text = stepsList[position]
-            holder.tvDescription.visibility= View.GONE
+            holder.tvDescription.visibility = View.GONE
         }
     }
 

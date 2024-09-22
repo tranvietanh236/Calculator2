@@ -62,27 +62,41 @@ class CustomCropView @JvmOverloads constructor(
 
         // Vẽ đường cong ở góc trên trái
         canvas.drawArc(
-            RectF(cropRect.left + offset, cropRect.top + offset,
-                cropRect.left + 2 * smallRadius - offset, cropRect.top + 2 * smallRadius - offset),
-            180f, 100f, false, cornerPaint)
+            RectF(
+                cropRect.left + offset, cropRect.top + offset,
+                cropRect.left + 2 * smallRadius - offset, cropRect.top + 2 * smallRadius - offset
+            ),
+            180f, 100f, false, cornerPaint
+        )
 
         // Vẽ đường cong ở góc trên phải
         canvas.drawArc(
-            RectF(cropRect.right - 2 * smallRadius + offset, cropRect.top + offset,
-                cropRect.right - offset, cropRect.top + 2 * smallRadius - offset),
-            270f, 100f, false, cornerPaint)
+            RectF(
+                cropRect.right - 2 * smallRadius + offset, cropRect.top + offset,
+                cropRect.right - offset, cropRect.top + 2 * smallRadius - offset
+            ),
+            270f, 100f, false, cornerPaint
+        )
 
         // Vẽ đường cong ở góc dưới trái
         canvas.drawArc(
-            RectF(cropRect.left + offset, cropRect.bottom - 2 * smallRadius + offset,
-                cropRect.left + 2 * smallRadius - offset, cropRect.bottom - offset),
-            90f, 100f, false, cornerPaint)
+            RectF(
+                cropRect.left + offset, cropRect.bottom - 2 * smallRadius + offset,
+                cropRect.left + 2 * smallRadius - offset, cropRect.bottom - offset
+            ),
+            90f, 100f, false, cornerPaint
+        )
 
         // Vẽ đường cong ở góc dưới phải
         canvas.drawArc(
-            RectF(cropRect.right - 2 * smallRadius + offset, cropRect.bottom - 2 * smallRadius + offset,
-                cropRect.right - offset, cropRect.bottom - offset),
-            0f, 100f, false, cornerPaint)
+            RectF(
+                cropRect.right - 2 * smallRadius + offset,
+                cropRect.bottom - 2 * smallRadius + offset,
+                cropRect.right - offset,
+                cropRect.bottom - offset
+            ),
+            0f, 100f, false, cornerPaint
+        )
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -111,7 +125,8 @@ class CustomCropView @JvmOverloads constructor(
 
                         // Kiểm tra nếu vùng crop không đi ra ngoài màn hình
                         if (newRect.left >= 0 && newRect.top >= 0 &&
-                            newRect.right <= width && newRect.bottom <= height) {
+                            newRect.right <= width && newRect.bottom <= height
+                        ) {
                             cropRect.offset(dx, dy)
                         }
                     }
@@ -169,22 +184,52 @@ class CustomCropView @JvmOverloads constructor(
     }
 
     private fun adjustCropRect(dx: Float, dy: Float) {
+        val minCropWidth = 200f // Kích thước chiều rộng nhỏ nhất của vùng crop
+        val minCropHeight = 100f // Kích thước chiều cao nhỏ nhất của vùng crop
+
         when (activeCorner) {
             0 -> { // Top left
-                cropRect.left += dx
-                cropRect.top += dy
+                val newLeft = cropRect.left + dx
+                val newTop = cropRect.top + dy
+                if (newLeft >= 0 && cropRect.right - newLeft >= minCropWidth) {
+                    cropRect.left = newLeft
+                }
+                if (newTop >= 0 && cropRect.bottom - newTop >= minCropHeight) {
+                    cropRect.top = newTop
+                }
             }
+
             1 -> { // Top right
-                cropRect.right += dx
-                cropRect.top += dy
+                val newRight = cropRect.right + dx
+                val newTop = cropRect.top + dy
+                if (newRight <= width && newRight - cropRect.left >= minCropWidth) {
+                    cropRect.right = newRight
+                }
+                if (newTop >= 0 && cropRect.bottom - newTop >= minCropHeight) {
+                    cropRect.top = newTop
+                }
             }
+
             2 -> { // Bottom left
-                cropRect.left += dx
-                cropRect.bottom += dy
+                val newLeft = cropRect.left + dx
+                val newBottom = cropRect.bottom + dy
+                if (newLeft >= 0 && cropRect.right - newLeft >= minCropWidth) {
+                    cropRect.left = newLeft
+                }
+                if (newBottom <= height && newBottom - cropRect.top >= minCropHeight) {
+                    cropRect.bottom = newBottom
+                }
             }
+
             3 -> { // Bottom right
-                cropRect.right += dx
-                cropRect.bottom += dy
+                val newRight = cropRect.right + dx
+                val newBottom = cropRect.bottom + dy
+                if (newRight <= width && newRight - cropRect.left >= minCropWidth) {
+                    cropRect.right = newRight
+                }
+                if (newBottom <= height && newBottom - cropRect.top >= minCropHeight) {
+                    cropRect.bottom = newBottom
+                }
             }
         }
     }
@@ -201,16 +246,23 @@ class CustomCropView @JvmOverloads constructor(
         // Kiểm tra nếu vùng crop nằm trong kích thước của ảnh gốc
         if (cropRect.left < 0 || cropRect.top < 0 ||
             cropRect.right > originalBitmap.width ||
-            cropRect.bottom > originalBitmap.height) {
+            cropRect.bottom > originalBitmap.height
+        ) {
             return null // Vùng crop không hợp lệ
         }
 
         // Cắt ảnh theo vùng crop
-        return Bitmap.createBitmap(originalBitmap,
+        return Bitmap.createBitmap(
+            originalBitmap,
             cropRect.left.toInt(),
             cropRect.top.toInt(),
             cropWidth,
-            cropHeight)
+            cropHeight
+        )
     }
 
 }
+
+
+
+

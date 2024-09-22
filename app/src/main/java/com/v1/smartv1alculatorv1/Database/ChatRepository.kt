@@ -5,14 +5,16 @@ import android.content.Context
 import com.v1.smartv1alculatorv1.Model.ChatAnswer
 import com.v1.smartv1alculatorv1.Model.HistoryModel
 import com.v1.smartv1alculatorv1.Model.MessageAnswer
+import com.v1.smartv1alculatorv1.Model.ScanModel
 import com.v1.testorc.Database.ChatDatabase
+import com.v1.testorc.Database.ChatDatabase.Companion.TABLE_NAME
 
 
 class ChatRepository(context: Context) {
     private val dbHelper = ChatDatabase(context)
     private val db = dbHelper.writableDatabase
 
-    fun insertHistory(historyModel: HistoryModel){
+    fun insertHistory(historyModel: HistoryModel) {
         val values = ContentValues().apply {
             put(ChatDatabase.COLUMN_MESSAGE, historyModel.answer)
             put(ChatDatabase.COLUMN_MESSAGE_BOT, historyModel.answerBot)
@@ -22,7 +24,7 @@ class ChatRepository(context: Context) {
         db.insert(ChatDatabase.TABLE_NAME_HISTORY, null, values)
     }
 
-    fun getAllHistory() : List<HistoryModel>{
+    fun getAllHistory(): List<HistoryModel> {
         val hisList = mutableListOf<HistoryModel>()
         val cursor = db.query(
             ChatDatabase.TABLE_NAME_HISTORY,
@@ -41,6 +43,7 @@ class ChatRepository(context: Context) {
         }
         return hisList
     }
+
     fun insertChat(chatAnswer: ChatAnswer) {
         val values = ContentValues().apply {
             put(ChatDatabase.COLUMN_MESSAGE, chatAnswer.answer)
@@ -140,5 +143,36 @@ class ChatRepository(context: Context) {
         )
     }
 
+    fun insertScanList(item: ScanModel) {
+        val values = ContentValues().apply {
+            put(ChatDatabase.COLUMN_IMAGE, item.imageBytes)
+            put(ChatDatabase.COLUMN_TEXT_LIST, item.steps)
+            put(ChatDatabase.COLUMN_TEXT_RESUILT, item.resuilt)
+            put(ChatDatabase.COLUMN_TIMESTAMP, item.createdAt)
+            put(ChatDatabase.COLUMN_CONVERSATION_ID, item.conversationId)
+        }
+        db.insert(ChatDatabase.TABLE_NAME_SCAN, null, values)
+    }
+
+    fun getAllScanList(): List<ScanModel> {
+        val chatList = mutableListOf<ScanModel>()
+        val cursor = db.query(
+            ChatDatabase.TABLE_NAME_SCAN,
+            null, null, null, null, null, null
+        )
+        with(cursor) {
+            while (moveToNext()) {
+                val imageBytes = getBlob(getColumnIndexOrThrow(ChatDatabase.COLUMN_IMAGE))
+                val result = getString(getColumnIndexOrThrow(ChatDatabase.COLUMN_TEXT_RESUILT))
+                val step = getString(getColumnIndexOrThrow(ChatDatabase.COLUMN_TEXT_LIST))
+                val timestamp = getString(getColumnIndexOrThrow(ChatDatabase.COLUMN_TIMESTAMP))
+                val conversationId =
+                    getString(getColumnIndexOrThrow(ChatDatabase.COLUMN_CONVERSATION_ID))
+                chatList.add(ScanModel(result, step, imageBytes, timestamp, conversationId))
+            }
+            close()
+        }
+        return chatList
+    }
 
 }

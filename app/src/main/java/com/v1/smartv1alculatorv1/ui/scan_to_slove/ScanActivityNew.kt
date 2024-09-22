@@ -1,10 +1,14 @@
 package com.v1.smartv1alculatorv1.ui.scan_to_slove
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Matrix
+import android.graphics.drawable.BitmapDrawable
 import android.media.ExifInterface
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -26,13 +30,16 @@ import com.v1.smartv1alculatorv1.databinding.ActivityScanNewBinding
 import com.v1.smartv1alculatorv1.ui.smartcalculator.AnswerActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 
 class ScanActivityNew : BaseActivity<ActivityScanNewBinding, BaseViewModel>() {
-
+    private val PICK_IMAGE_REQUEST = 1
+    private var currentBitmap: Bitmap? = null
     private var imageCapture: ImageCapture? = null
     private var message = ""
+    var currentRotation = 0f
     override fun createBinding(): ActivityScanNewBinding {
         return ActivityScanNewBinding.inflate(layoutInflater)
     }
@@ -50,6 +57,7 @@ class ScanActivityNew : BaseActivity<ActivityScanNewBinding, BaseViewModel>() {
         }
         binding.imgCap.setOnClickListener {
             takePicture()
+            binding.txtImage.visibility = View.GONE
             binding.imageView.visibility = View.VISIBLE
             binding.previewView.visibility = View.GONE
             binding.imgCap.visibility = View.GONE
@@ -62,19 +70,49 @@ class ScanActivityNew : BaseActivity<ActivityScanNewBinding, BaseViewModel>() {
             val originalBitmap = Bitmap.createBitmap(binding.imageView.drawingCache)
             binding.imageView.isDrawingCacheEnabled = false
             val croppedBitmap = binding.customCropView.cropImage(originalBitmap)
+
             if (croppedBitmap != null) {
                 recognizeTextFromImage(croppedBitmap)
                 lifecycleScope.launch {
-                    delay(500) // Delay 1 giây
+                    delay(1000) // Delay 0.5 giây
                     val intent = Intent(this@ScanActivityNew, Answer2Activity::class.java)
+
+                    // Chuyển đổi Bitmap thành mảng byte
+                    val byteArray = bitmapToByteArray(croppedBitmap)
+                    intent.putExtra("image_data", byteArray)
                     intent.putExtra("answer_rq2", message)
-                   // intent.putExtra("image_data", croppedBitmap)
                     startActivity(intent)
                     finish()
                 }
             } else {
-                Toast.makeText(this, "Vùng crop không hợp lệ!", Toast.LENGTH_SHORT).show()
+
             }
+        }
+
+        binding.openImg.setOnClickListener {
+            openGallery()
+            binding.txtImage.visibility = View.GONE
+            binding.roateRightImg.visibility = View.VISIBLE
+            binding.roateLeftImg.visibility = View.VISIBLE
+            binding.openImg.visibility = View.GONE
+            binding.customCropView.visibility = View.VISIBLE
+            binding.imageView.visibility = View.VISIBLE
+            binding.previewView.visibility = View.GONE
+            binding.imgCap.visibility = View.GONE
+            binding.imgCap2.visibility = View.VISIBLE
+        }
+
+        binding.roateRightImg.setOnClickListener {
+            currentRotation += 90f
+//            binding.imageView.rotation = currentRotation
+//            binding.customCropView.rotation = currentRotation
+            binding.cardview.rotation = currentRotation
+        }
+        binding.roateLeftImg.setOnClickListener {
+            currentRotation -= 90f
+//            binding.imageView.rotation = currentRotation
+//            binding.customCropView.rotation = currentRotation
+            binding.cardview.rotation = currentRotation
         }
     }
 
@@ -166,5 +204,31 @@ class ScanActivityNew : BaseActivity<ActivityScanNewBinding, BaseViewModel>() {
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     }
 
+    fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
+    }
 
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+
+    // Nhận kết quả từ Intent và hiển thị lên ImageView
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            val selectedImageUri: Uri? = data.data
+
+            if (selectedImageUri != null) {
+                // Hiển thị ảnh được chọn lên ImageView
+                binding.imageView.setImageURI(selectedImageUri)
+
+            }
+        }
+    }
 }
