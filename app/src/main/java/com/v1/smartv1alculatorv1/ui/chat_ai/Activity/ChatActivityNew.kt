@@ -27,6 +27,7 @@ import com.v1.smartv1alculatorv1.ui.chat_ai.Adapter.ChatAdapter
 import com.v1.smartv1alculatorv1.ui.chat_ai.ViewModel.ChatViewModel
 import com.v1.smartv1alculatorv1.ui.history.activity.HistoryActivity
 import com.v1.smartv1alculatorv1.ui.home.HomeActivity
+import com.v1.smartv1alculatorv1.ui.splash.SplashActivity
 import io.reactivex.rxjava3.observers.DisposableObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.ResponseBody
@@ -82,9 +83,9 @@ class ChatActivityNew : BaseActivity<ActivityChatNewBinding, BaseViewModel>() {
         binding.recyclerViewChat.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewChat.adapter = chatAdapter
 
-        if (HomeActivity.isClearn) {
+        if (SplashActivity.isClearn) {
             clearChatList1()
-            HomeActivity.isClearn = false
+            SplashActivity.isClearn = false
         }
 
         clearMessagesIfTimeout()

@@ -14,13 +14,12 @@ import com.v1.smartv1alculatorv1.ui.chat_ai.Activity.ChatActivity
 import com.v1.smartv1alculatorv1.ui.history.activity.HistoryActivityNew
 import com.v1.smartv1alculatorv1.ui.scan_to_slove.ScanActivityNew
 import com.v1.smartv1alculatorv1.ui.scan_to_slove.ScanToSoloveActivity
+import com.v1.smartv1alculatorv1.ui.setting.SettingActivity
 
 class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>() {
     private val CAMERA_PERMISSION_CODE = 100
 
-    companion object {
-        var isClearn = true
-    }
+
 
     override fun createBinding(): ActivityHomeBinding {
         return ActivityHomeBinding.inflate(layoutInflater)
@@ -45,6 +44,9 @@ class HomeActivity : BaseActivity<ActivityHomeBinding, HomeViewModel>() {
         }
         binding.AiTutor.setOnClickListener {
             GlobalFunction.startActivity(this@HomeActivity, ChatActivity::class.java)
+        }
+        binding.icSetting.setOnClickListener {
+            GlobalFunction.startActivity(this@HomeActivity, SettingActivity::class.java)
         }
         checkCameraPermission()
     }

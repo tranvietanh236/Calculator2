@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_header"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:padding="12dp"
@@ -29,7 +29,8 @@
             android:gravity="center"
             android:textSize="20sp"
             android:textColor="@color/black"
-            android:text="Setting"
+            android:text="@string/setting"
+            android:fontFamily="@font/manrope_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_setting" />
@@ -63,107 +64,117 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_language"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_item_setting">
                 <ImageView
                     android:id="@+id/ic_language"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:src="@drawable/ic_language_setting"
+                    android:layout_marginLeft="16dp"
                     android:layout_width="20dp"
                     android:layout_height="20dp"/>
                 <TextView
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginStart="14dp"
                     app:layout_constraintStart_toEndOf="@id/ic_language"
-                    android:text="Language"
-                    android:textColor="@color/black"
+                    android:text="@string/language"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/manrope_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textColor="#000000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_marginVertical="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/bg_stroke"/>
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_share"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_item_setting">
                 <ImageView
                     android:id="@+id/ic_share"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:src="@drawable/ic_share"
+                    android:layout_marginLeft="16dp"
                     android:layout_width="20dp"
                     android:layout_height="20dp"/>
                 <TextView
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginStart="14dp"
                     app:layout_constraintStart_toEndOf="@id/ic_share"
-                    android:text="Share"
-                    android:textColor="@color/black"
+                    android:text="@string/share"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/manrope_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textColor="#000000"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:layout_marginVertical="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/bg_stroke"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_rating"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_item_setting">
                 <ImageView
                     android:id="@+id/ic_rating"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:src="@drawable/ic_rate"
+                    android:layout_marginLeft="16dp"
                     android:layout_width="20dp"
                     android:layout_height="20dp"/>
                 <TextView
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginStart="14dp"
                     app:layout_constraintStart_toEndOf="@id/ic_rating"
-                    android:text="Rating"
-                    android:textColor="@color/black"
+                    android:text="@string/rating"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/manrope_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:id="@+id/line_rt"
-                android:layout_marginVertical="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/bg_stroke"/>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_policy"
                 android:layout_marginBottom="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/custom_item_setting">
                 <ImageView
                     android:id="@+id/ic_policy"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:src="@drawable/ic_polixy"
+                    android:layout_marginLeft="16dp"
                     android:layout_width="20dp"
                     android:layout_height="20dp"/>
                 <TextView
                     app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginStart="14dp"
                     app:layout_constraintStart_toEndOf="@id/ic_policy"
-                    android:text="Policy"
+                    android:text="@string/policy"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/manrope_medium"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_width="wrap_content"
-                    android:textColor="@color/black"
+                    android:textColor="#000000"
                     android:layout_height="wrap_content"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
