@@ -153,6 +153,10 @@ class SmartCalculatorActivity :
                 binding.input.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (hasText) R.drawable.custom_clean_x else 0, 0)
                 // Hiển thị hoặc ẩn clearButton dựa trên nội dung
                 binding.clearButton.visibility = if (hasText) View.VISIBLE else View.INVISIBLE
+
+                // Ẩn hoặc hiện constraint_banner_2
+                binding.constraintBanner2.visibility = if (hasText) View.GONE else View.VISIBLE
+
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -191,11 +195,7 @@ class SmartCalculatorActivity :
         }
 
         binding.imgHistoryDelete.setOnClickListener {
-
             deleteChatHisSmart()
-//            historyList.clear()
-//            historyAdapter.notifyDataSetChanged()
-
             binding.constraintBanner1.visibility = View.GONE
             binding.constraintBanner2.visibility = View.VISIBLE
 
