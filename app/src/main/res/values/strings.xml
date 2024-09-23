@@ -73,6 +73,7 @@
     <string name="title_intro_4">Unit converter</string>
 
     <string name="permission">Permission: </string>
+    <string name="camera">Camera access.</string>
     <string name="device_storage_access">Device Storage Access.</string>
     <string name="screen_overlay_access">Screen Overlay Access.</string>
     <string name="accessibility_service">Accessibility Service.</string>

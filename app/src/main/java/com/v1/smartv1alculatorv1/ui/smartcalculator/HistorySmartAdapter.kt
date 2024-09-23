@@ -5,9 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.v1.smartv1alculatorv1.Model.ChatAnswer
+import com.v1.smartv1alculatorv1.Model.SmartModel
 import com.v1.smartv1alculatorv1.R
 
-class HistoryAdapter(private val historyList: List<String>) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+class HistoryAdapter(private val historyList: List<SmartModel>) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.history_item_text) // ID của TextView trong item layout
@@ -20,7 +22,8 @@ class HistoryAdapter(private val historyList: List<String>) : RecyclerView.Adapt
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        holder.textView.text = historyList[position]
+        val item = historyList[position]
+        holder.textView.setText(item.calculation.toString())
     }
 
     override fun getItemCount(): Int {

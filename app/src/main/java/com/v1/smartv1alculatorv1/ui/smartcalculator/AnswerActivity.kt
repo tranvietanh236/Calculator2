@@ -65,8 +65,14 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
         binding.answerTxt.text = text
         sendMessage(text)
 
+
         // Xử lý nút để gửi lại dữ liệu về SmartCalculatorActivity
         binding.btnSolveAnother.setOnClickListener {
+            /*if (text != null){
+                val chatRepository = ChatRepository(this)
+                chatRepository.saveChatData(text)
+            }*/
+
             val intent = Intent()
             intent.putExtra("RETURN_TEXT", text) // Chuyển lại dữ liệu text
             setResult(RESULT_OK, intent)
@@ -76,6 +82,9 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
         }
 
     }
+
+
+
 
     private fun sendMessage(message: String? = null) {
         if (isWaitingForResponse) return
@@ -94,7 +103,7 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
             )
 
             chatViewModel.chatList.value!!.add(userMessage)
-            chatRepository.insertChatHisSamrt(userMessage)
+            //chatRepository.insertChatHisSamrt(userMessage)
 
 
             val userMessageToSend = UserMessage(
@@ -132,7 +141,7 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
                             )
                             Log.d("TAG123", "onNext: ${botMessage.answer}")
                             chatViewModel.chatList.value!!.add(botMessage)
-                            chatRepository.insertChatHisSamrt(botMessage)
+                            //chatRepository.insertChatHisSamrt(botMessage)
 
 
                             runOnUiThread {
@@ -203,7 +212,6 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
                                             )
                                         } else {
                                             Log.d("TAG123", "Không tìm thấy các bước giải")
-                                            //binding.rqAnswer.text = "Không tìm thấy bước giải"
                                         }
                                     } else {
                                         Log.d(

@@ -22,9 +22,12 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
     override fun setViewModel() = IntroViewModel()
     private var introAdapter: IntroAdapter? = null
 
+    private val PREFS_NAME = "app_prefs"
+    private val KEY_PERMISSIONS_GRANTED = "permissions_granted"
 
     override fun viewModel() {
         super.viewModel()
+
 
         viewModel.getData()
         viewModel.listIntro.observe(this) {
@@ -94,18 +97,24 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
         })
 
 
-        binding.tvNext.setOnClickListener() {
+        // Khi nhấn vào nút "Next"
+        binding.tvNext.setOnClickListener {
+            // Nếu là màn cuối cùng của intro
             if (binding.viewPagerIntro.currentItem >= 3) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-
-                    startActivity(Intent(this, PermissionActivity::class.java))
+                // Kiểm tra quyền camera đã được cấp hay chưa
+                if (arePermissionsGranted()) {
+                    // Nếu quyền đã được cấp, chuyển đến HomeActivity
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
                     finish()
                 } else {
-                    startActivity(Intent(this, HomeActivity::class.java))
+                    // Nếu chưa cấp quyền, chuyển đến PermissionActivity
+                    val intent = Intent(this, PermissionActivity::class.java)
+                    startActivity(intent)
                     finish()
                 }
-
             } else {
+                // Nếu chưa phải màn cuối cùng, chuyển sang trang intro tiếp theo
                 binding.viewPagerIntro.currentItem = binding.viewPagerIntro.currentItem + 1
             }
         }
@@ -118,20 +127,14 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
         binding.dot4.setImageResource(R.drawable.dot_not_select)
 
     }
+
+
+    // Hàm kiểm tra xem quyền đã được cấp hay chưa
     private fun arePermissionsGranted(): Boolean {
-
-        val requiredPermissions = arrayOf(
-            android.Manifest.permission.POST_NOTIFICATIONS,
-
-            )
-
-        for (permission in requiredPermissions) {
-            if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-                return false
-            }
-        }
-        return true
+        val sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+        return sharedPreferences.getBoolean(KEY_PERMISSIONS_GRANTED, false)
     }
+
 
 
 }

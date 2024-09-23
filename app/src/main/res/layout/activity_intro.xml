@@ -8,6 +8,7 @@
     tools:context=".ui.intro.IntroActivity">
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerIntro"
+        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="28dp"

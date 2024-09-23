@@ -8,7 +8,7 @@ class ChatDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
     companion object {
         private const val DATABASE_NAME = "chat_database.db"
-        private const val DATABASE_VERSION = 3
+        private const val DATABASE_VERSION = 5
         const val TABLE_NAME = "chat_history"
         const val TABLE_NAME_MATH = "chat_history1"
         const val COLUMN_ID = "id"
@@ -39,10 +39,8 @@ class ChatDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
         val createTableHistorySmart = "CREATE TABLE $TABLE_NAME_HISTORY_SMART (" +
                 "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "$COLUMN_MESSAGE TEXT, " +
-                "$COLUMN_MESSAGE_BOT_SMART TEXT, " +
-                "$COLUMN_TIMESTAMP TEXT, " +
-                "$COLUMN_CONVERSATION_ID TEXT)"
+                "$COLUMN_MESSAGE TEXT )"
+
 
 
 

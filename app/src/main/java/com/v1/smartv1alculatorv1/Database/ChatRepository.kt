@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import com.v1.smartv1alculatorv1.Model.ChatAnswer
 import com.v1.smartv1alculatorv1.Model.MessageAnswer
+import com.v1.smartv1alculatorv1.Model.SmartModel
 import com.v1.testorc.Database.ChatDatabase
 
 
@@ -42,17 +43,15 @@ class ChatRepository(context: Context) {
         return chatList
     }
 
-    fun insertChatHisSamrt(chatAnswer: ChatAnswer) {
+    fun insertChatHisSamrt(chatAnswer: SmartModel) {
         val values = ContentValues().apply {
-            put(ChatDatabase.COLUMN_MESSAGE, chatAnswer.answer)
-            put(ChatDatabase.COLUMN_IS_BOT, if (chatAnswer.isBot) 1 else 0)
-            put(ChatDatabase.COLUMN_TIMESTAMP, chatAnswer.createdAt)
-            put(ChatDatabase.COLUMN_CONVERSATION_ID, chatAnswer.conversationId)
+            put(ChatDatabase.COLUMN_MESSAGE, chatAnswer.calculation)
+
         }
         db.insert(ChatDatabase.TABLE_NAME_HISTORY_SMART, null, values)
     }
-    fun getAllChatsHisSmart(): List<ChatAnswer> {
-        val chatList = mutableListOf<ChatAnswer>()
+    fun getAllChatsHisSmart(): MutableList<SmartModel> {
+        val chatList = mutableListOf<SmartModel>()
         val cursor = db.query(
             ChatDatabase.TABLE_NAME_HISTORY_SMART,
             null, null, null, null, null, null
@@ -60,10 +59,7 @@ class ChatRepository(context: Context) {
         with(cursor) {
             while (moveToNext()) {
                 val message = getString(getColumnIndexOrThrow(ChatDatabase.COLUMN_MESSAGE))
-                val isBot = getInt(getColumnIndexOrThrow(ChatDatabase.COLUMN_IS_BOT)) == 1
-                val timestamp = getString(getColumnIndexOrThrow(ChatDatabase.COLUMN_TIMESTAMP))
-                val conversationId = getString(getColumnIndexOrThrow(ChatDatabase.COLUMN_CONVERSATION_ID))
-                chatList.add(ChatAnswer(timestamp, message, conversationId, isBot))
+                chatList.add(SmartModel(message))
             }
             close()
         }
@@ -71,7 +67,14 @@ class ChatRepository(context: Context) {
     }
 
 
-
+    fun deleteChatHisSmart(chatId: Long) {
+        val whereClause = "${ChatDatabase.COLUMN_ID} = ?"
+        val whereArgs = arrayOf(chatId.toString())
+        db.delete(ChatDatabase.TABLE_NAME_HISTORY_SMART, whereClause, whereArgs)
+    }
+    fun deleteAllChatsHisSmart() {
+        db.delete(ChatDatabase.TABLE_NAME_HISTORY_SMART, null, null)
+    }
 
 
 

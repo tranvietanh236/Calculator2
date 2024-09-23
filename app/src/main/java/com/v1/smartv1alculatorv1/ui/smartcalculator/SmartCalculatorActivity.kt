@@ -18,6 +18,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.v1.smartv1alculatorv1.Database.ChatRepository
+import com.v1.smartv1alculatorv1.Model.SmartModel
 import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.base.BaseActivity
 import com.v1.smartv1alculatorv1.databinding.ActivitySmartCalculatorBinding
@@ -39,7 +41,8 @@ class SmartCalculatorActivity :
         DecimalFormatSymbols.getInstance().groupingSeparator.toString()
 
     private lateinit var historyAdapter: HistoryAdapter
-    private var historyList: MutableList<String> = mutableListOf()
+    private var historyList: MutableList<SmartModel> = mutableListOf()
+    private lateinit var chatRepository: ChatRepository
 
     private val REQUEST_CODE = 1 // Khai báo REQUEST_CODE
 
@@ -55,10 +58,31 @@ class SmartCalculatorActivity :
         return SmartCalculatorViewModel()
     }
 
+    private fun loaddata() {
+        historyList = chatRepository.getAllChatsHisSmart()
+        if (historyList.isNotEmpty()) {
+            binding.constraintBanner1.visibility = View.VISIBLE
+            Log.d("hir", "${historyList[0].calculation}")
+        } else {
+            Log.d("hir", "History list is empty.")
+            binding.constraintBanner1.visibility = View.GONE
+        }
+        Log.d("ass",historyList.size.toString())
+
+            binding.recyclerView.layoutManager = GridLayoutManager(this, 3)
+            historyAdapter = HistoryAdapter(historyList)
+            binding.recyclerView.adapter = historyAdapter
+
+
+
+    }
+
+
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
 
+        chatRepository = ChatRepository(this)
 
         // Ẩn clearButton khi EditText không có nội dung lúc khởi tạo
         val hasText = binding.input.text.isNotEmpty()
@@ -73,14 +97,13 @@ class SmartCalculatorActivity :
             startActivity(intent)
         }
 
-        // Khởi tạo RecyclerView với GridLayoutManager
-        val layoutManager = GridLayoutManager(this, 3) // Số cột bạn muốn
-        binding.recyclerView.layoutManager = layoutManager
+
+        binding.recyclerView.layoutManager = GridLayoutManager(this,3)// Số cột bạn muốn
         historyAdapter = HistoryAdapter(historyList)
         binding.recyclerView.adapter = historyAdapter
 
 
-
+        loaddata()
         binding.nextCursorStart.setOnClickListener {
             // Lấy văn bản hiện tại từ EditText
             val currentText = binding.input.text.toString()
@@ -168,8 +191,11 @@ class SmartCalculatorActivity :
         }
 
         binding.imgHistoryDelete.setOnClickListener {
-            historyList.clear()
-            historyAdapter.notifyDataSetChanged()
+
+            deleteChatHisSmart()
+//            historyList.clear()
+//            historyAdapter.notifyDataSetChanged()
+
             binding.constraintBanner1.visibility = View.GONE
             binding.constraintBanner2.visibility = View.VISIBLE
 
@@ -178,7 +204,10 @@ class SmartCalculatorActivity :
 
         binding.imgGui.setOnClickListener {
             val message = binding.input.text.toString()
+
             if (message.isNotEmpty()) {
+                val messageList = SmartModel(message)
+                chatRepository.insertChatHisSamrt(messageList)
                 val intent = Intent(this@SmartCalculatorActivity, AnswerActivity::class.java)
                 Log.d("choi",message)
                 intent.putExtra("answer_rq", message)
@@ -731,15 +760,15 @@ class SmartCalculatorActivity :
 
     // Hàm tạo TextView động và thêm vào txt_history
     private fun addMessageToHistory(message: String) {
-        historyList.add(message)
-        historyAdapter.notifyItemInserted(historyList.size - 1)
-        binding.recyclerView.scrollToPosition(historyList.size - 1)
-
-        // Hiển thị lại constraintBanner1 nếu có dữ liệu
-        if (historyList.isNotEmpty()) {
-            binding.constraintBanner1.visibility = View.VISIBLE
-            binding.constraintBanner2.visibility = View.VISIBLE // Cập nhật banner 2 nếu cần
-        }
+//        historyList.add(message)
+//        historyAdapter.notifyItemInserted(historyList.size - 1)
+//        binding.recyclerView.scrollToPosition(historyList.size - 1)
+//
+//        // Hiển thị lại constraintBanner1 nếu có dữ liệu
+//        if (historyList.isNotEmpty()) {
+//            binding.constraintBanner1.visibility = View.VISIBLE
+//            binding.constraintBanner2.visibility = View.VISIBLE // Cập nhật banner 2 nếu cần
+//        }
 
 
     }
@@ -754,6 +783,18 @@ class SmartCalculatorActivity :
                 addMessageToHistory(returnedText)
             }
         }
+    }
+
+
+
+    private fun deleteChatHisSmart() {
+        chatRepository.deleteAllChatsHisSmart() // Gọi hàm xóa từ repository
+        loaddata() // Tải lại dữ liệu để cập nhật RecyclerView
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loaddata()
     }
 
 }

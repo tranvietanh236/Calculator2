@@ -40,7 +40,7 @@
             android:name=".ui.intro.IntroActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.smartcalculator.SmartCalculatorActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="false" />
         <activity
             android:name=".ui.language.languageActivity"
@@ -76,7 +76,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name=".ui.smartcalculator.SmartCalculatorActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
