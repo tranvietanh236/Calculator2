@@ -8,7 +8,7 @@ class ChatDatabase(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
     companion object {
         private const val DATABASE_NAME = "chat_database.db"
-        private const val DATABASE_VERSION = 3
+        private const val DATABASE_VERSION = 4
         const val TABLE_NAME = "chat_history"
         const val TABLE_NAME_MATH = "chat_history1"
         const val COLUMN_ID = "id"
