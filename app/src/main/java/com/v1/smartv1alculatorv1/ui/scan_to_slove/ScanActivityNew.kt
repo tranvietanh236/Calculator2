@@ -1,7 +1,9 @@
 package com.v1.smartv1alculatorv1.ui.scan_to_slove
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
@@ -19,6 +21,7 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.calculator.customformula.utils.GlobalFunction
@@ -27,6 +30,7 @@ import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.base.BaseActivity
 import com.v1.smartv1alculatorv1.base.BaseViewModel
 import com.v1.smartv1alculatorv1.databinding.ActivityScanNewBinding
+import com.v1.smartv1alculatorv1.permission.PermissionActivity
 import com.v1.smartv1alculatorv1.ui.smartcalculator.AnswerActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -35,12 +39,16 @@ import java.io.File
 import java.io.IOException
 
 class ScanActivityNew : BaseActivity<ActivityScanNewBinding, BaseViewModel>() {
+    private val CAMERA_PERMISSION_CODE = 100
     private val PICK_IMAGE_REQUEST = 1
     private var currentBitmap: Bitmap? = null
     private var imageCapture: ImageCapture? = null
     private var message = ""
     var currentRotation = 0f
     var check = false
+    private val PREFS_NAME = "app_prefs"
+    private val KEY_PERMISSIONS_GRANTED = "permissions_granted"
+
     override fun createBinding(): ActivityScanNewBinding {
         return ActivityScanNewBinding.inflate(layoutInflater)
     }
@@ -236,9 +244,10 @@ class ScanActivityNew : BaseActivity<ActivityScanNewBinding, BaseViewModel>() {
             }
         }
     }
-
     override fun onResume() {
         super.onResume()
         check = false
     }
+
+
 }

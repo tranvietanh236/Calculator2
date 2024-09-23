@@ -8,7 +8,7 @@
     android:layout_gravity="center_horizontal"
     android:layout_marginHorizontal="24dp"
     android:background="@drawable/border_radius24"
-    android:paddingVertical="16dp">
+    android:padding="24dp">
 
 
     <TextView
@@ -16,7 +16,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/manrope_bold"
-        android:layout_marginTop="24dp"
         android:text="@string/thank_you"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -44,7 +43,6 @@
         android:layout_width="0dp"
         android:layout_height="49dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
         android:background="@drawable/custom_background_button_thank"
         android:fontFamily="@font/manrope_bold"
         android:gravity="center"

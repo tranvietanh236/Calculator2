@@ -29,6 +29,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.smartcalculator.GuideActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.setting.LanguageSettingActivity"
             android:exported="false" />
         <activity

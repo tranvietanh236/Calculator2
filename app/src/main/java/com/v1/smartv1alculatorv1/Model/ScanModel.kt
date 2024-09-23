@@ -5,5 +5,5 @@ class ScanModel(
     val steps: String,
     val imageBytes: ByteArray,
     val createdAt: String,
-    val conversationId: String,
+    val conversationId: String
 )

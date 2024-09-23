@@ -28,7 +28,7 @@
             android:fontFamily="@font/manrope_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose unit Mass"/>
+            android:text="@string/choose_unit_mass"/>
 
         <ImageView
             android:id="@+id/ic_close_mass"

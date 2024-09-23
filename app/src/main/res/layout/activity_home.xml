@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/manrope_extrabold"
-                android:text="Chat Math"
+                android:text="@string/chat_math"
                 android:textSize="34sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
                 android:layout_marginStart="24dp"
-                android:text="Scan to solve"
+                android:text="@string/scan_to_solve"
                 android:textSize="20sp"
                 android:fontFamily="@font/manrope_extrabold"
                 android:textColor="#742D0C" />
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
                 android:layout_marginStart="24dp"
-                android:text="AI Tutor"
+                android:text="@string/ai_tutor"
                 android:textSize="20sp"
                 android:fontFamily="@font/manrope_extrabold"
                 android:textColor="#074D68" />
@@ -145,6 +145,7 @@
                 app:cardElevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
@@ -161,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
                 android:layout_marginStart="24dp"
-                android:text="Smart calculator"
+                android:text="@string/smart_calculator"
                 android:textSize="20sp"
                 android:fontFamily="@font/manrope_extrabold"
                 android:textColor="#11128A" />
@@ -201,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
                 android:layout_marginStart="24dp"
-                android:text="Unit converter"
+                android:text="@string/unit_converter"
                 android:textSize="20sp"
                 android:fontFamily="@font/manrope_extrabold"
                 android:textColor="#395104" />

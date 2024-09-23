@@ -20,7 +20,6 @@ class ChatActivity : BaseActivity<ActivityChatBinding, ChatActiviyViewModel>() {
         var bmiValue = 0f
 
     }
-
     override fun createBinding(): ActivityChatBinding {
         return ActivityChatBinding.inflate(layoutInflater)
     }
@@ -51,7 +50,7 @@ class ChatActivity : BaseActivity<ActivityChatBinding, ChatActiviyViewModel>() {
 
                     0 -> {
                         binding.tvTitle.text = getString(R.string.ai_assistant)
-                        binding.ivHistory.visibility = View.VISIBLE
+                        binding.ivHistory.visibility = View.GONE
                     }
 
                     1 -> {

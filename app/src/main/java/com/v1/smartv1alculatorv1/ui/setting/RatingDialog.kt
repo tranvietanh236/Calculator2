@@ -17,7 +17,6 @@ class RatingDialog @SuppressLint("NonConstantResourceId") constructor(context2: 
     private var onPress: OnPress? = null
     private val tvTitle: TextView
     private val tvContent: TextView
-    private val tvCancel: ImageView
 
     private val rootStar1: ImageView
     private val rootStar2: ImageView
@@ -49,7 +48,6 @@ class RatingDialog @SuppressLint("NonConstantResourceId") constructor(context2: 
 
         btnLater = findViewById<TextView>(R.id.btn_cancel)
         btnRate = findViewById<TextView>(R.id.btn_submit)
-        tvCancel = findViewById<ImageView>(R.id.img_close)
 
         rootStar1 = findViewById<ImageView>(R.id.rootRate1)
         rootStar2 = findViewById<ImageView>(R.id.rootRate2)
@@ -125,16 +123,11 @@ class RatingDialog @SuppressLint("NonConstantResourceId") constructor(context2: 
 
     fun onclick() {
         btnRate.setOnClickListener { view: View? ->
-//            Log.d("TAG23", "onclick: ${rtb.rating}")
-            if (rate <= 4.0) {
+            if (rate < 4.0) {
                 onPress!!.send(rate)
             } else {
                 onPress!!.rating(rate)
             }
-//
-//
-//            btnGotIt.visibility = View.VISIBLE
-//            rtb.visibility = View.GONE
 
         }
 
@@ -142,9 +135,6 @@ class RatingDialog @SuppressLint("NonConstantResourceId") constructor(context2: 
                 view: View? -> onPress!!.later()
         }
 
-        tvCancel.setOnClickListener {
-                view: View? -> onPress!!.cancel()
-        }
     }
 
     fun setStar(value: Int) {

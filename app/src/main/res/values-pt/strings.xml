@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enter_your_question">Insira sua pergunta</string>
+    <string name="start_conversation">Iniciar conversa</string>
+    <string name="ai_assistant">Assistente de IA</string>
+    <string name="history">Histórico</string>
+    <string name="hello_blank_fragment">Olá, fragmento em branco</string>
+
+    <string name="content_intro_1">Nosso aplicativo de calculadora oferece funções básicas como adição, subtração, multiplicação e divisão.</string>
+    <string name="title_intro_1">Escaneie para resolver</string>
+    <string name="content_intro_2">Nosso aplicativo de calculadora oferece funções básicas como adição, subtração, multiplicação e divisão.</string>
+    <string name="title_intro_2">Assistente de IA</string>
+    <string name="content_intro_3">Nosso aplicativo de calculadora oferece funções básicas como adição, subtração, multiplicação e divisão.</string>
+    <string name="title_intro_3">Calculadora inteligente</string>
+    <string name="content_intro_4">Nosso aplicativo de calculadora oferece funções básicas como adição, subtração, multiplicação e divisão.</string>
+    <string name="title_intro_4">Conversor de unidades</string>
+
+    <string name="permission">Permissão</string>
+    <string name="device_storage_access">Acesso ao armazenamento do dispositivo</string>
+    <string name="screen_overlay_access">Acesso à sobreposição de tela</string>
+    <string name="accessibility_service">Serviço de acessibilidade</string>
+    <string name="continue_without_permission">Continuar sem permissão</string>
+    <string name="save_amp_continue">Salvar e continuar</string>
+    <string name="language">Idioma</string>
+    <string name="setting">Configurações</string>
+    <string name="share">Compartilhar</string>
+    <string name="rating">Avaliação</string>
+    <string name="policy">Política de privacidade</string>
+
+    <string name="smart_calculator">Calculadora inteligente</string>
+    <string name="enter_an_expression">Insira uma expressão</string>
+    <string name="history1">Histórico:</string>
+    <string name="try_these_question">Tente estas perguntas:</string>
+    <string name="solve_another_one">Resolva outro</string>
+
+    <!-- Diálogo -->
+    <string name="do_you_like">Você gostou deste aplicativo?</string>
+    <string name="let_us_know">Conte-nos sobre sua experiência. 5 estrelas na Google Play é o melhor!</string>
+
+    <string name="cancel">Cancelar</string>
+    <string name="sumbit">Enviar</string>
+    <string name="thank_you">Obrigado!</string>
+    <string name="thank_you_for">Obrigado por sua avaliação. Nós apreciamos muito.</string>
+    <string name="got_it">Entendi</string>
+
+    <string name="welcome_to_ai_tutor_nplease_enter_your_question_below">Bem-vindo ao Assistente de IA\nInsira sua pergunta abaixo</string>
+    <string name="or_try_the_following_examples">Ou tente os seguintes exemplos:</string>
+    <string name="what_is_the_least_common_nmultiple_of_6_and_11">Qual é o mínimo múltiplo comum de 6 e 11?</string>
+    <string name="make_a_sentence_using_the_given_words_is_you_she_waiting_for">Faça uma frase com as palavras fornecidas: Você / Ela / Esperando</string>
+    <string name="why_is_the_earth_called_a_watery_planet">Por que a Terra é chamada de "planeta aquático"?</string>
+    <string name="scan_the_question">Escanear a pergunta</string>
+    <string name="calculator">Calculadora</string>
+    <string name="translate">Traduzir</string>
+    <string name="unit_converter">Conversor de unidades</string>
+    <string name="guide">Guia</string>
+    <string name="press_and_hold_the_button_with_a_yellow_dot_on_right_bottom_corner_buttons_of_similar_operation_will_be_displayed_you_can_slide_to_choose_the_operation_you_need">Mantenha pressionado o botão com um ponto amarelo no canto inferior direito para exibir botões de operações semelhantes. Deslize para escolher a operação que você precisa.</string>
+    <string name="tap_the_left_or_right_arrow_button_to_move_the_cursor">Toque no botão de seta para a esquerda ou direita para mover o cursor.</string>
+    <string name="when_entering_a_set_of_equations_tap_the_enter_key_to_start_a_new_line">Ao inserir um conjunto de equações, pressione a tecla Enter para iniciar uma nova linha.</string>
+    <string name="you_can_switch_to_another_keyboard_for_more_function">Você pode alternar para outro teclado para mais funções.</string>
+    <string name="select_different_calculation_methods">Selecione diferentes métodos de cálculo.</string>
+    <string name="scan_to_solve">Escanear para resolver</string>
+    <string name="ai_tutor">Assistente de IA</string>
+    <string name="chat_math">Bate-papo matemático</string>
+    <string name="length">Comprimento</string>
+    <string name="volume">Volume</string>
+    <string name="area">Área</string>
+    <string name="mass">Massa</string>
+    <string name="time">Tempo</string>
+    <string name="speed">Velocidade</string>
+    <string name="temperature">Temperatura</string>
+    <string name="density">Densidade</string>
+    <string name="energy">Energia</string>
+    <string name="place_the_question_in_the_center_of_the_screen_ntap_the_button_below_to_scan">Coloque a pergunta no centro da tela,\ne toque no botão abaixo para escanear.</string>
+    <string name="ask_a_different_question">Faça uma pergunta diferente</string>
+    <string name="the_lighting_is_too_dim">A iluminação está muito fraca</string>
+    <string name="the_image_is_not_clear">A imagem não está clara</string>
+    <string name="the_distance_is_too_far">A distância está muito grande</string>
+    <string name="the_image_is_tilted">A imagem está inclinada</string>
+    <string name="the_image_is_clear">A imagem está clara</string>
+    <string name="check_if_the_image_is_clear_or_try_a_different_question">Verifique se a imagem está clara ou tente uma pergunta diferente.</string>
+    <string name="no_answer_found">Nenhuma resposta encontrada.</string>
+    <string name="choose_unit_area">Escolha a unidade de área</string>
+    <string name="choose_unit_density">Escolha a unidade de densidade</string>
+    <string name="choose_unit_energy">Escolha a unidade de energia</string>
+    <string name="choose_unit_mass">Escolha a unidade de massa</string>
+    <string name="choose_unit_speed">Escolha a unidade de velocidade</string>
+    <string name="choose_unit_temperature">Escolha a unidade de temperatura</string>
+    <string name="choose_unit_time">Escolha a unidade de tempo</string>
+    <string name="choose_unit_length">Escolha a unidade de comprimento</string>
+    <string name="choose_unit_volume">Escolha a unidade de volume</string>
+    <string name="are_you_sure_you_want_to_delete_all_history">Tem certeza de que deseja apagar todo o histórico?</string>
+    <string name="delete">Excluir</string>
+    <string name="camera">Acesso à câmera</string>
+
+</resources>

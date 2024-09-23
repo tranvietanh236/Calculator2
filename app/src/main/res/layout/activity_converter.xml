@@ -60,7 +60,7 @@
             android:textSize="20sp"
             android:textColor="@color/white"
             android:fontFamily="@font/manrope_bold"
-            android:text="Unit converter"
+            android:text="@string/unit_converter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

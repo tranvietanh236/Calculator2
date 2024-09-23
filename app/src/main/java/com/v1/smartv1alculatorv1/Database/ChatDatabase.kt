@@ -10,7 +10,7 @@ class ChatDatabase(context: Context) :
     companion object {
         const val TABLE_NAME_SCAN = "scan_chat"
         private const val DATABASE_NAME = "chat_database.db"
-        private const val DATABASE_VERSION = 4
+        private const val DATABASE_VERSION = 6
         const val TABLE_NAME = "chat_history"
         const val TABLE_NAME_MATH = "chat_history1"
         const val TABLE_NAME_HISTORY = "history"
@@ -24,6 +24,8 @@ class ChatDatabase(context: Context) :
         const val COLUMN_TEXT_LIST = "list"
         const val COLUMN_TEXT_RESUILT = "resuilt"
 
+        const val TABLE_NAME_HISTORY_SMART = "history_smart"
+        const val COLUMN_MESSAGE_BOT_SMART = "message_bot_smart"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -56,10 +58,16 @@ class ChatDatabase(context: Context) :
                 "$COLUMN_TIMESTAMP TEXT, " +
                 "$COLUMN_CONVERSATION_ID TEXT)"
 
+
+        val createTableHistorySmart = "CREATE TABLE $TABLE_NAME_HISTORY_SMART (" +
+                "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "$COLUMN_MESSAGE TEXT )"
+
         db.execSQL(createTableScan)
         db.execSQL(createTable)
         db.execSQL(createTableMath)
         db.execSQL(createTableHistory)
+        db.execSQL(createTableHistorySmart)
 
     }
 
@@ -68,7 +76,7 @@ class ChatDatabase(context: Context) :
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME_MATH")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME_HISTORY")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME_SCAN")
-
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME_HISTORY_SMART")
         onCreate(db)
     }
 }

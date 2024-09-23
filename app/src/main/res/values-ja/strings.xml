@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enter_your_question">質問を入力してください</string>
+    <string name="start_conversation">会話を開始する</string>
+    <string name="ai_assistant">AIアシスタント</string>
+    <string name="history">履歴</string>
+    <string name="hello_blank_fragment">こんにちは、空のフラグメント</string>
+
+    <string name="content_intro_1">私たちの計算機アプリは、加算、減算、乗算、除算などの基本的な機能を提供します。</string>
+    <string name="title_intro_1">解決するためにスキャンする</string>
+    <string name="content_intro_2">私たちの計算機アプリは、加算、減算、乗算、除算などの基本的な機能を提供します。</string>
+    <string name="title_intro_2">AIアシスタント</string>
+    <string name="content_intro_3">私たちの計算機アプリは、加算、減算、乗算、除算などの基本的な機能を提供します。</string>
+    <string name="title_intro_3">スマート計算機</string>
+    <string name="content_intro_4">私たちの計算機アプリは、加算、減算、乗算、除算などの基本的な機能を提供します。</string>
+    <string name="title_intro_4">単位変換機</string>
+
+    <string name="permission">許可</string>
+    <string name="device_storage_access">デバイスストレージへのアクセス</string>
+    <string name="screen_overlay_access">スクリーンオーバーレイへのアクセス</string>
+    <string name="accessibility_service">アクセシビリティサービス</string>
+    <string name="continue_without_permission">許可なしで続行</string>
+    <string name="save_amp_continue">保存して続行</string>
+    <string name="language">言語</string>
+    <string name="setting">設定</string>
+    <string name="share">共有</string>
+    <string name="rating">評価</string>
+    <string name="policy">プライバシーポリシー</string>
+
+    <string name="smart_calculator">スマート計算機</string>
+    <string name="enter_an_expression">式を入力してください</string>
+    <string name="history1">履歴：</string>
+    <string name="try_these_question">これらの質問を試してください：</string>
+    <string name="solve_another_one">別のものを解決する</string>
+
+    <!-- Dialog -->
+    <string name="do_you_like">このアプリは気に入りましたか？</string>
+    <string name="let_us_know">あなたの体験を教えてください。Google Playで5つ星が最高です！</string>
+
+    <string name="cancel">キャンセル</string>
+    <string name="sumbit">送信</string>
+    <string name="thank_you">ありがとうございます！</string>
+    <string name="thank_you_for">評価をしていただきありがとうございます。私たちはそれを非常に感謝しています。</string>
+    <string name="got_it">了解しました</string>
+
+    <string name="welcome_to_ai_tutor_nplease_enter_your_question_below">AIアシスタントへようこそ\n以下に質問を入力してください</string>
+    <string name="or_try_the_following_examples">または次の例を試してください：</string>
+    <string name="what_is_the_least_common_nmultiple_of_6_and_11">6と11の最小公倍数は何ですか？</string>
+    <string name="make_a_sentence_using_the_given_words_is_you_she_waiting_for">次の言葉を使って文を作りましょう: あなた / 彼女 / 待っている</string>
+    <string name="why_is_the_earth_called_a_watery_planet">地球が「水の惑星」と呼ばれるのはなぜですか？</string>
+    <string name="scan_the_question">質問をスキャンする</string>
+    <string name="calculator">計算機</string>
+    <string name="translate">翻訳</string>
+    <string name="unit_converter">単位変換機</string>
+    <string name="guide">ガイド</string>
+    <string name="press_and_hold_the_button_with_a_yellow_dot_on_right_bottom_corner_buttons_of_similar_operation_will_be_displayed_you_can_slide_to_choose_the_operation_you_need">右下の黄色い点のあるボタンを押し続けると、類似の操作ボタンが表示されます。スライドして必要な操作を選択できます。</string>
+    <string name="tap_the_left_or_right_arrow_button_to_move_the_cursor">左または右の矢印ボタンをタップしてカーソルを移動させます。</string>
+    <string name="when_entering_a_set_of_equations_tap_the_enter_key_to_start_a_new_line">一連の方程式を入力する際は、Enterキーを押して新しい行を開始します。</string>
+    <string name="you_can_switch_to_another_keyboard_for_more_function">別のキーボードに切り替えて、さらに多くの機能を使用できます。</string>
+    <string name="select_different_calculation_methods">異なる計算方法を選択します。</string>
+    <string name="scan_to_solve">解決するためにスキャンする</string>
+    <string name="ai_tutor">AIアシスタント</string>
+    <string name="chat_math">数学チャット</string>
+    <string name="length">長さ</string>
+    <string name="volume">体積</string>
+    <string name="area">面積</string>
+    <string name="mass">質量</string>
+    <string name="time">時間</string>
+    <string name="speed">速度</string>
+    <string name="temperature">温度</string>
+    <string name="density">密度</string>
+    <string name="energy">エネルギー</string>
+    <string name="place_the_question_in_the_center_of_the_screen_ntap_the_button_below_to_scan">質問を画面の中央に配置し、\n下のボタンをタップしてスキャンしてください。</string>
+    <string name="ask_a_different_question">別の質問をする</string>
+    <string name="the_lighting_is_too_dim">照明が暗すぎます</string>
+    <string name="the_image_is_not_clear">画像がはっきりしません</string>
+    <string name="the_distance_is_too_far">距離が遠すぎます</string>
+    <string name="the_image_is_tilted">画像が傾いています</string>
+    <string name="the_image_is_clear">画像が鮮明です</string>
+    <string name="check_if_the_image_is_clear_or_try_a_different_question">画像が鮮明かどうかを確認するか、別の質問を試してください。</string>
+    <string name="no_answer_found">答えが見つかりませんでした。</string>
+    <string name="choose_unit_area">面積単位を選択</string>
+    <string name="choose_unit_density">密度単位を選択</string>
+    <string name="choose_unit_energy">エネルギー単位を選択</string>
+    <string name="choose_unit_mass">質量単位を選択</string>
+    <string name="choose_unit_speed">速度単位を選択</string>
+    <string name="choose_unit_temperature">温度単位を選択</string>
+    <string name="choose_unit_time">時間単位を選択</string>
+    <string name="choose_unit_length">長さ単位を選択</string>
+    <string name="choose_unit_volume">体積単位を選択</string>
+    <string name="are_you_sure_you_want_to_delete_all_history">すべての履歴を削除してもよろしいですか？</string>
+    <string name="delete">削除</string>
+    <string name="camera">カメラアクセス</string>
+
+</resources>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="enter_your_question">Type your question</string>
+    <string name="start_conversation">Start conversation</string>
+    <string name="ai_assistant">AI Tutor</string>
+    <string name="history">History</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="content_intro_1">Our calculator app offers basic functions like addition, subtraction, multiplication, and division.</string>
+    <string name="title_intro_1">Scan to solve</string>
+    <string name="content_intro_2">Our calculator app offers basic functions like addition, subtraction, multiplication, and division.</string>
+    <string name="title_intro_2">AI Tutor</string>
+    <string name="content_intro_3">Our calculator app offers basic functions like addition, subtraction, multiplication, and division.</string>
+    <string name="title_intro_3">Smart calculator</string>
+    <string name="content_intro_4">Our calculator app offers basic functions like addition, subtraction, multiplication, and division.</string>
+    <string name="title_intro_4">Unit converter</string>
+
+    <string name="permission">Permission: </string>
+    <string name="device_storage_access">Device Storage Access.</string>
+    <string name="screen_overlay_access">Screen Overlay Access.</string>
+    <string name="accessibility_service">Accessibility Service.</string>
+    <string name="continue_without_permission">Continue without permission</string>
+    <string name="save_amp_continue"><![CDATA[Save & Continue]]></string>
+    <string name="language">Language</string>
+    <string name="setting">Setting</string>
+    <string name="share">Share</string>
+    <string name="rating">Rating</string>
+    <string name="policy">Privacy Policy</string>
+
+    <string name="smart_calculator">Smart Calculator</string>
+    <string name="enter_an_expression">Enter an expression</string>
+    <string name="history1">History:</string>
+    <string name="try_these_question">Try these question:</string>
+    <string name="solve_another_one">Solve another one</string>
+
+
+    <!--    Dialog-->
+    <string name="do_you_like">Do you like this app?</string>
+    <string name="let_us_know">Let us know your experience 5 stars is the best on Google Play!</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="sumbit">Sumbit</string>
+    <string name="thank_you">Thank You!</string>
+    <string name="thank_you_for">Thank you for taking the time to rate us. I’m really appreciate that.</string>
+    <string name="got_it">Got it</string>
+
+    <string name="welcome_to_ai_tutor_nplease_enter_your_question_below">Welcome to AI Tutor \nPlease enter your question below</string>
+    <string name="or_try_the_following_examples">Or try the following examples:</string>
+    <string name="what_is_the_least_common_nmultiple_of_6_and_11">What is the least common \nmultiple of 6 and 11?</string>
+    <string name="make_a_sentence_using_the_given_words_is_you_she_waiting_for">Make a sentence using the given words:is/you/ she / waiting for.</string>
+    <string name="why_is_the_earth_called_a_watery_planet">Why is the Earth called a watery planet?</string>
+    <string name="scan_the_question">Scan the question</string>
+    <string name="calculator">Calculator</string>
+    <string name="translate">Translate</string>
+    <string name="unit_converter">Unit converter</string>
+    <string name="guide">Guide</string>
+    <string name="press_and_hold_the_button_with_a_yellow_dot_on_right_bottom_corner_buttons_of_similar_operation_will_be_displayed_you_can_slide_to_choose_the_operation_you_need">Press and hold the button with a yellow dot on right bottom corner, buttons of similar operation will be displayed. You can slide to choose the operation you need.</string>
+    <string name="tap_the_left_or_right_arrow_button_to_move_the_cursor">Tap the left or right arrow button to move the cursor.</string>
+    <string name="when_entering_a_set_of_equations_tap_the_enter_key_to_start_a_new_line">When entering a set of equations, tap the enter key to start a new line.</string>
+    <string name="you_can_switch_to_another_keyboard_for_more_function">You can switch to another keyboard for more function.</string>
+    <string name="select_different_calculation_methods">Select different calculation methods.</string>
+    <string name="scan_to_solve">Scan to solve</string>
+    <string name="ai_tutor">AI Tutor</string>
+    <string name="chat_math">Chat Math</string>
+    <string name="length">Length</string>
+    <string name="volume">Volume</string>
+    <string name="area">Area</string>
+    <string name="mass">Mass</string>
+    <string name="time">Time</string>
+    <string name="speed">Speed</string>
+    <string name="temperature">Temperature</string>
+    <string name="density">Density</string>
+    <string name="energy">Energy</string>
+    <string name="place_the_question_in_the_center_of_the_screen_ntap_the_button_below_to_scan">Place the question in the center of the screen \nTap the button below to scan.</string>
+    <string name="ask_a_different_question">Ask a different question</string>
+    <string name="the_lighting_is_too_dim">The lighting is too dim</string>
+    <string name="the_image_is_not_clear">The image is not clear</string>
+    <string name="the_distance_is_too_far">The distance is too far</string>
+    <string name="the_image_is_tilted">The image is tilted</string>
+    <string name="the_image_is_clear">The image is clear</string>
+    <string name="check_if_the_image_is_clear_or_try_a_different_question">Check if the image is clear or try a different question</string>
+    <string name="no_answer_found">No answer found.</string>
+    <string name="choose_unit_area">Choose unit Area</string>
+    <string name="choose_unit_density">Choose unit Density</string>
+    <string name="choose_unit_energy">Choose unit Energy</string>
+    <string name="solution_steps">Solution steps</string>
+    <string name="choose_unit_mass">Choose unit Mass</string>
+    <string name="choose_unit_speed">Choose unit Speed</string>
+    <string name="choose_unit_temperature">Choose unit Temperature</string>
+    <string name="choose_unit_time">Choose unit Time</string>
+    <string name="choose_unit_length">Choose unit Length</string>
+    <string name="choose_unit_volume">Choose unit Volume</string>
+    <string name="are_you_sure_you_want_to_delete_all_history">Are you sure you want to \ndelete all history?</string>
+    <string name="delete">Delete</string>
+    <string name="camera">Camera access.</string>
+</resources>

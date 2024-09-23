@@ -6,6 +6,7 @@ import com.v1.smartv1alculatorv1.Model.ChatAnswer
 import com.v1.smartv1alculatorv1.Model.HistoryModel
 import com.v1.smartv1alculatorv1.Model.MessageAnswer
 import com.v1.smartv1alculatorv1.Model.ScanModel
+import com.v1.smartv1alculatorv1.Model.SmartModel
 import com.v1.testorc.Database.ChatDatabase
 import com.v1.testorc.Database.ChatDatabase.Companion.TABLE_NAME
 
@@ -183,5 +184,28 @@ class ChatRepository(context: Context) {
     fun deleteChatScan(){
         db.delete(ChatDatabase.TABLE_NAME_SCAN, null, null)
         db.close()
+    }
+
+    fun insertChatHisSamrt(chatAnswer: SmartModel) {
+        val values = ContentValues().apply {
+            put(ChatDatabase.COLUMN_MESSAGE, chatAnswer.calculation)
+
+        }
+        db.insert(ChatDatabase.TABLE_NAME_HISTORY_SMART, null, values)
+    }
+    fun getAllChatsHisSmart(): MutableList<SmartModel> {
+        val chatList = mutableListOf<SmartModel>()
+        val cursor = db.query(
+            ChatDatabase.TABLE_NAME_HISTORY_SMART,
+            null, null, null, null, null, null
+        )
+        with(cursor) {
+            while (moveToNext()) {
+                val message = getString(getColumnIndexOrThrow(ChatDatabase.COLUMN_MESSAGE))
+                chatList.add(SmartModel(message))
+            }
+            close()
+        }
+        return chatList
     }
 }

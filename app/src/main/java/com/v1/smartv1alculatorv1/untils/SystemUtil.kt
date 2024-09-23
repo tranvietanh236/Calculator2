@@ -67,4 +67,12 @@ object SystemUtil {
         val pre = context.getSharedPreferences("data", Context.MODE_PRIVATE)
         return pre.getString("device_language", null)
     }
+
+    // Lưu ngôn ngữ gốc của thiết bị
+    fun saveDeviceLanguage(context: Context, languageCode: String) {
+        val pre = context.getSharedPreferences("data", Context.MODE_PRIVATE)
+        val editor = pre.edit()
+        editor.putString("device_language", languageCode)
+        editor.commit()
+    }
 }

@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -15,7 +16,9 @@ import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -30,168 +33,137 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding, BaseViewModel
     override fun setViewModel() = BaseViewModel()
 
 
-    // Khai báo ActivityResultLauncher ở cấp lớp
-    private lateinit var storagePermissionLauncher: ActivityResultLauncher<String>
-    // Khai báo ActivityResultLauncher cho quyền Camera
-    private lateinit var cameraPermissionLauncher: ActivityResultLauncher<String>
+    private val CAMERA_PERMISSION_REQUEST_CODE = 100
+    private val PREFS_NAME = "app_prefs"
+    private val KEY_PERMISSIONS_GRANTED = "permissions_granted"
+
 
     override fun initView() {
         super.initView()
         showStatusBar(this)
-        // Đăng ký ActivityResultLauncher trong initView hoặc onCreate
-        storagePermissionLauncher = registerForActivityResult(
-            ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                binding.imgSwUnSelected1.visibility = ImageView.GONE
-                binding.imgSwSelected1.visibility = ImageView.VISIBLE
-                checkPermissionsStatus()
-            } else {
-                //Toast.makeText(this, "Storage permission denied", Toast.LENGTH_SHORT).show()
-            }
+        if (checkCameraPermission()) {
+            showCameraGrantedState() // Hiển thị trạng thái đã cấp quyền
+        } else {
+            showCameraNotGrantedState() // Hiển thị trạng thái chưa cấp quyền
         }
 
-        // Đăng ký ActivityResultLauncher cho quyền Camera
-        cameraPermissionLauncher = registerForActivityResult(
-            ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                binding.imgSwUnSelected2.visibility = ImageView.GONE
-                binding.imgSwSelected2.visibility = ImageView.VISIBLE
-                checkPermissionsStatus()
-            }
-        }
-
-
-        // Bắt sự kiện nhấn vào quyền Storage Access
+        // Sự kiện nhấn vào imgSwUnSelected1 để yêu cầu quyền Camera
         binding.imgSwUnSelected1.setOnClickListener {
-            requestStoragePermission()
+            if (!checkCameraPermission()) {
+                requestCameraPermission()
+            }
         }
 
-        // Bắt sự kiện nhấn vào quyền Screen Overlay
-        binding.imgSwUnSelected2.setOnClickListener {
-//            requestOverlayPermission()
-            requestCameraPermission()
-        }
-
-        // Bắt sự kiện nhấn vào quyền Accessibility Service
-        binding.imgSwUnSelected3.setOnClickListener {
-            requestAccessibilityService()
-
-        }
-
+        // Kiểm tra tất cả quyền khi nhấn imgClick
         binding.imgClick.visibility = ImageView.GONE
         binding.imgClick.setOnClickListener {
-            checkAndRequestPermissions()
             checkAllPermissionsAndProceed()
         }
 
 
     }
 
-    // Kiểm tra quyền Storage Access đã được cấp chưa
-    private fun isStoragePermissionGranted(): Boolean {
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            // Các thiết bị Android thấp tự động cấp quyền
-            true
-        } else {
-            // Kiểm tra quyền với các phiên bản Android cao hơn
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
-        }
-    }
-
-    // Kiểm tra quyền Camera đã được cấp chưa
-    private fun isCameraPermissionGranted(): Boolean {
+    fun checkCameraPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
             this,
             Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    // Yêu cầu quyền Camera
+
+
+    // Yêu cầu quyền camera
     private fun requestCameraPermission() {
-        binding.imgSwUnSelected2.visibility = ImageView.GONE
-        binding.imgSwSelected2.visibility = ImageView.VISIBLE
-        cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-    }
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+            // Giải thích lý do tại sao cần quyền nếu cần thiết
+            AlertDialog.Builder(this)
+                .setTitle("Yêu cầu quyền camera")
+                .setMessage("Ứng dụng cần truy cập camera để chụp ảnh.")
+                .setPositiveButton("Đồng ý") { _, _ ->
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.CAMERA),
+                        CAMERA_PERMISSION_REQUEST_CODE
+                    )
 
-
-    // Kiểm tra quyền Overlay đã được cấp chưa
-    private fun isOverlayPermissionGranted(): Boolean {
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            // Các thiết bị Android thấp tự động cấp quyền
-            true
+                }
+                .setNegativeButton("Hủy", null)
+                .create().show()
         } else {
-            // Kiểm tra quyền với các phiên bản Android cao hơn
-            Settings.canDrawOverlays(this)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.CAMERA),
+                CAMERA_PERMISSION_REQUEST_CODE
+            )
         }
     }
 
 
-    private fun checkAndRequestPermissions() {
-        val isStorageGranted = isStoragePermissionGranted()
-        val isCameraGranted = isCameraPermissionGranted()
-        val isOverlayGranted = isOverlayPermissionGranted()
-
-        if (isStorageGranted && isCameraGranted && isOverlayGranted) {
-            binding.imgClick.visibility = ImageView.VISIBLE
-        } else {
-            binding.imgClick.visibility = ImageView.VISIBLE
-            // Hiển thị thông báo hoặc yêu cầu cấp quyền thủ công
-            //Toast.makeText(this, "Please grant all necessary permissions", Toast.LENGTH_SHORT).show()
+    // Gọi onPermissionsGranted() sau khi quyền được cấp
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                onPermissionsGranted() // Cấp quyền thành công, chuyển đến HomeActivity
+            } else {
+                // Quyền bị từ chối, có thể thông báo cho người dùng
+                Log.d("PermissionActivity", "Quyền Camera bị từ chối.")
+            }
         }
     }
 
-    // Yêu cầu quyền Storage
-    private fun requestStoragePermission() {
-        binding.imgSwUnSelected1.visibility = ImageView.GONE
-        binding.imgSwSelected1.visibility = ImageView.VISIBLE
-        storagePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+    // Hiển thị trạng thái đã cấp quyền
+    private fun showCameraGrantedState() {
+        binding.imgSwUnSelected1.visibility = ImageView.GONE // Ẩn nút tắt
+        binding.imgSwSelected1.visibility = ImageView.VISIBLE // Hiển thị nút bật
+    }
+
+    // Hiển thị trạng thái chưa cấp quyền
+    private fun showCameraNotGrantedState() {
+        binding.imgSwUnSelected1.visibility = ImageView.VISIBLE // Hiển thị nút tắt
+        binding.imgSwSelected1.visibility = ImageView.GONE // Ẩn nút bật
     }
 
 
-
-    // Yêu cầu quyền Accessibility Service
-    private fun requestAccessibilityService() {
-        val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-        startActivity(intent)
-
-        checkPermissionsStatus()
-        binding.imgSwUnSelected3.visibility = ImageView.GONE
-        binding.imgSwSelected3.visibility = ImageView.VISIBLE
+    // Sau khi quyền được cấp, hiển thị nút imgClick và lưu trạng thái quyền đã được cấp
+    private fun onPermissionsGranted() {
+        setPermissionsGranted(true) // Lưu trạng thái đã cấp quyền
+        binding.imgClick.visibility = ImageView.VISIBLE // Hiển thị nút imgClick
+        showCameraGrantedState()
     }
 
 
-    // Kiểm tra tất cả các quyền đã cấp chưa và hiển thị imgClick nếu đã cấp đủ quyền
-    private fun checkPermissionsStatus() {
-        val isCameraGranted = ContextCompat.checkSelfPermission(
-            this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-
-
-        if (isCameraGranted) {
-            binding.imgClick.visibility = ImageView.VISIBLE // Hiển thị imgClick nếu tất cả quyền đã cấp
-        }
+    // Lưu trạng thái quyền
+   fun setPermissionsGranted(granted: Boolean) {
+        val sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean(KEY_PERMISSIONS_GRANTED, granted)
+        editor.apply()
     }
 
 
-
-
-    // Khi người dùng nhấn vào imgClick, kiểm tra tất cả quyền và chuyển sang màn hình Home nếu đủ quyền
+    // Kiểm tra tất cả quyền và chuyển sang màn hình Home nếu đủ quyền
     private fun checkAllPermissionsAndProceed() {
-        val isCameraGranted = ContextCompat.checkSelfPermission(
-            this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+        val isCameraGranted = checkCameraPermission()
 
         if (isCameraGranted) {
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
             finish()
         } else {
-            //Toast.makeText(this, "Please grant all permissions", Toast.LENGTH_SHORT).show()
+            Log.d("PermissionActivity", "Vui lòng cấp tất cả quyền.")
         }
     }
 
-
+    // Kiểm tra trạng thái quyền
+    private fun arePermissionsGranted(): Boolean {
+        val sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+        return sharedPreferences.getBoolean(KEY_PERMISSIONS_GRANTED, false)
+    }
     private fun showStatusBar(activity: Activity?) {
         try {
             if (activity == null) return
@@ -231,4 +203,5 @@ class PermissionActivity : BaseActivity<ActivityPermissionBinding, BaseViewModel
             e.printStackTrace()
         }
     }
+
 }

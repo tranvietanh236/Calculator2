@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enter_your_question">अपना प्रश्न दर्ज करें</string>
+    <string name="start_conversation">वार्तालाप शुरू करें</string>
+    <string name="ai_assistant">एआई सहायक</string>
+    <string name="history">इतिहास</string>
+    <string name="hello_blank_fragment">नमस्ते खाली टुकड़ा</string>
+
+    <string name="content_intro_1">हमारा कैलकुलेटर ऐप बेसिक कार्यों जैसे जोड़, घटाव, गुणा और विभाजन प्रदान करता है।</string>
+    <string name="title_intro_1">समाधान के लिए स्कैन करें</string>
+    <string name="content_intro_2">हमारा कैलकुलेटर ऐप बेसिक कार्यों जैसे जोड़, घटाव, गुणा और विभाजन प्रदान करता है।</string>
+    <string name="title_intro_2">एआई सहायक</string>
+    <string name="content_intro_3">हमारा कैलकुलेटर ऐप बेसिक कार्यों जैसे जोड़, घटाव, गुणा और विभाजन प्रदान करता है।</string>
+    <string name="title_intro_3">स्मार्ट कैलकुलेटर</string>
+    <string name="content_intro_4">हमारा कैलकुलेटर ऐप बेसिक कार्यों जैसे जोड़, घटाव, गुणा और विभाजन प्रदान करता है।</string>
+    <string name="title_intro_4">इकाई परिवर्तक</string>
+
+    <string name="permission">अनुमति</string>
+    <string name="device_storage_access">डिवाइस स्टोरेज एक्सेस</string>
+    <string name="screen_overlay_access">स्क्रीन ओवरले एक्सेस</string>
+    <string name="accessibility_service">पहुँच सेवा</string>
+    <string name="continue_without_permission">अनुमति के बिना जारी रखें</string>
+    <string name="save_amp_continue">सहेजें और जारी रखें</string>
+    <string name="language">भाषा</string>
+    <string name="setting">सेटिंग</string>
+    <string name="share">साझा करें</string>
+    <string name="rating">रेटिंग</string>
+    <string name="policy">गोपनीयता नीति</string>
+
+    <string name="smart_calculator">स्मार्ट कैलकुलेटर</string>
+    <string name="enter_an_expression">एक अभिव्यक्ति दर्ज करें</string>
+    <string name="history1">इतिहास:</string>
+    <string name="try_these_question">इन प्रश्नों को आज़माएं:</string>
+    <string name="solve_another_one">एक और हल करें</string>
+
+    <!-- Dialog -->
+    <string name="do_you_like">क्या आपको यह ऐप पसंद है</string>
+    <string name="let_us_know">हमें अपनी प्रतिक्रिया बताएं, Google Play पर 5 सितारे सर्वश्रेष्ठ हैं</string>
+
+    <string name="cancel">रद्द करें</string>
+    <string name="sumbit">प्रस्तुत करें</string>
+    <string name="thank_you">धन्यवाद</string>
+    <string name="thank_you_for">आपकी प्रतिक्रिया के लिए धन्यवाद, हमें आपकी राय की बहुत प्रशंसा है।</string>
+    <string name="got_it">समझ गया</string>
+
+    <string name="welcome_to_ai_tutor_nplease_enter_your_question_below">एआई सहायक में आपका स्वागत है कृपया नीचे अपना प्रश्न दर्ज करें</string>
+    <string name="or_try_the_following_examples">या निम्नलिखित उदाहरणों को आज़माएं:</string>
+    <string name="what_is_the_least_common_nmultiple_of_6_and_11">6 और 11 का सबसे छोटा समापवर्तक क्या है</string>
+    <string name="make_a_sentence_using_the_given_words_is_you_she_waiting_for">दिए गए शब्दों का उपयोग करके एक वाक्य बनाएं वह आपके लिए इंतजार कर रही है</string>
+    <string name="why_is_the_earth_called_a_watery_planet">पृथ्वी को जलीय ग्रह क्यों कहा जाता है</string>
+    <string name="scan_the_question">प्रश्न स्कैन करें</string>
+    <string name="calculator">कैलकुलेटर</string>
+    <string name="translate">अनुवाद करें</string>
+    <string name="unit_converter">इकाई परिवर्तक</string>
+    <string name="guide">मार्गदर्शिका</string>
+    <string name="press_and_hold_the_button_with_a_yellow_dot_on_right_bottom_corner_buttons_of_similar_operation_will_be_displayed_you_can_slide_to_choose_the_operation_you_need">पीले डॉट के साथ निचले दाएं कोने में बटन को दबाकर रखें समान संचालन के बटन प्रदर्शित होंगे आप आवश्यक संचालन का चयन करने के लिए स्लाइड कर सकते हैं।</string>
+    <string name="tap_the_left_or_right_arrow_button_to_move_the_cursor">कर्सर को स्थानांतरित करने के लिए बाएँ या दाएँ तीर बटन टैप करें।</string>
+    <string name="when_entering_a_set_of_equations_tap_the_enter_key_to_start_a_new_line">समीकरणों के एक सेट को दर्ज करते समय नई पंक्ति शुरू करने के लिए एंटर कुंजी टैप करें।</string>
+    <string name="you_can_switch_to_another_keyboard_for_more_function">अधिक कार्यों के लिए आप अन्य कीबोर्ड पर स्विच कर सकते हैं।</string>
+    <string name="select_different_calculation_methods">विभिन्न गणना विधियों का चयन करें।</string>
+    <string name="scan_to_solve">समाधान के लिए स्कैन करें</string>
+    <string name="ai_tutor">एआई सहायक</string>
+    <string name="chat_math">गणित चैट</string>
+    <string name="length">लंबाई</string>
+    <string name="volume">आयतन</string>
+    <string name="area">क्षेत्र</string>
+    <string name="mass">द्रव्यमान</string>
+    <string name="time">समय</string>
+    <string name="speed">गति</string>
+    <string name="temperature">तापमान</string>
+    <string name="density">घनत्व</string>
+    <string name="energy">ऊर्जा</string>
+    <string name="place_the_question_in_the_center_of_the_screen_ntap_the_button_below_to_scan">प्रश्न को स्क्रीन के केंद्र में रखें नीचे दिए गए बटन को स्कैन करने के लिए टैप करें।</string>
+    <string name="ask_a_different_question">कोई अन्य प्रश्न पूछें</string>
+    <string name="the_lighting_is_too_dim">रोशनी बहुत कम है</string>
+    <string name="the_image_is_not_clear">छवि स्पष्ट नहीं है</string>
+    <string name="the_distance_is_too_far">दूरी बहुत अधिक है</string>
+    <string name="the_image_is_tilted">छवि तिरछी है</string>
+    <string name="the_image_is_clear">छवि स्पष्ट है</string>
+    <string name="check_if_the_image_is_clear_or_try_a_different_question">जांचें कि छवि स्पष्ट है या अन्य प्रश्न आज़माएं</string>
+    <string name="no_answer_found">कोई उत्तर नहीं मिला।</string>
+    <string name="choose_unit_area">क्षेत्र इकाई चुनें</string>
+    <string name="choose_unit_density">घनत्व इकाई चुनें</string>
+    <string name="choose_unit_energy">ऊर्जा इकाई चुनें</string>
+    <string name="solution_steps">समाधान चरण</string>
+    <string name="choose_unit_mass">द्रव्यमान इकाई चुनें</string>
+    <string name="choose_unit_speed">गति इकाई चुनें</string>
+    <string name="choose_unit_temperature">तापमान इकाई चुनें</string>
+    <string name="choose_unit_time">समय इकाई चुनें</string>
+    <string name="choose_unit_length">लंबाई इकाई चुनें</string>
+    <string name="choose_unit_volume">आयतन इकाई चुनें</string>
+    <string name="are_you_sure_you_want_to_delete_all_history">क्या आप सभी इतिहास को हटाना चाहते हैं</string>
+    <string name="delete">हटाएं</string>
+    <string name="camera">कैमरा पहुंच</string>
+
+</resources>

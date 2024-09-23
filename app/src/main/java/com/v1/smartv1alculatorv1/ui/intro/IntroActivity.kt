@@ -1,5 +1,6 @@
 package com.v1.smartv1alculatorv1.ui.intro
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -8,6 +9,7 @@ import android.os.Build
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.base.BaseActivity
@@ -39,10 +41,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
     override fun initView() {
         super.initView()
         showStatusBar(this)
-        window.decorView.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                )
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
 
 
         binding.viewPagerIntro.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
@@ -51,7 +50,6 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
                 when (position) {
                     0 -> {
                         binding.ads.visibility = View.GONE
-                        binding.viewIntro.visibility = View.VISIBLE
                         binding.tvTitle.text = getString(R.string.title_intro_1)
                         binding.tvContent.text = getString(R.string.content_intro_1)
                         dotDefault()
@@ -61,7 +59,6 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
                     }
                     1 -> {
                         binding.ads.visibility = View.GONE
-                        binding.viewIntro.visibility = View.VISIBLE
                         binding.tvTitle.text = getString(R.string.title_intro_2)
                         binding.tvContent.text = getString(R.string.content_intro_2)
                         dotDefault()
@@ -71,7 +68,6 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
                     }
                     2 -> {
                         binding.ads.visibility = View.GONE
-                        binding.viewIntro.visibility = View.VISIBLE
                         binding.tvTitle.text = getString(R.string.title_intro_3)
                         binding.tvContent.text = getString(R.string.content_intro_3)
                         dotDefault()
@@ -81,7 +77,6 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
                     }
                     3 -> {
                         binding.ads.visibility = View.GONE
-                        binding.viewIntro.visibility = View.VISIBLE
                         binding.tvTitle.text = getString(R.string.title_intro_4)
                         binding.tvContent.text = getString(R.string.content_intro_4)
                         dotDefault()
@@ -94,9 +89,9 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
         })
 
 
-        binding.tvNext.setOnClickListener() {
+        binding.tvNext.setOnClickListener {
             if (binding.viewPagerIntro.currentItem >= 3) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (!checkCameraPermission()) {
 
                     startActivity(Intent(this, PermissionActivity::class.java))
                     finish()
@@ -118,20 +113,7 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
         binding.dot4.setImageResource(R.drawable.dot_not_select)
 
     }
-    private fun arePermissionsGranted(): Boolean {
 
-        val requiredPermissions = arrayOf(
-            android.Manifest.permission.POST_NOTIFICATIONS,
-
-            )
-
-        for (permission in requiredPermissions) {
-            if (checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-                return false
-            }
-        }
-        return true
-    }
 
 
     private fun showStatusBar(activity: Activity?) {
@@ -172,5 +154,12 @@ class IntroActivity : BaseActivity<ActivityIntroBinding, IntroViewModel>() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun checkCameraPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
     }
 }

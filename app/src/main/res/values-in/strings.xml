@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enter_your_question">Masukkan pertanyaan Anda</string>
+    <string name="start_conversation">Mulai percakapan</string>
+    <string name="ai_assistant">Asisten AI</string>
+    <string name="history">Riwayat</string>
+    <string name="hello_blank_fragment">Halo fragmen kosong</string>
+
+    <string name="content_intro_1">Aplikasi kalkulator kami menawarkan fungsi dasar seperti penjumlahan, pengurangan, perkalian, dan pembagian.</string>
+    <string name="title_intro_1">Pindai untuk menyelesaikan</string>
+    <string name="content_intro_2">Aplikasi kalkulator kami menawarkan fungsi dasar seperti penjumlahan, pengurangan, perkalian, dan pembagian.</string>
+    <string name="title_intro_2">Asisten AI</string>
+    <string name="content_intro_3">Aplikasi kalkulator kami menawarkan fungsi dasar seperti penjumlahan, pengurangan, perkalian, dan pembagian.</string>
+    <string name="title_intro_3">Kalkulator Cerdas</string>
+    <string name="content_intro_4">Aplikasi kalkulator kami menawarkan fungsi dasar seperti penjumlahan, pengurangan, perkalian, dan pembagian.</string>
+    <string name="title_intro_4">Konverter Satuan</string>
+
+    <string name="permission">Izin</string>
+    <string name="device_storage_access">Akses Penyimpanan Perangkat</string>
+    <string name="screen_overlay_access">Akses Overlay Layar</string>
+    <string name="accessibility_service">Layanan Aksesibilitas</string>
+    <string name="continue_without_permission">Lanjutkan tanpa izin</string>
+    <string name="save_amp_continue">Simpan &amp; Lanjutkan</string>
+    <string name="language">Bahasa</string>
+    <string name="setting">Pengaturan</string>
+    <string name="share">Bagikan</string>
+    <string name="rating">Penilaian</string>
+    <string name="policy">Kebijakan Privasi</string>
+
+    <string name="smart_calculator">Kalkulator Cerdas</string>
+    <string name="enter_an_expression">Masukkan ekspresi</string>
+    <string name="history1">Riwayat:</string>
+    <string name="try_these_question">Coba pertanyaan ini:</string>
+    <string name="solve_another_one">Selesaikan yang lain</string>
+
+    <!-- Dialog -->
+    <string name="do_you_like">Apakah Anda menyukai aplikasi ini?</string>
+    <string name="let_us_know">Beri tahu kami pengalaman Anda, 5 bintang adalah yang terbaik di Google Play!</string>
+
+    <string name="cancel">Batal</string>
+    <string name="sumbit">Kirimkan</string>
+    <string name="thank_you">Terima kasih!</string>
+    <string name="thank_you_for">Terima kasih telah meluangkan waktu untuk memberi kami peringkat, kami sangat menghargainya.</string>
+    <string name="got_it">Mengerti</string>
+
+    <string name="welcome_to_ai_tutor_nplease_enter_your_question_below">Selamat datang di Asisten AI, \nSilakan masukkan pertanyaan Anda di bawah ini</string>
+    <string name="or_try_the_following_examples">Atau coba contoh berikut:</string>
+    <string name="what_is_the_least_common_nmultiple_of_6_and_11">Apa kelipatan persekutuan terkecil dari 6 dan 11?</string>
+    <string name="make_a_sentence_using_the_given_words_is_you_she_waiting_for">Buat kalimat dengan kata-kata: apakah/kamu/ dia /menunggu</string>
+    <string name="why_is_the_earth_called_a_watery_planet">Mengapa Bumi disebut planet berair?</string>
+    <string name="scan_the_question">Pindai pertanyaan</string>
+    <string name="calculator">Kalkulator</string>
+    <string name="translate">Terjemahkan</string>
+    <string name="unit_converter">Konverter Satuan</string>
+    <string name="guide">Panduan</string>
+    <string name="press_and_hold_the_button_with_a_yellow_dot_on_right_bottom_corner_buttons_of_similar_operation_will_be_displayed_you_can_slide_to_choose_the_operation_you_need">Tekan dan tahan tombol dengan titik kuning di pojok kanan bawah, tombol operasi serupa akan ditampilkan. Anda dapat menggeser untuk memilih operasi yang Anda butuhkan.</string>
+    <string name="tap_the_left_or_right_arrow_button_to_move_the_cursor">Ketuk tombol panah kiri atau kanan untuk memindahkan kursor.</string>
+    <string name="when_entering_a_set_of_equations_tap_the_enter_key_to_start_a_new_line">Saat memasukkan satu set persamaan, ketuk tombol enter untuk memulai baris baru.</string>
+    <string name="you_can_switch_to_another_keyboard_for_more_function">Anda dapat beralih ke keyboard lain untuk lebih banyak fungsi.</string>
+    <string name="select_different_calculation_methods">Pilih metode perhitungan yang berbeda.</string>
+    <string name="scan_to_solve">Pindai untuk menyelesaikan</string>
+    <string name="ai_tutor">Asisten AI</string>
+    <string name="chat_math">Obrolan Matematika</string>
+    <string name="length">Panjang</string>
+    <string name="volume">Volume</string>
+    <string name="area">Luas</string>
+    <string name="mass">Massa</string>
+    <string name="time">Waktu</string>
+    <string name="speed">Kecepatan</string>
+    <string name="temperature">Suhu</string>
+    <string name="density">Kepadatan</string>
+    <string name="energy">Energi</string>
+    <string name="place_the_question_in_the_center_of_the_screen_ntap_the_button_below_to_scan">Tempatkan pertanyaan di tengah layar\nKetuk tombol di bawah untuk memindai.</string>
+    <string name="ask_a_different_question">Ajukan pertanyaan lain</string>
+    <string name="the_lighting_is_too_dim">Pencahayaan terlalu redup</string>
+    <string name="the_image_is_not_clear">Gambar tidak jelas</string>
+    <string name="the_distance_is_too_far">Jarak terlalu jauh</string>
+    <string name="the_image_is_tilted">Gambar miring</string>
+    <string name="the_image_is_clear">Gambar jelas</string>
+    <string name="check_if_the_image_is_clear_or_try_a_different_question">Periksa apakah gambarnya jelas atau coba pertanyaan yang berbeda</string>
+    <string name="no_answer_found">Tidak ada jawaban yang ditemukan.</string>
+    <string name="choose_unit_area">Pilih satuan luas</string>
+    <string name="choose_unit_density">Pilih satuan kepadatan</string>
+    <string name="choose_unit_energy">Pilih satuan energi</string>
+    <string name="choose_unit_mass">Pilih satuan massa</string>
+    <string name="choose_unit_speed">Pilih satuan kecepatan</string>
+    <string name="choose_unit_temperature">Pilih satuan suhu</string>
+    <string name="choose_unit_time">Pilih satuan waktu</string>
+    <string name="choose_unit_length">Pilih satuan panjang</string>
+    <string name="choose_unit_volume">Pilih satuan volume</string>
+    <string name="are_you_sure_you_want_to_delete_all_history">Apakah Anda yakin ingin menghapus semua riwayat?</string>
+    <string name="delete">Hapus</string>
+    <string name="camera">Akses Kamera</string>
+</resources>

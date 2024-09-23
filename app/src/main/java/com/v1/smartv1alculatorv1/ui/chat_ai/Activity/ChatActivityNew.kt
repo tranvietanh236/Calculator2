@@ -23,10 +23,12 @@ import com.v1.smartv1alculatorv1.api.ModuleChat
 import com.v1.smartv1alculatorv1.base.BaseActivity
 import com.v1.smartv1alculatorv1.base.BaseViewModel
 import com.v1.smartv1alculatorv1.databinding.ActivityChatNewBinding
+import com.v1.smartv1alculatorv1.ui.Unit_converter.ConverterActivity
 import com.v1.smartv1alculatorv1.ui.chat_ai.Adapter.ChatAdapter
 import com.v1.smartv1alculatorv1.ui.chat_ai.ViewModel.ChatViewModel
 import com.v1.smartv1alculatorv1.ui.history.activity.HistoryActivity
 import com.v1.smartv1alculatorv1.ui.home.HomeActivity
+import com.v1.smartv1alculatorv1.ui.smartcalculator.SmartCalculatorActivity
 import com.v1.smartv1alculatorv1.ui.splash.SplashActivity
 import io.reactivex.rxjava3.observers.DisposableObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -58,6 +60,12 @@ class ChatActivityNew : BaseActivity<ActivityChatNewBinding, BaseViewModel>() {
     @SuppressLint("ClickableViewAccessibility")
     override fun initView() {
         super.initView()
+        binding.clTranslate.setOnClickListener {
+            GlobalFunction.startActivity(this, ConverterActivity::class.java)
+        }
+        binding.clCal.setOnClickListener {
+            GlobalFunction.startActivity(this, SmartCalculatorActivity::class.java)
+        }
         binding.ivHistory.setOnClickListener {
             GlobalFunction.startActivity(this, HistoryActivity::class.java)
         }
@@ -114,7 +122,7 @@ class ChatActivityNew : BaseActivity<ActivityChatNewBinding, BaseViewModel>() {
         }
         val userBmi = ChatActivity.bmiValue
         if (userBmi.toString().isNotEmpty() && userBmi > 0) {
-            sendMessage("My BMI is $userBmi, what does that mean?")
+
 
         }
         binding.recyclerViewChat.setOnTouchListener { _, event ->
@@ -124,6 +132,7 @@ class ChatActivityNew : BaseActivity<ActivityChatNewBinding, BaseViewModel>() {
             true
         }
     }
+
     private fun clearMessagesIfTimeout() {
         val sharedPref = this.getSharedPreferences("ChatPrefs", Context.MODE_PRIVATE)
         val lastMessageTime = sharedPref.getLong("last_message_time", 0L)
@@ -167,7 +176,7 @@ class ChatActivityNew : BaseActivity<ActivityChatNewBinding, BaseViewModel>() {
                 binding.clQs.visibility = View.GONE
             }
 
-          runOnUiThread {
+            runOnUiThread {
                 chatAdapter.notifyItemInserted(chatViewModel.chatList.value!!.size - 1)
                 binding.recyclerViewChat.scrollToPosition(chatViewModel.chatList.value!!.size - 1)
             }
@@ -209,10 +218,10 @@ class ChatActivityNew : BaseActivity<ActivityChatNewBinding, BaseViewModel>() {
                             chatViewModel.chatList.value!!.add(botMessage)
                             chatRepository.insertChat(botMessage)
 
-                                runOnUiThread {
-                                    chatAdapter.notifyItemInserted(chatViewModel.chatList.value!!.size - 1)
-                                    binding.recyclerViewChat.scrollToPosition(chatViewModel.chatList.value!!.size - 1)
-                                    binding.llPleaseWait.visibility = View.GONE
+                            runOnUiThread {
+                                chatAdapter.notifyItemInserted(chatViewModel.chatList.value!!.size - 1)
+                                binding.recyclerViewChat.scrollToPosition(chatViewModel.chatList.value!!.size - 1)
+                                binding.llPleaseWait.visibility = View.GONE
 
                             }
                         } catch (e: IOException) {
@@ -289,6 +298,7 @@ class ChatActivityNew : BaseActivity<ActivityChatNewBinding, BaseViewModel>() {
             apply()
         }
     }
+
     private fun hideKeyboard() {
         val imm = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         val view = this.currentFocus

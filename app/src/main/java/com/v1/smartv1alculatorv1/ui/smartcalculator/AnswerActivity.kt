@@ -1,14 +1,18 @@
 package com.v1.smartv1alculatorv1.ui.smartcalculator
 
 import android.content.Context
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.v1.smartv1alculatorv1.Database.ChatRepository
 import com.v1.smartv1alculatorv1.Model.ChatAnswer
 import com.v1.smartv1alculatorv1.Model.UserMessage
+import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.api.ModuleChat
 import com.v1.smartv1alculatorv1.base.BaseActivity
 import com.v1.smartv1alculatorv1.base.BaseViewModel
@@ -23,11 +27,14 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
 
     private lateinit var chatViewModel: SmartCalculatorViewModel
     private lateinit var chatRepository: ChatRepository
+    private val conversationResetDelay: Long = 30 * 60 * 1000L
     private val handler = Handler(Looper.getMainLooper())
+
     private val resetConversationIdRunnable = Runnable {
         chatViewModel.currentConversationId = null
     }
     private var isWaitingForResponse: Boolean = false
+
     override fun createBinding(): ActivityAnswerBinding {
         return ActivityAnswerBinding.inflate(layoutInflater)
     }
@@ -38,9 +45,21 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
 
     override fun initView() {
         super.initView()
+        window.statusBarColor = ContextCompat.getColor(this, R.color.color_F4F4F4)
         binding.icBackAnswers.setOnClickListener {
             finish()
         }
+        binding.imgThongTin.setOnClickListener {
+            val intent = Intent(this, GuideActivity::class.java)
+            startActivity(intent)
+        }
+        binding.imgEdit.setOnClickListener {
+            finish()
+        }
+
+        // Ẩn LinearLayout chứa rq_answer ban đầu
+//        binding.linearLayout.visibility = View.GONE
+
         chatViewModel = SmartCalculatorViewModel()
         chatRepository = ChatRepository(this)
         chatViewModel.currentConversationId = getStoredConversationId()
@@ -49,6 +68,17 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
         Log.d("TAG123", "initView: $text")
         binding.answerTxt.text = text
         sendMessage(text)
+
+        // Xử lý nút để gửi lại dữ liệu về SmartCalculatorActivity
+        binding.btnSolveAnother.setOnClickListener {
+            val intent = Intent()
+            intent.putExtra("RETURN_TEXT", text) // Chuyển lại dữ liệu text
+            setResult(RESULT_OK, intent)
+            Log.d("choi","$text")
+            finish() // Quay lại SmartCalculatorActivity
+
+        }
+
     }
 
     private fun sendMessage(message: String? = null) {
@@ -68,13 +98,8 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
             )
 
             chatViewModel.chatList.value!!.add(userMessage)
-            chatRepository.insertChatHis(userMessage)
+            //chatRepository.insertChatHisSamrt(userMessage)
 
-
-//            requireActivity().runOnUiThread {
-//                chatAdapter.notifyItemInserted(chatViewModel.chatList.value!!.size - 1)
-//                viewBinding.recyclerViewChat.scrollToPosition(chatViewModel.chatList.value!!.size - 1)
-//            }
 
             val userMessageToSend = UserMessage(
                 inputs = HashMap(),
@@ -106,16 +131,101 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
                             val botMessage = ChatAnswer(
                                 createdAt = (System.currentTimeMillis() / 1000L).toString(),
                                 answer = answer,
-                                conversationId = chatViewModel.currentConversationId.orEmpty(),
+                                conversationId = "",
                                 isBot = true
                             )
                             Log.d("TAG123", "onNext: ${botMessage.answer}")
                             chatViewModel.chatList.value!!.add(botMessage)
-                            chatRepository.insertChatHis(botMessage)
+                            //chatRepository.insertChatHisSamrt(botMessage)
 
 
                             runOnUiThread {
-                                binding.rqAnswer.text = botMessage.answer
+                                val solutionSteps = botMessage.answer
+                                Log.d("TAG123Answer", "loi giai Answer: $solutionSteps")
+                                val recapKeyword = "Recap:**"
+                                val result = solutionSteps.substringAfter(recapKeyword).trim()
+
+                                if (!solutionSteps.isNullOrEmpty()) {
+                                    // Tìm chỉ số của cả ba chuỗi
+                                    val problemIndex = solutionSteps.indexOf("Problem:")
+
+                                    if(problemIndex != -1){
+                                        // Cắt phần problem từ Problem: đến hết chuỗi
+                                        val problemSection = solutionSteps.substringAfter("Problem:").substringBefore("Key Concepts:").trim()
+//
+                                        binding.txtProblem.text = problemSection
+                                    }
+                                    val stepByStepIndex =
+                                        solutionSteps.indexOf("Step-by-Step Solution:")
+                                    val solutionStepsIndex =
+                                        solutionSteps.indexOf("Solution Steps:")
+                                    val solutionProcessIndex =
+                                        solutionSteps.indexOf("Solution Process:")
+                                    val recapIndex =
+                                        solutionSteps.indexOf("**Recap:**") // Tìm chỉ số của "**Recap:**"
+
+                                    // Lấy chỉ số bắt đầu của phần cần lấy
+                                    val startIndex = when {
+                                        stepByStepIndex != -1 && solutionStepsIndex != -1 && solutionProcessIndex != -1 ->
+                                            minOf(
+                                                stepByStepIndex,
+                                                solutionStepsIndex,
+                                                solutionProcessIndex
+                                            )
+
+                                        stepByStepIndex != -1 && solutionProcessIndex != -1 ->
+                                            minOf(stepByStepIndex, solutionProcessIndex)
+
+                                        solutionStepsIndex != -1 && solutionProcessIndex != -1 ->
+                                            minOf(solutionStepsIndex, solutionProcessIndex)
+
+                                        stepByStepIndex != -1 ->
+                                            stepByStepIndex
+
+                                        solutionStepsIndex != -1 ->
+                                            solutionStepsIndex
+
+                                        solutionProcessIndex != -1 ->
+                                            solutionProcessIndex
+
+                                        else ->
+                                            -1
+                                    }
+
+                                    // Lấy phần nội dung từ startIndex đến recapIndex
+                                    if (startIndex != -1 && recapIndex != -1) {
+                                        val stepsSection =
+                                            solutionSteps.substring(startIndex, recapIndex)
+                                                .trim() // Lấy nội dung từ startIndex đến recapIndex
+                                        Log.d("TAG123", "stepsSection: $stepsSection")
+
+                                        // Sử dụng regex để lấy từng bước (bắt đầu bằng số và dấu '.')
+                                        val regex = Regex(
+                                            """\d+\.\s(.+?)(?=\d+\.\s|$)""",
+                                            RegexOption.DOT_MATCHES_ALL
+                                        )
+                                        val stepsListAnswser = regex.findAll(stepsSection)
+                                            .map { it.groupValues[1].trim() }.toMutableList()
+
+                                        stepsListAnswser.add(result)
+                                        if (stepsListAnswser.isNotEmpty()) {
+                                            // Hiển thị BottomSheet với danh sách bước
+                                            displayStepsInRecyclerView(stepsListAnswser)
+                                        } else {
+                                            Log.d("TAG123", "Không tìm thấy các bước giải")
+                                            //binding.rqAnswer.text = "Không tìm thấy bước giải"
+                                        }
+                                    } else {
+                                        Log.d(
+                                            "TAG123",
+                                            "Không tìm thấy phần Step-by-Step Solution, Solution Steps hoặc Solution Process"
+                                        )
+                                        //binding.rqAnswer.text = "Không tìm thấy phần giải"
+                                    }
+                                } else {
+                                    Log.d("TAG123", "Dữ liệu rỗng hoặc null từ server")
+                                    //binding.rqAnswer.text = "Không có dữ liệu trả về"
+                                }
                             }
 
                         } catch (e: IOException) {
@@ -133,7 +243,7 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
                 })
 
             updateLastMessageTime()
-
+            startConversationTimeoutHandler()
         }
     }
 
@@ -149,6 +259,7 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
                     if (jsonObject.getString("event") == "workflow_finished") {
                         val dataObject = jsonObject.getJSONObject("data")
                         answer = dataObject.getJSONObject("outputs").getString("answer")
+                        Log.d("answer", answer)
                         conversationId = jsonObject.getString("conversation_id")
                         break
                     }
@@ -181,5 +292,21 @@ class AnswerActivity : BaseActivity<ActivityAnswerBinding, SmartCalculatorViewMo
             apply()
         }
     }
+
+    private fun startConversationTimeoutHandler() {
+        handler.removeCallbacks(resetConversationIdRunnable)
+        handler.postDelayed(resetConversationIdRunnable, conversationResetDelay)
+    }
+
+
+    private fun displayStepsInRecyclerView(stepsListAnswser: List<String>) {
+        val stepsAdapter = AnswerAdapter(stepsListAnswser)
+        binding.recyclerViewStepsAnswer.apply {
+            layoutManager = LinearLayoutManager(this@AnswerActivity)
+            adapter = stepsAdapter
+            visibility = View.VISIBLE
+        }
+    }
+
 
 }
