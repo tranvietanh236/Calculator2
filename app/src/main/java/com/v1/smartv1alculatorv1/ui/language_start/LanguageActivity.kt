@@ -33,7 +33,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding, LanguageViewModel
     override fun initView() {
         super.initView()
         restoreLocale()
-        showStatusBar(this)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.white)
         viewModel = LanguageViewModel()
 
         adapter = LanguageAdapter(this, emptyList()) { language ->
@@ -94,43 +94,4 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding, LanguageViewModel
     }
 
 
-    private fun showStatusBar(activity: Activity?) {
-        try {
-            if (activity == null) return
-            val window: Window = activity.window ?: return
-
-            // Clear the fullscreen flags
-            window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-
-            // Reset system UI visibility flags to default
-            window.decorView.systemUiVisibility = (
-
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                            or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                            or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    )
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-
-            // mau status bar
-            //window.statusBarColor = ContextCompat.getColor(activity, R.color.transparent)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                val windowInsetsController = window.insetsController
-                window.statusBarColor = Color.TRANSPARENT // Làm cho thanh trạng thái trong suốt
-            } else {
-                window.statusBarColor = Color.TRANSPARENT // Chỉ định màu trong suốt cho các phiên bản Android thấp hơn
-            }
-            // Adjust window attributes to reset display cutout mode if necessary
-            val lp = window.attributes
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                lp.layoutInDisplayCutoutMode =
-                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT
-            }
-            window.attributes = lp
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
 }

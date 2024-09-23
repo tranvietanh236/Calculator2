@@ -37,18 +37,25 @@ class SettingActivity : BaseActivity<ActivitySettingBinding, BaseViewModel>() {
         }
 
         binding.clLanguage.setOnClickListener {
-            val intent = Intent(this, LanguageSettingActivity::class.java)
-            startActivity(intent)
+            if (!check){
+                check = true
+                val intent = Intent(this, LanguageSettingActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
         }
 
         binding.clShare.setOnClickListener {
             if (!check) {
+                check = true
                 share()
             }
         }
 
         binding.clRating.setOnClickListener {
             if (!check) {
+                check = true
                 showRateDialog()
             }
         }

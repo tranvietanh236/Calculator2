@@ -13,7 +13,7 @@
       "attributes": [],
       "versionCode": 1,
       "versionName": "1.0",
-      "outputFile": "SmartCalculator_1.0_18_09_2024-release.apk"
+      "outputFile": "Chat_math1.0_23_09_2024-release.apk"
     }
   ],
   "elementType": "File",
@@ -22,14 +22,14 @@
       "minApi": 28,
       "maxApi": 30,
       "baselineProfiles": [
-        "baselineProfiles/1/SmartCalculator_1.0_18_09_2024-release.dm"
+        "baselineProfiles/1/Chat_math1.0_23_09_2024-release.dm"
       ]
     },
     {
       "minApi": 31,
       "maxApi": 2147483647,
       "baselineProfiles": [
-        "baselineProfiles/0/SmartCalculator_1.0_18_09_2024-release.dm"
+        "baselineProfiles/0/Chat_math1.0_23_09_2024-release.dm"
       ]
     }
   ],

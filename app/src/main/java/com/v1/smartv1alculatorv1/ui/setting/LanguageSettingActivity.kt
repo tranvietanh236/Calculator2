@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.calculator.customformula.utils.GlobalFunction
 import com.calculator.customformula.utils.SystemUtil
 import com.v1.smartv1alculatorv1.R
 import com.v1.smartv1alculatorv1.base.BaseActivity
@@ -49,6 +50,7 @@ class LanguageSettingActivity : BaseActivity<ActivityLanguageSettingBinding, Lan
                 viewModel.setLocale(this, selectedLanguage.code)
                 SystemUtil.saveLocale(this, selectedLanguage.code)
             }
+            GlobalFunction.startActivity(this@LanguageSettingActivity, SettingActivity::class.java)
             finish()
         }
 
